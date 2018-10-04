@@ -11,6 +11,7 @@ import SocketIO
 
 class ChatViewController: UIViewController {
     let reuseIdentifier: String = "chatBubbleCell"
+    var roomId: String = ""
     var message: [[String: String]] = [] {
         didSet {
             OperationQueue.main.addOperation {[weak self] in
@@ -19,9 +20,6 @@ class ChatViewController: UIViewController {
         }
     }
      var width: CGFloat?
-    
-    //let manager = SocketManager(socketURL: URL(string: "http://ec2-18-223-185-177.us-east-2.compute.amazonaws.com:80/")!, config: [.log(false), .compress])
-   // var socketChat: SocketIOClient!
     var socket: SocketIOClient!
     var bottomConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var isKeyboardShowOnce: Bool = false
@@ -90,22 +88,7 @@ class ChatViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         UISetUp()
         self.chatSendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
-        //self.socket  = manager.defaultSocket
-       // print(manager.socketURL)
-        socket.on(clientEvent: .connect) {[weak self] data, ack in
-            print("socket chat connected")
-            self?.socket.emit("getChatList", "1")
-            let myJSON = [
-                "id0": "1",
-                "id1": "0"
-            ]
-            self?.socket.emit("requestJoin", myJSON)
-            
-            self?.socket.on("joinSuccess") {(data,ack) in
-                print("joined")
-                print(data)
-                
-            }
+        /*
             self?.socket.on("invitedJoin") {(data,ack) in
                 print("joined")
                 print(data)
@@ -119,55 +102,46 @@ class ChatViewController: UIViewController {
                 
                 self?.socket.emit("sendMessage", myJSON)
                 
-            }
-        }
-      
-        socket.on("currentAmount") {data, ack in
-            guard let cur = data[0] as? Double else { return }
-            
-            self.socket.emitWithAck("canUpdate", cur).timingOut(after: 0) {data in
-                self.socket.emit("update", ["amount": cur + 2.50])
-            }
-            
-            ack.with("Got your currentAmount", "dude")
-        }
+            }*/
+        //socket.connect()
+        let myJSON = [
+            "roomName": "\(roomId)"
         
-        socket.connect()
-        socket.on("joinSuccess") {(data,ack) in
-            print("joined")
-            print(data)
-            
-        }
-        socket.on("invitedJoin") {(data,ack) in
-            print("invited")
-            print(data)
-            
-        }
-       
-        let myJSON1 = [
-            "id0": "1",
-            
         ]
-       
+        socket.emit("storedMessage", myJSON)
         
-        
-        
-       socket.on("message") {(data,ack) in
-        
-        if let name: [String: String] = data[0] as? NSDictionary as! [String : String] {
+        socket.on("responseStoredMessage") {(data,ack) in
             
-            //guard let value: String = name["msg"] as? String else {fatalError()}
-            
-            self.message.append(name)
-            print(name)
+            let dataArray: NSArray = data as! NSArray
+            let rData: NSArray = dataArray[0] as! NSArray
+            for msgData in rData {
+                let msg: [String: String] = (msgData as! NSDictionary) as! [String : String]
+                print("message is \(msg["message"])")
+                self.message.append(["message": msg["message"]!, "sendMessageId": msg["sendMessageId"]!])
+            }
             OperationQueue.main.addOperation {
                 self.chatCollectionView.reloadData()
             }
-        } else {
-            print("return")
+            
         }
-
-    }
+        
+        socket.on("receiveMessage") {(data,ack) in
+            
+            let dataArray: NSArray = data as! NSArray
+            //let rData: NSArray = dataArray[0] as! NSArray
+            for msgData in dataArray {
+                let msg: [String: String] = (msgData as! NSDictionary) as! [String : String]
+                print("message is \(msg["message"])")
+                self.message.append(["message": msg["message"]!, "sendMessageId": msg["userId"]!])
+            }
+            print(data)
+            OperationQueue.main.addOperation {
+                self.chatCollectionView.reloadData()
+            }
+            
+        }
+        
+        
         }
     
     func UISetUp() {
@@ -208,9 +182,9 @@ class ChatViewController: UIViewController {
     @objc func sendButtonClicked() {
         
         let myJSON = [
-            "msg": "\(chatTextView.text!)",
-            "userId": "1",
-            "roomName": "141a7a6d-2cc6-4601-a9e2-d5ccca816bf0"
+            "message": "\(chatTextView.text!)",
+            "userId": "0",
+            "roomName": "\(roomId)"
         ]
         //message.append(myJSON)
         
@@ -225,14 +199,14 @@ class ChatViewController: UIViewController {
     }
     
     
-    func adjustingHeight(_ show:Bool, notification:NSNotification) {
+    func adjustingHeight(_ show:Bool, notification:NSNotification) {/*
         guard let userInfo = notification.userInfo else {return}
         guard let keyboardFrame: CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey]) as? CGRect else {return}
         guard let animationDurarion: TimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval else {return}
         let changeInHeight = (keyboardFrame.height) * (show ? 1 : -1)
         UIView.animate(withDuration: animationDurarion, animations: {() in
             self.bottomConstraint.constant -= changeInHeight
-        })
+        })*/
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -253,7 +227,7 @@ extension ChatViewController: UICollectionViewDelegateFlowLayout {
         if let messageText: [String: String] = self.message[indexPath.row] {
             let size: CGSize = CGSize(width: 250, height: 1000)
             let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-            let estimatedForm = NSString(string: messageText["msg"]!).boundingRect(with: size, options: option, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
+            let estimatedForm = NSString(string: messageText["message"]!).boundingRect(with: size, options: option, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
             return CGSize(width: self.view.frame.width, height: estimatedForm.height + 20)
         }
         return CGSize(width: self.view.frame.width, height: 100)
@@ -276,10 +250,10 @@ extension ChatViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let messageText: [String: String] = self.message[indexPath.row]
             let size: CGSize = CGSize(width: 250, height: 1000)
             let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-        let estimatedForm = NSString(string: messageText["msg"]!).boundingRect(with: size, options: option, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
+        let estimatedForm = NSString(string: messageText["message"]!).boundingRect(with: size, options: option, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
         
         
-        if !(messageText["userName"] == "sangbum") {
+        if !(messageText["sendMessageId"] == "0") {
             cell.chatTextView.frame = CGRect(x: 40 + 8, y: 0, width: estimatedForm.width + 16, height: estimatedForm.height + 20)
             
              cell.textBubbleView.frame = CGRect(x: 40, y: 0, width: estimatedForm.width + 24, height: estimatedForm.height + 20)
@@ -298,7 +272,7 @@ extension ChatViewController: UICollectionViewDelegate, UICollectionViewDataSour
         //cell.titleLabel.text = countryName[indexPath.row]
         //cell.layer.addShadow()
        // cell.layer.roundCorners(radius: 10)
-        cell.chatTextView.text = message[indexPath.row]["msg"]!
+        cell.chatTextView.text = message[indexPath.row]["message"]!
         return cell
     }
    

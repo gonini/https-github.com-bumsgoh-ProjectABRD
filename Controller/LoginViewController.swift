@@ -64,7 +64,7 @@ class LoginViewController: UIViewController {
         //button.titleEdgeInsets = .init(top: 3, left: 3, bottom: 3, right: 3)
         button.setTitleColor(#colorLiteral(red: 0.0919258669, green: 0.5034434199, blue: 0.9811272025, alpha: 1), for: UIControlState.normal)
         
-        button.addTarget(self, action: #selector(signUpButtonClicked(sender:)), for: UIControlEvents.touchUpInside)
+        button.addTarget(self, action: #selector(loginButtonClicked(sender:)), for: UIControlEvents.touchUpInside)
         return button
     }()
     
@@ -111,7 +111,7 @@ class LoginViewController: UIViewController {
             print(data)
             print(ack)
             print("login Success")
-            let vc: ChatViewController = ChatViewController() 
+            let vc: ChatListTableViewController = ChatListTableViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -144,7 +144,8 @@ class LoginViewController: UIViewController {
         }
     }
     @objc func signUpButtonClicked(sender: UIButton) {
-        print("sign up page")
+        let signUpPageVC: SignUpPageViewController = SignUpPageViewController()
+        self.navigationController?.pushViewController(signUpPageVC, animated: true)
     }
 
     func UISetUp () {

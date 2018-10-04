@@ -18,13 +18,18 @@
 		B36AEA41214FD9DA009BDEC3 /* AbroadAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA40214FD9DA009BDEC3 /* AbroadAppUITests.swift */; };
 		B36AEA4F214FDAB3009BDEC3 /* CountrySelectingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA4E214FDAB3009BDEC3 /* CountrySelectingCollectionViewCell.swift */; };
 		B36AEA55214FDD19009BDEC3 /* CountrySelectingCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA54214FDD19009BDEC3 /* CountrySelectingCollectionViewController.swift */; };
-		B36AEA57215120D9009BDEC3 /* MainGuidePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA56215120D9009BDEC3 /* MainGuidePageViewController.swift */; };
+		B36AEA57215120D9009BDEC3 /* SignUpPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA56215120D9009BDEC3 /* SignUpPageViewController.swift */; };
 		B36AEA5921512A4E009BDEC3 /* ChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA5821512A4E009BDEC3 /* ChatRoom.swift */; };
 		B36AEA5B21513D80009BDEC3 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA5A21513D80009BDEC3 /* ChatViewController.swift */; };
 		B36AEA5D2151548C009BDEC3 /* MessageForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA5C2151548C009BDEC3 /* MessageForm.swift */; };
 		B36AEA5F215185C9009BDEC3 /* ChatBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA5E215185C9009BDEC3 /* ChatBubbleCollectionViewCell.swift */; };
 		B36BD851216522580075F2F3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36BD850216522580075F2F3 /* LoginViewController.swift */; };
 		B36BD854216531100075F2F3 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36BD853216531100075F2F3 /* SocketManager.swift */; };
+		B3CD8CB321668811004F4FC6 /* SignUpSexAndAgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CD8CB221668811004F4FC6 /* SignUpSexAndAgeViewController.swift */; };
+		B3CD8CB521668828004F4FC6 /* SignUpInfosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CD8CB421668828004F4FC6 /* SignUpInfosViewController.swift */; };
+		B3CD8CB7216691C0004F4FC6 /* PageViewDotsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CD8CB6216691C0004F4FC6 /* PageViewDotsViewController.swift */; };
+		B3CD8CB921669672004F4FC6 /* ChatListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CD8CB821669672004F4FC6 /* ChatListTableViewController.swift */; };
+		B3CD8CBB2166968B004F4FC6 /* ChatListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CD8CBA2166968B004F4FC6 /* ChatListTableViewCell.swift */; };
 		C92BC8ED164BD76CBF576903 /* Pods_AbroadApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05ABDBE7EA4D659668746FCB /* Pods_AbroadApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -67,13 +72,18 @@
 		B36AEA42214FD9DA009BDEC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B36AEA4E214FDAB3009BDEC3 /* CountrySelectingCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountrySelectingCollectionViewCell.swift; sourceTree = "<group>"; };
 		B36AEA54214FDD19009BDEC3 /* CountrySelectingCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CountrySelectingCollectionViewController.swift; path = Controller/CountrySelectingCollectionViewController.swift; sourceTree = SOURCE_ROOT; };
-		B36AEA56215120D9009BDEC3 /* MainGuidePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainGuidePageViewController.swift; sourceTree = "<group>"; };
+		B36AEA56215120D9009BDEC3 /* SignUpPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpPageViewController.swift; sourceTree = "<group>"; };
 		B36AEA5821512A4E009BDEC3 /* ChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoom.swift; sourceTree = "<group>"; };
 		B36AEA5A21513D80009BDEC3 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		B36AEA5C2151548C009BDEC3 /* MessageForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageForm.swift; sourceTree = "<group>"; };
 		B36AEA5E215185C9009BDEC3 /* ChatBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		B36BD850216522580075F2F3 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B36BD853216531100075F2F3 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
+		B3CD8CB221668811004F4FC6 /* SignUpSexAndAgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpSexAndAgeViewController.swift; sourceTree = "<group>"; };
+		B3CD8CB421668828004F4FC6 /* SignUpInfosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpInfosViewController.swift; sourceTree = "<group>"; };
+		B3CD8CB6216691C0004F4FC6 /* PageViewDotsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewDotsViewController.swift; sourceTree = "<group>"; };
+		B3CD8CB821669672004F4FC6 /* ChatListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListTableViewController.swift; sourceTree = "<group>"; };
+		B3CD8CBA2166968B004F4FC6 /* ChatListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListTableViewCell.swift; sourceTree = "<group>"; };
 		CF5B842EC6A9EE5333849445 /* Pods-AbroadAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AbroadAppUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AbroadAppUITests/Pods-AbroadAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F600A5969BCCFA08797A9DD2 /* Pods-AbroadAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AbroadAppUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AbroadAppUITests/Pods-AbroadAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		FAF99E3927C625A873DEFA0B /* Pods_AbroadAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AbroadAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -187,10 +197,12 @@
 		B36AEA50214FDABF009BDEC3 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B3CD8CB1216687E9004F4FC6 /* SignUpPageViewContorollers */,
 				B36AEA22214FD9D9009BDEC3 /* CountryDetailSelectedViewController.swift */,
 				B36AEA54214FDD19009BDEC3 /* CountrySelectingCollectionViewController.swift */,
-				B36AEA56215120D9009BDEC3 /* MainGuidePageViewController.swift */,
+				B36AEA56215120D9009BDEC3 /* SignUpPageViewController.swift */,
 				B36AEA5A21513D80009BDEC3 /* ChatViewController.swift */,
+				B3CD8CB821669672004F4FC6 /* ChatListTableViewController.swift */,
 				B36BD850216522580075F2F3 /* LoginViewController.swift */,
 			);
 			path = Controller;
@@ -211,6 +223,7 @@
 			children = (
 				B36AEA4E214FDAB3009BDEC3 /* CountrySelectingCollectionViewCell.swift */,
 				B36AEA5E215185C9009BDEC3 /* ChatBubbleCollectionViewCell.swift */,
+				B3CD8CBA2166968B004F4FC6 /* ChatListTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -230,6 +243,16 @@
 				B36BD853216531100075F2F3 /* SocketManager.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		B3CD8CB1216687E9004F4FC6 /* SignUpPageViewContorollers */ = {
+			isa = PBXGroup;
+			children = (
+				B3CD8CB221668811004F4FC6 /* SignUpSexAndAgeViewController.swift */,
+				B3CD8CB421668828004F4FC6 /* SignUpInfosViewController.swift */,
+				B3CD8CB6216691C0004F4FC6 /* PageViewDotsViewController.swift */,
+			);
+			path = SignUpPageViewContorollers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -449,11 +472,16 @@
 				B36AEA4F214FDAB3009BDEC3 /* CountrySelectingCollectionViewCell.swift in Sources */,
 				B36AEA5B21513D80009BDEC3 /* ChatViewController.swift in Sources */,
 				B36BD854216531100075F2F3 /* SocketManager.swift in Sources */,
+				B3CD8CBB2166968B004F4FC6 /* ChatListTableViewCell.swift in Sources */,
+				B3CD8CB321668811004F4FC6 /* SignUpSexAndAgeViewController.swift in Sources */,
+				B3CD8CB7216691C0004F4FC6 /* PageViewDotsViewController.swift in Sources */,
+				B3CD8CB921669672004F4FC6 /* ChatListTableViewController.swift in Sources */,
 				B36AEA55214FDD19009BDEC3 /* CountrySelectingCollectionViewController.swift in Sources */,
 				B36AEA5D2151548C009BDEC3 /* MessageForm.swift in Sources */,
 				B36AEA21214FD9D9009BDEC3 /* AppDelegate.swift in Sources */,
-				B36AEA57215120D9009BDEC3 /* MainGuidePageViewController.swift in Sources */,
+				B36AEA57215120D9009BDEC3 /* SignUpPageViewController.swift in Sources */,
 				B36BD851216522580075F2F3 /* LoginViewController.swift in Sources */,
+				B3CD8CB521668828004F4FC6 /* SignUpInfosViewController.swift in Sources */,
 				B36AEA5F215185C9009BDEC3 /* ChatBubbleCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,18 +1,18 @@
 //
-//  MainGuidePageViewController.swift
+//  SignUpInfosViewController.swift
 //  AbroadApp
 //
-//  Created by 고상범 on 2018. 9. 18..
+//  Created by 고상범 on 2018. 10. 5..
 //  Copyright © 2018년 고상범. All rights reserved.
 //
 
 import UIKit
 
-class MainGuidePageViewController: UIPageViewController {
+class SignUpInfosViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.view.backgroundColor = UIColor.darkGray
         // Do any additional setup after loading the view.
     }
 
