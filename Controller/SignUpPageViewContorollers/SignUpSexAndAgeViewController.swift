@@ -9,6 +9,17 @@
 import UIKit
 
 class SignUpSexAndAgeViewController: UIViewController {
+    
+    var isFemale: Bool = true
+    
+    let ageArray: [String] = {
+        var arr: [String] = []
+        for i in 19...50 {
+        arr.append(String("\(i) 세"))
+        }
+        return arr
+    }()
+    
     let sexLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -20,7 +31,8 @@ class SignUpSexAndAgeViewController: UIViewController {
     let maleImageView: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = #imageLiteral(resourceName: "hairstyle-2")
+        view.image = #imageLiteral(resourceName: "hairstyle-4")
+        view.isUserInteractionEnabled = true
         //view.layer.borderWidth = 1
         //view.layer.cornerRadius = 30
         return view
@@ -30,6 +42,7 @@ class SignUpSexAndAgeViewController: UIViewController {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.image = #imageLiteral(resourceName: "hairstyle-3")
+        view.isUserInteractionEnabled = true
         //view.layer.borderWidth = 1
         return view
     }()
@@ -59,12 +72,35 @@ class SignUpSexAndAgeViewController: UIViewController {
         return picker
     }()
     
+    lazy var femaleImageRecognizer: UITapGestureRecognizer = {[weak self] in
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(femaleImageClicked(sender:)))
+        return recognizer
+    }()
+    
+    lazy var maleImageRecognizer: UITapGestureRecognizer = {[weak self] in
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(maleImageClicked(sender:)))
+        return recognizer
+        }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
+        self.navigationItem.title = "1/3 진행"
         UISetUp()
+        
+        maleImageView.addGestureRecognizer(maleImageRecognizer)
+        femaleImageView.addGestureRecognizer(femaleImageRecognizer)
+        agePickerView.delegate = self
+        agePickerView.dataSource = self
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(nextButtonClicked(sender:)))
     }
     
+    
+    @objc func nextButtonClicked(sender: UIBarButtonItem) {
+        let vc: SignUpInfosViewController = SignUpInfosViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     func UISetUp() {
         self.view.addSubview(sexLabel)
         self.view.addSubview(sexStackView)
@@ -88,11 +124,48 @@ class SignUpSexAndAgeViewController: UIViewController {
         
         self.agePickerView.topAnchor.constraint(equalTo: self.ageLabel.bottomAnchor, constant: 24).isActive = true
         self.agePickerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+    }
+    
+    @objc func femaleImageClicked(sender: UIImageView) {
+
+        guard let stackViewWoman: UIImageView = sexStackView.arrangedSubviews[0] as? UIImageView else {return}
+        guard let stackViewMan: UIImageView = sexStackView.arrangedSubviews[1] as? UIImageView else {return}
+        if stackViewWoman.image == #imageLiteral(resourceName: "hairstyle-6"){
+            stackViewWoman.image = #imageLiteral(resourceName: "hairstyle-3")
+            maleImageView.image = #imageLiteral(resourceName: "hairstyle-4")
+        } else {
+            print("man")
+        }
+        self.isFemale = true
+    }
+    
+    @objc func maleImageClicked(sender: UIImageView) {
         
-        
-        
+        guard let stackViewWoman: UIImageView = sexStackView.arrangedSubviews[0] as? UIImageView else {return}
+        guard let stackViewMan: UIImageView = sexStackView.arrangedSubviews[1] as? UIImageView else {return}
+        if stackViewMan.image == #imageLiteral(resourceName: "hairstyle-4") {
+            stackViewMan.image = #imageLiteral(resourceName: "hairstyle-2")
+            femaleImageView.image = #imageLiteral(resourceName: "hairstyle-6")
+        } else {
+            print("man")
+        }
+        self.isFemale = false
     }
     
     
     
+}
+
+extension SignUpSexAndAgeViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return ageArray.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return ageArray[row]
+    }
 }

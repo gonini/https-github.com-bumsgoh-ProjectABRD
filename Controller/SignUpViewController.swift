@@ -1,5 +1,5 @@
 //
-//  SignUpInfosViewController.swift
+//  SignUpViewController.swift
 //  AbroadApp
 //
 //  Created by 고상범 on 2018. 10. 5..
@@ -8,18 +8,12 @@
 
 import UIKit
 
-class SignUpInfosViewController: UIViewController {
+class SignUpViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.white
-        self.navigationItem.title = "2/3 진행"
-        // Do any additional setup after loading the view.
-    }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        // Do any additional setup after loading the view.
     }
     
 
@@ -28,7 +22,7 @@ class SignUpInfosViewController: UIViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
+        // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
     }
     */

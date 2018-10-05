@@ -199,14 +199,14 @@ class ChatViewController: UIViewController {
     }
     
     
-    func adjustingHeight(_ show:Bool, notification:NSNotification) {/*
+    func adjustingHeight(_ show:Bool, notification:NSNotification) {
         guard let userInfo = notification.userInfo else {return}
         guard let keyboardFrame: CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey]) as? CGRect else {return}
         guard let animationDurarion: TimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval else {return}
         let changeInHeight = (keyboardFrame.height) * (show ? 1 : -1)
         UIView.animate(withDuration: animationDurarion, animations: {() in
             self.bottomConstraint.constant -= changeInHeight
-        })*/
+        })
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {

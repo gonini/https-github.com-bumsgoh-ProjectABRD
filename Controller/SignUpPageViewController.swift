@@ -9,7 +9,19 @@
 import UIKit
 
 class SignUpPageViewController: UIPageViewController {
-     weak var tutorialDelegate: TutorialPageViewControllerDelegate?
+    
+    lazy var dotsPageControl: UIPageControl = {
+        let pageControl = UIPageControl(frame: CGRect(x: 0,y: UIScreen.main.bounds.maxY - 50,width: UIScreen.main.bounds.width,height: 50))
+        pageControl.numberOfPages = self.orderedViewControllers.count
+        pageControl.currentPage = 0
+      //  pageControl.tintColor = UIColor.black
+        pageControl.pageIndicatorTintColor = UIColor.white
+        pageControl.currentPageIndicatorTintColor = UIColor.black
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        return pageControl
+    }()
+    
+    weak var tutorialDelegate: TutorialPageViewControllerDelegate?
     
     private(set) lazy var orderedViewControllers: [UIViewController] = {
         let sexAndAgeVC: SignUpSexAndAgeViewController = SignUpSexAndAgeViewController()
@@ -20,6 +32,7 @@ class SignUpPageViewController: UIPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.dataSource = self
+       // self.tran
         
         self.delegate = self
         tutorialDelegate?.tutorialPageViewController(self,
@@ -34,8 +47,26 @@ class SignUpPageViewController: UIPageViewController {
                                completion: nil)
         
         }
+        
+        //configurePageControl()
+        self.view.addSubview(dotsPageControl)
+        self.dotsPageControl.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 8).isActive = true
+        self.dotsPageControl.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+       
 
 
+    }
+    
+    
+    func configurePageControl() {
+        // The total number of pages that are available is based on how many available colors we have.
+        self.dotsPageControl = UIPageControl(frame: CGRect(x: 0,y: UIScreen.main.bounds.maxY - 50,width: UIScreen.main.bounds.width,height: 50))
+        self.dotsPageControl.numberOfPages = orderedViewControllers.count
+        self.dotsPageControl.currentPage = 0
+        self.dotsPageControl.tintColor = UIColor.black
+        self.dotsPageControl.pageIndicatorTintColor = UIColor.white
+        self.dotsPageControl.currentPageIndicatorTintColor = UIColor.black
+        self.view.addSubview(dotsPageControl)
     }
 }
 

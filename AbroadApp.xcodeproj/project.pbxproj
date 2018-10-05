@@ -27,7 +27,6 @@
 		B36BD854216531100075F2F3 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36BD853216531100075F2F3 /* SocketManager.swift */; };
 		B3CD8CB321668811004F4FC6 /* SignUpSexAndAgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CD8CB221668811004F4FC6 /* SignUpSexAndAgeViewController.swift */; };
 		B3CD8CB521668828004F4FC6 /* SignUpInfosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CD8CB421668828004F4FC6 /* SignUpInfosViewController.swift */; };
-		B3CD8CB7216691C0004F4FC6 /* PageViewDotsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CD8CB6216691C0004F4FC6 /* PageViewDotsViewController.swift */; };
 		B3CD8CB921669672004F4FC6 /* ChatListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CD8CB821669672004F4FC6 /* ChatListTableViewController.swift */; };
 		B3CD8CBB2166968B004F4FC6 /* ChatListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CD8CBA2166968B004F4FC6 /* ChatListTableViewCell.swift */; };
 		C92BC8ED164BD76CBF576903 /* Pods_AbroadApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05ABDBE7EA4D659668746FCB /* Pods_AbroadApp.framework */; };
@@ -81,7 +80,6 @@
 		B36BD853216531100075F2F3 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
 		B3CD8CB221668811004F4FC6 /* SignUpSexAndAgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpSexAndAgeViewController.swift; sourceTree = "<group>"; };
 		B3CD8CB421668828004F4FC6 /* SignUpInfosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpInfosViewController.swift; sourceTree = "<group>"; };
-		B3CD8CB6216691C0004F4FC6 /* PageViewDotsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewDotsViewController.swift; sourceTree = "<group>"; };
 		B3CD8CB821669672004F4FC6 /* ChatListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListTableViewController.swift; sourceTree = "<group>"; };
 		B3CD8CBA2166968B004F4FC6 /* ChatListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListTableViewCell.swift; sourceTree = "<group>"; };
 		CF5B842EC6A9EE5333849445 /* Pods-AbroadAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AbroadAppUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AbroadAppUITests/Pods-AbroadAppUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -245,12 +243,19 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
+		B3A5597F216798EA006DCBD3 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		B3CD8CB1216687E9004F4FC6 /* SignUpPageViewContorollers */ = {
 			isa = PBXGroup;
 			children = (
 				B3CD8CB221668811004F4FC6 /* SignUpSexAndAgeViewController.swift */,
 				B3CD8CB421668828004F4FC6 /* SignUpInfosViewController.swift */,
-				B3CD8CB6216691C0004F4FC6 /* PageViewDotsViewController.swift */,
+				B3A5597F216798EA006DCBD3 /* New Group */,
 			);
 			path = SignUpPageViewContorollers;
 			sourceTree = "<group>";
@@ -474,7 +479,6 @@
 				B36BD854216531100075F2F3 /* SocketManager.swift in Sources */,
 				B3CD8CBB2166968B004F4FC6 /* ChatListTableViewCell.swift in Sources */,
 				B3CD8CB321668811004F4FC6 /* SignUpSexAndAgeViewController.swift in Sources */,
-				B3CD8CB7216691C0004F4FC6 /* PageViewDotsViewController.swift in Sources */,
 				B3CD8CB921669672004F4FC6 /* ChatListTableViewController.swift in Sources */,
 				B36AEA55214FDD19009BDEC3 /* CountrySelectingCollectionViewController.swift in Sources */,
 				B36AEA5D2151548C009BDEC3 /* MessageForm.swift in Sources */,
@@ -659,6 +663,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CMXKRM464P;
 				INFOPLIST_FILE = AbroadApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -678,6 +683,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CMXKRM464P;
 				INFOPLIST_FILE = AbroadApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
