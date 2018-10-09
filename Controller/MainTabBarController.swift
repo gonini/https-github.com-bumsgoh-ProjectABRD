@@ -15,14 +15,7 @@ class MainTabBarController: UITabBarController {
         
         makeViewControllers()
     }
-    func makeViewControllers() {/*
-        let layout = UICollectionViewFlowLayout()
-        let collectionViewController: MainCollectionViewController = MainCollectionViewController(collectionViewLayout: layout)
-        collectionViewController.tabBarItem = UITabBarItem(title: "Collection", image: #imageLiteral(resourceName: "ic_collection"), tag: 1)
-        collectionViewController.collectionView?.backgroundColor = UIColor.white
-        collectionViewController.movieData = self.movieData
-        self.sortingDelegateForCollection = collectionViewController
-        */
+    func makeViewControllers() {
         let countyDetailViewController = CountryDetailSelectedViewController()
         countyDetailViewController.tabBarItem = UITabBarItem(title: "map", image: #imageLiteral(resourceName: "map-2"), tag: 0)
         

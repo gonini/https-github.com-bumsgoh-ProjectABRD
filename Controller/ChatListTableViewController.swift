@@ -29,6 +29,7 @@ class ChatListTableViewController: UITableViewController {
         
          self.socket = SocketManaging.socketManager.socket(forNamespace: "/login/chat")
         socket.connect()
+        
         socket.on(clientEvent: .connect) {[weak self] data, ack in
             print("socket chat connected")
             self?.socket.emit("getChatList", "1")
