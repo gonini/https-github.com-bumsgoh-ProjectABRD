@@ -12,6 +12,7 @@ import SocketIO
 class ChatViewController: UIViewController {
     let reuseIdentifier: String = "chatBubbleCell"
     var roomId: String = ""
+    
     var message: [[String: String]] = [] {
         didSet {
             OperationQueue.main.addOperation {[weak self] in
@@ -19,7 +20,8 @@ class ChatViewController: UIViewController {
             }
         }
     }
-     var width: CGFloat?
+    
+    var width: CGFloat?
     var socket: SocketIOClient!
     var bottomConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var isKeyboardShowOnce: Bool = false
@@ -59,32 +61,37 @@ class ChatViewController: UIViewController {
         
         return button
     }()
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         chatTextView.text = "Type your message"
         chatTextView.textColor = UIColor.lightGray
         chatTextView.delegate = self
-        chatCollectionView.register(ChatBubbleCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        self.view.backgroundColor = UIColor.white
+        
         chatCollectionView.delegate = self
         chatCollectionView.dataSource = self
+        chatCollectionView.register(ChatBubbleCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        
+        self.view.backgroundColor = UIColor.white
+        
         if #available(iOS 11.0, *) {
             chatCollectionView.contentInsetAdjustmentBehavior = .always
         }
+        
         if UIDevice.current.orientation.isPortrait == true {
             width = UIScreen.main.bounds.width
         } else {
             width = UIScreen.main.bounds.height
         }
-       // self.socket = manager.defaultSocket
+        
+        // self.socket = manager.defaultSocket
         self.socket = SocketManaging.socketManager.socket(forNamespace: "/login/chat")
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         UISetUp()
         self.chatSendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
+        
         /*
             self?.socket.on("invitedJoin") {(data,ack) in
                 print("joined")
@@ -100,15 +107,17 @@ class ChatViewController: UIViewController {
                 self?.socket.emit("sendMessage", myJSON)
                 
             }*/
+        
         //socket.connect()
         let myJSON = [
             "roomName": "\(roomId)"
         ]
+        
         socket.emit("storedMessage", myJSON)
         
         socket.on("responseStoredMessage") {(data,ack) in
             
-            let dataArray: NSArray = data as! NSArray
+            let dataArray: NSArray = data as NSArray
             let rData: NSArray = dataArray[0] as! NSArray
             for msgData in rData {
                 let msg: [String: String] = (msgData as! NSDictionary) as! [String : String]
@@ -122,7 +131,7 @@ class ChatViewController: UIViewController {
         }
         
         socket.on("receiveMessage") {(data,ack) in
-            let dataArray: NSArray = data as! NSArray
+            let dataArray: NSArray = data as NSArray
             //let rData: NSArray = dataArray[0] as! NSArray
             for msgData in dataArray {
                 let msg: [String: String] = (msgData as! NSDictionary) as! [String : String]
@@ -139,18 +148,19 @@ class ChatViewController: UIViewController {
     func UISetUp() {
         self.view.addSubview(chatCollectionView)
         self.view.addSubview(chatInputBackgroundView)
+        
         self.chatInputBackgroundView.addSubview(chatTextView)
         self.chatInputBackgroundView.addSubview(chatSendButton)
+        
         self.chatCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.chatCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         self.chatCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         self.chatCollectionView.bottomAnchor.constraint(equalTo: self.chatInputBackgroundView.topAnchor).isActive = true
         
-       
-        
         self.chatInputBackgroundView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         self.chatInputBackgroundView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         self.chatInputBackgroundView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
         let bottomConstraint = NSLayoutConstraint(item: chatInputBackgroundView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 16.0)
         self.bottomConstraint = bottomConstraint
         bottomConstraint.isActive = true //키보드가 올라왔을때 뷰를 조정하기 위해서 따로 설정하였습니다.
@@ -184,8 +194,8 @@ class ChatViewController: UIViewController {
     }
     
     func adjustingHeight(_ show:Bool, notification:NSNotification) {
-        guard let userInfo = notification.userInfo else {return}
-        guard let keyboardFrame: CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey]) as? CGRect else {return}
+        guard let userInfo = notification.userInfo else { return }
+        guard let keyboardFrame: CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey]) as? CGRect else { return }
         guard let animationDurarion: TimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval else {return}
         let changeInHeight = (keyboardFrame.height) * (show ? 1 : -1)
         UIView.animate(withDuration: animationDurarion, animations: {() in
@@ -234,10 +244,10 @@ extension ChatViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let cell: ChatBubbleCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ChatBubbleCollectionViewCell
         
         let messageText: [String: String] = self.message[indexPath.row]
-            let size: CGSize = CGSize(width: 250, height: 1000)
-            let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-        let estimatedForm = NSString(string: messageText["message"]!).boundingRect(with: size, options: option, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
+        let size: CGSize = CGSize(width: 250, height: 1000)
+        let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         
+        let estimatedForm = NSString(string: messageText["message"]!).boundingRect(with: size, options: option, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
         
         if !(messageText["sendMessageId"] == "1") {
             cell.chatTextView.frame = CGRect(x: 40 + 8, y: 0, width: estimatedForm.width + 16, height: estimatedForm.height + 20)
@@ -248,17 +258,18 @@ extension ChatViewController: UICollectionViewDelegate, UICollectionViewDataSour
             cell.thumbNailImageView.image = #imageLiteral(resourceName: "IMG_0596")
         } else {
             cell.chatTextView.frame = CGRect(x: self.view.frame.width - estimatedForm.width - 16, y: 0, width: estimatedForm.width + 16, height: estimatedForm.height + 20)
-            
             cell.textBubbleView.frame = CGRect(x: self.view.frame.width - estimatedForm.width - 24, y: 0, width: estimatedForm.width + 24, height: estimatedForm.height + 20)
             cell.textBubbleView.backgroundColor = UIColor(red: 0, green: 137/245, blue: 249/255, alpha: 1)
             cell.chatTextView.textColor = UIColor.white
         }
+        
         //cell.backgroundColor = UIColor.white
         //cell.thumbNailImageView.image =
         //cell.titleLabel.text = countryName[indexPath.row]
         //cell.layer.addShadow()
        // cell.layer.roundCorners(radius: 10)
         cell.chatTextView.text = message[indexPath.row]["message"]!
+        
         return cell
     }
 }
@@ -279,11 +290,3 @@ extension ChatViewController: UITextViewDelegate {
         }
     }
 }
-
-
-
-
-
-
-
-

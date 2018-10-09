@@ -9,12 +9,13 @@
 import UIKit
 
 class MainTabBarController: UITabBarController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         makeViewControllers()
     }
+    
     func makeViewControllers() {
         let countyDetailViewController = CountryDetailSelectedViewController()
         countyDetailViewController.tabBarItem = UITabBarItem(title: "map", image: #imageLiteral(resourceName: "map-2"), tag: 0)
@@ -28,5 +29,3 @@ class MainTabBarController: UITabBarController {
         self.setViewControllers(viewControllers, animated: false)
     }
 }
-
-

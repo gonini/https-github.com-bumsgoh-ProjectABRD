@@ -33,8 +33,6 @@ class PartnersTableViewCell: UITableViewCell {
         label.text = "BBQ Fried Chicken is amazing!"
         return label
     }()
-    
-    
    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -64,11 +62,5 @@ class PartnersTableViewCell: UITableViewCell {
         self.chatLabel.topAnchor.constraint(equalTo: self.memberNameLabel.bottomAnchor, constant: 8).isActive = true
         self.chatLabel.leadingAnchor.constraint(equalTo: self.profileImageView.trailingAnchor, constant: 16).isActive = true
         
-        
-        
-        
-        
     }
-    
-
 }

@@ -68,12 +68,11 @@ class CountryDetailSelectedViewController: UIViewController {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
                                                                   regionRadius, regionRadius)
         mapView.setRegion(coordinateRegion, animated: true)
-
-}
-
+    }
 }
 
 extension CountryDetailSelectedViewController: MKMapViewDelegate {
+    
     // 1
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         // 2
@@ -106,6 +105,7 @@ extension CountryDetailSelectedViewController: MKMapViewDelegate {
         self.bulletBoardTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     }
 }
+
 class Artwork: NSObject, MKAnnotation {
     let title: String?
     let locationName: String
@@ -141,7 +141,6 @@ extension CountryDetailSelectedViewController: UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let VC: PartnerDetailInfoViewController = PartnerDetailInfoViewController()
         self.navigationController?.present(VC, animated: true, completion: nil)
     }
@@ -149,10 +148,4 @@ extension CountryDetailSelectedViewController: UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80.0
     }
-    
-    
-    
-    
-    
-
 }

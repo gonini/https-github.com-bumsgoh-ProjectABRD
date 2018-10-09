@@ -66,8 +66,7 @@ class SignUpInfosViewController: UIViewController {
         UISetUp()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(nextButtonClicked(sender:)))
     }
-    
-    
+
     @objc func nextButtonClicked(sender: UIBarButtonItem) {
         let vc: CountrySelectingCollectionViewController = CountrySelectingCollectionViewController()
         self.navigationController?.pushViewController(vc, animated: true)
@@ -76,9 +75,7 @@ class SignUpInfosViewController: UIViewController {
     func UISetUp() {
         self.view.addSubview(idLabel)
         self.view.addSubview(idTextField)
-        
         self.view.addSubview(passwordLabel)
-        
         self.view.addSubview(passwordFirstTextField)
         self.view.addSubview(passwordCheckTextField)
         

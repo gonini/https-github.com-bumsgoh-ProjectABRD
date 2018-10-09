@@ -75,9 +75,8 @@ class LoginViewController: UIViewController {
         label.textColor = UIColor.darkGray
         label.text = "아직 회원이 아니신가요?"
         label.isUserInteractionEnabled = true
-        
         return label
-        }()
+    }()
     
     let appTitleLabel: UILabel = {
         let label = UILabel()
@@ -114,14 +113,13 @@ class LoginViewController: UIViewController {
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
-    
-    
+
     @objc func loginButtonClicked(sender: UIButton) {
         sender.state
         if sender.backgroundColor == #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1) {
             sender.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         } else {
-            sender.backgroundColor == #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+            sender.backgroundColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
         }
     
         let myJSON = [
@@ -136,7 +134,7 @@ class LoginViewController: UIViewController {
         if sender.backgroundColor == #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1) {
             sender.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         } else {
-            sender.backgroundColor == #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+            sender.backgroundColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
         }
     }
     
@@ -198,7 +196,6 @@ class LoginViewController: UIViewController {
         self.loginButton.topAnchor.constraint(equalTo: self.signUpTextLabel.bottomAnchor, constant: 8).isActive = true
         self.loginButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -64).isActive = true
         
-        
         /*
         self.loginButton.topAnchor.constraint(equalTo: self.signUpTextButton.bottomAnchor, constant: 32).isActive = true
          self.loginButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
@@ -207,12 +204,8 @@ class LoginViewController: UIViewController {
          //self.loginButton.widthAnchor.constraint(equalToConstant: ).isActive = true
          self.loginButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         */
-        
     }
-    
 }
-
-
 
 extension LoginViewController: UITextFieldDelegate {
     
@@ -220,6 +213,7 @@ extension LoginViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+    
     /*
     @objc func keyboardWillShow(notification: NSNotification) {
         let userInfo = notification.userInfo!
@@ -232,6 +226,7 @@ extension LoginViewController: UITextFieldDelegate {
         self.fullScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
     }*/
 }
+
 /*
 extension UIButton {
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

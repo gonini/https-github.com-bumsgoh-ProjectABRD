@@ -12,6 +12,7 @@ private let reuseIdentifier = "CountrySelectingCell"
 
 // 나라 선택 화면
 class CountrySelectingCollectionViewController: UIViewController {
+    
     var width: CGFloat?
     var imageViewArray = [UIImage]()
     var countryName: [String] = []
@@ -41,6 +42,7 @@ class CountrySelectingCollectionViewController: UIViewController {
       
         return view
     }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let layout = UICollectionViewFlowLayout()
@@ -82,7 +84,6 @@ class CountrySelectingCollectionViewController: UIViewController {
         self.headerView.addSubview(countryLabel)
         self.view.addSubview(countryCollectionView)
         
-        
         self.headerView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         self.headerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         self.headerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
@@ -99,9 +100,6 @@ class CountrySelectingCollectionViewController: UIViewController {
 }
 
 extension CountrySelectingCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
         return 6
@@ -139,7 +137,6 @@ extension CountrySelectingCollectionViewController: UICollectionViewDelegate, UI
 }
 
 extension CountrySelectingCollectionViewController: UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let width = self.width else {return CGSize.init()}
         return CGSize(width: width/2 - 32, height: width/2 - 16 )

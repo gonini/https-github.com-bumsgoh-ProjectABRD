@@ -9,6 +9,7 @@
 import UIKit
 
 class CountrySelectingCollectionViewCell: UICollectionViewCell {
+    
     let thumbNailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false

@@ -20,7 +20,6 @@ class ChatListTableViewController: UITableViewController {
     }
     var socket: SocketIOClient!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.delegate = self
@@ -41,7 +40,6 @@ class ChatListTableViewController: UITableViewController {
             self?.socket.emit("requestJoin", myJSON)
             
             self?.socket.on("joinSuccess") {(data,ack) in
-                
                 for fixed in data {
                     var dataDic: [String : Any] = [:]
                     print(data)
@@ -53,38 +51,31 @@ class ChatListTableViewController: UITableViewController {
                     let chatData: ChatRoom = ChatRoom(member: members[0], roomId: roomId)
                     self?.chatRooms.append(chatData)
                     //print("cell count : \(self?.chatRooms.count)")
-                 
                 }
                 //print(self?.chatRooms)
                 OperationQueue.main.addOperation {
                     self?.tableView.reloadData()
                 }
                 //print(type(of: data))
-                
             }
-            
         }
-        
     }
 
     // MARK: - Table view data source
-
-   
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        
         return chatRooms.count
     }
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell: ChatListTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ChatListTableViewCell else {
             print("fucked up")
-            return UITableViewCell.init()}
-        
+            return UITableViewCell.init()
+        }
         cell.chatMemberLabel.text = chatRooms[indexPath.row].chatMember
         cell.chatLabel.text = chatRooms[indexPath.row].roomId
+        
         return cell
     }
     

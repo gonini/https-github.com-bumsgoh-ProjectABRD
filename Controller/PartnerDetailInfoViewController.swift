@@ -43,6 +43,7 @@ class PartnerDetailInfoViewController: UIViewController {
         label.text = "독일에서 3일 프랑크푸르트에 숙박예정, 이후에 뮌헨으로 가서 4일동안 구경하고 호프브로이 하우스 관광예정입니다."
         return label
     }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         UISetUp()
@@ -51,7 +52,6 @@ class PartnerDetailInfoViewController: UIViewController {
     }
     
     func UISetUp() {
-        
         self.view.addSubview(profileImageView)
         self.view.addSubview(memberNameLabel)
         self.view.addSubview(ageLabel)
@@ -74,11 +74,5 @@ class PartnerDetailInfoViewController: UIViewController {
         tripPlanLabel.topAnchor.constraint(equalTo: self.ageLabel.bottomAnchor, constant: 32).isActive = true
         tripPlanLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         tripPlanLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9).isActive = true
-        
-    
-        
     }
-    
-
-   
 }

@@ -29,6 +29,7 @@ class SignUpPageViewController: UIPageViewController {
         
         return [sexAndAgeVC,infosVC]
     }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.dataSource = self
@@ -36,27 +37,20 @@ class SignUpPageViewController: UIPageViewController {
         
         self.delegate = self
         tutorialDelegate?.tutorialPageViewController(self,
-                                                        didUpdatePageCount: orderedViewControllers.count)
+                                                     didUpdatePageCount: orderedViewControllers.count)
     
-        
-        
         if let firstViewController = orderedViewControllers.first {
             setViewControllers([firstViewController],
                                direction: .forward,
                                animated: false,
                                completion: nil)
-        
         }
         
         //configurePageControl()
         self.view.addSubview(dotsPageControl)
         self.dotsPageControl.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 8).isActive = true
         self.dotsPageControl.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-       
-
-
     }
-    
     
     func configurePageControl() {
         // The total number of pages that are available is based on how many available colors we have.
@@ -67,7 +61,6 @@ class SignUpPageViewController: UIPageViewController {
         self.dotsPageControl.pageIndicatorTintColor = UIColor.white
         self.dotsPageControl.currentPageIndicatorTintColor = UIColor.black
         self.view.addSubview(dotsPageControl)
-       
     }
 }
 
@@ -110,7 +103,6 @@ extension SignUpPageViewController: UIPageViewControllerDataSource {
         }
         
         return orderedViewControllers[previousIndex]
-       
     }
 }
 
