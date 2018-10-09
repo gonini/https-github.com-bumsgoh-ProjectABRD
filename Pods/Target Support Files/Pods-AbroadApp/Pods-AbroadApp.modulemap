@@ -1,0 +1,6 @@
+framework module Pods_AbroadApp {
+  umbrella header "Pods-AbroadApp-umbrella.h"
+
+  export *
+  module * { export * }
+}

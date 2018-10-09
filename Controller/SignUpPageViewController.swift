@@ -67,6 +67,7 @@ class SignUpPageViewController: UIPageViewController {
         self.dotsPageControl.pageIndicatorTintColor = UIColor.white
         self.dotsPageControl.currentPageIndicatorTintColor = UIColor.black
         self.view.addSubview(dotsPageControl)
+       
     }
 }
 

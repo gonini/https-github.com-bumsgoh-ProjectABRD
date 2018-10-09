@@ -133,7 +133,7 @@ extension CountrySelectingCollectionViewController: UICollectionViewDelegate, UI
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.countryLabel.text = countryName[indexPath.row]
-        let VC = CountryDetailSelectedViewController()
+        let VC = MainTabBarController()
         self.navigationController?.pushViewController(VC, animated: true)
     }
 }

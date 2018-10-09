@@ -14,7 +14,7 @@ class ChatListTableViewCell: UITableViewCell {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 25
-        view.contentMode = .scaleAspectFit
+        view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.image = #imageLiteral(resourceName: "IMG_0596")
         return view
@@ -49,9 +49,8 @@ class ChatListTableViewCell: UITableViewCell {
         self.contentView.addSubview(chatLabel)
         
         self.profileImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
-        self.profileImageView.widthAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.9).isActive = true
-        self.profileImageView.layer.cornerRadius = self.contentView.frame.height
-        self.profileImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.9).isActive = true
+        self.profileImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        self.profileImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         self.profileImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8).isActive = true
         
         self.chatMemberLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 4).isActive = true

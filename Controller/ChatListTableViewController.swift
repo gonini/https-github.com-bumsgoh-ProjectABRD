@@ -32,7 +32,7 @@ class ChatListTableViewController: UITableViewController {
         
         socket.on(clientEvent: .connect) {[weak self] data, ack in
             print("socket chat connected")
-            self?.socket.emit("getChatList", "0")
+            self?.socket.emit("getChatList", "1")
             let myJSON = [
                 "id0": "1",
                 "id1": "0"
@@ -43,13 +43,14 @@ class ChatListTableViewController: UITableViewController {
             self?.socket.on("joinSuccess") {(data,ack) in
                 
                 for fixed in data {
-                    let dataDic: NSDictionary
-                    dataDic = fixed as! [String : String] as NSDictionary
-                    let members: String = dataDic["joinMembers"] as! String
+                    var dataDic: [String : Any] = [:]
+                    print(data)
+                    dataDic = (fixed as! NSDictionary) as! [String : Any]
+                    let members: [String] = dataDic["joinMembers"] as! [String]
                     let roomId: String = dataDic["roomName"] as! String
                     //print(members)
                     //print(roomId)
-                    let chatData: ChatRoom = ChatRoom(member: members, roomId: roomId)
+                    let chatData: ChatRoom = ChatRoom(member: members[0], roomId: roomId)
                     self?.chatRooms.append(chatData)
                     //print("cell count : \(self?.chatRooms.count)")
                  

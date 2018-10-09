@@ -11,7 +11,9 @@ import MapKit
 
 // 맵
 class CountryDetailSelectedViewController: UIViewController {
-    let regionRadius: CLLocationDistance = 1000
+    
+    let cellIdentifier: String = "countryCell"
+    let regionRadius: CLLocationDistance = 10000
     let initialLocation = CLLocation(latitude: 21.282778, longitude: -157.829444)
     
     let bulletBoardTableView: UITableView = {
@@ -30,12 +32,12 @@ class CountryDetailSelectedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-        
+        self.bulletBoardTableView.register(PartnersTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         self.view.addSubview(mapView)
-        self.mapView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.mapView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         self.mapView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         self.mapView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        self.mapView.heightAnchor.constraint(equalToConstant: 500).isActive = true
+        self.mapView.heightAnchor.constraint(equalToConstant: 250).isActive = true
         
         self.centerMapOnLocation(location: initialLocation)
         self.mapView.delegate = self
@@ -130,16 +132,27 @@ extension CountryDetailSelectedViewController: UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell.init()
+        guard let cell: PartnersTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PartnersTableViewCell else {return UITableViewCell.init()}
+        
+        cell.profileImageView.image = #imageLiteral(resourceName: "IMG_0596")
+        cell.memberNameLabel.text = "상순이"
+        
         return cell
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let VC: ChatViewController = ChatViewController()
-        self.navigationController?.pushViewController(VC, animated: true)
+        
+        let VC: PartnerDetailInfoViewController = PartnerDetailInfoViewController()
+        self.navigationController?.present(VC, animated: true, completion: nil)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80.0
     }
     
     
     
     
     
+
 }
