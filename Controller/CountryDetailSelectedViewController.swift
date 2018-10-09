@@ -9,8 +9,8 @@
 import UIKit
 import MapKit
 
+// 맵
 class CountryDetailSelectedViewController: UIViewController {
-    
     let regionRadius: CLLocationDistance = 1000
     let initialLocation = CLLocation(latitude: 21.282778, longitude: -157.829444)
     
@@ -26,6 +26,7 @@ class CountryDetailSelectedViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -60,7 +61,6 @@ class CountryDetailSelectedViewController: UIViewController {
         
         UISetUp()
     }
-
     
     func centerMapOnLocation(location: CLLocation) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,

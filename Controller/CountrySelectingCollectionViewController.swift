@@ -10,6 +10,7 @@ import UIKit
 
 private let reuseIdentifier = "CountrySelectingCell"
 
+// 나라 선택 화면
 class CountrySelectingCollectionViewController: UIViewController {
     var width: CGFloat?
     var imageViewArray = [UIImage]()

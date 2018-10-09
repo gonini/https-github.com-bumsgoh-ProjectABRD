@@ -27,8 +27,9 @@ class ChatListTableViewController: UITableViewController {
         self.tableView.dataSource = self
         self.tableView.register(ChatListTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         
-         self.socket = SocketManaging.socketManager.socket(forNamespace: "/login/chat")
+        self.socket = SocketManaging.socketManager.socket(forNamespace: "/login/chat")
         socket.connect()
+        
         socket.on(clientEvent: .connect) {[weak self] data, ack in
             print("socket chat connected")
             self?.socket.emit("getChatList", "0")

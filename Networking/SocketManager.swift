@@ -11,6 +11,6 @@ import SocketIO
 
 class SocketManaging {
     static var socketManager = SocketManager(socketURL: URL(string: "http://ec2-18-223-185-177.us-east-2.compute.amazonaws.com:80/")!, config: [.log(false), .compress])
+    
     private init() {}
-   
 }

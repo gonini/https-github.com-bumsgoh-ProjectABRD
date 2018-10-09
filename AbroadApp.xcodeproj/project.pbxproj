@@ -243,19 +243,11 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
-		B3A5597F216798EA006DCBD3 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
-			sourceTree = "<group>";
-		};
 		B3CD8CB1216687E9004F4FC6 /* SignUpPageViewContorollers */ = {
 			isa = PBXGroup;
 			children = (
 				B3CD8CB221668811004F4FC6 /* SignUpSexAndAgeViewController.swift */,
 				B3CD8CB421668828004F4FC6 /* SignUpInfosViewController.swift */,
-				B3A5597F216798EA006DCBD3 /* New Group */,
 			);
 			path = SignUpPageViewContorollers;
 			sourceTree = "<group>";

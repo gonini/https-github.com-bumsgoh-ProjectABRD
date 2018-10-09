@@ -8,6 +8,7 @@
 
 import UIKit
 
+// 회원가입 성별/나이 화면
 class SignUpSexAndAgeViewController: UIViewController {
     
     var isFemale: Bool = true
@@ -28,6 +29,7 @@ class SignUpSexAndAgeViewController: UIViewController {
         label.textColor = UIColor.darkGray
         return label
     }()
+    
     let maleImageView: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -96,11 +98,11 @@ class SignUpSexAndAgeViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(nextButtonClicked(sender:)))
     }
     
-    
     @objc func nextButtonClicked(sender: UIBarButtonItem) {
         let vc: SignUpInfosViewController = SignUpInfosViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
     func UISetUp() {
         self.view.addSubview(sexLabel)
         self.view.addSubview(sexStackView)
@@ -111,7 +113,6 @@ class SignUpSexAndAgeViewController: UIViewController {
         self.view.addSubview(ageLabel)
         self.view.addSubview(agePickerView)
         
-        
         self.sexLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 32).isActive = true
         self.sexLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 32).isActive = true
         
@@ -121,16 +122,14 @@ class SignUpSexAndAgeViewController: UIViewController {
         self.ageLabel.topAnchor.constraint(equalTo: self.sexStackView.bottomAnchor, constant: 72).isActive = true
         self.ageLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 32).isActive = true
         
-        
         self.agePickerView.topAnchor.constraint(equalTo: self.ageLabel.bottomAnchor, constant: 24).isActive = true
         self.agePickerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
     }
     
     @objc func femaleImageClicked(sender: UIImageView) {
-
-        guard let stackViewWoman: UIImageView = sexStackView.arrangedSubviews[0] as? UIImageView else {return}
-        guard let stackViewMan: UIImageView = sexStackView.arrangedSubviews[1] as? UIImageView else {return}
-        if stackViewWoman.image == #imageLiteral(resourceName: "hairstyle-6"){
+        guard let stackViewWoman: UIImageView = sexStackView.arrangedSubviews[0] as? UIImageView else { return }
+        guard let stackViewMan: UIImageView = sexStackView.arrangedSubviews[1] as? UIImageView else { return }
+        if stackViewWoman.image == #imageLiteral(resourceName: "hairstyle-6") {
             stackViewWoman.image = #imageLiteral(resourceName: "hairstyle-3")
             maleImageView.image = #imageLiteral(resourceName: "hairstyle-4")
         } else {
@@ -140,9 +139,8 @@ class SignUpSexAndAgeViewController: UIViewController {
     }
     
     @objc func maleImageClicked(sender: UIImageView) {
-        
-        guard let stackViewWoman: UIImageView = sexStackView.arrangedSubviews[0] as? UIImageView else {return}
-        guard let stackViewMan: UIImageView = sexStackView.arrangedSubviews[1] as? UIImageView else {return}
+        guard let stackViewWoman: UIImageView = sexStackView.arrangedSubviews[0] as? UIImageView else { return }
+        guard let stackViewMan: UIImageView = sexStackView.arrangedSubviews[1] as? UIImageView else { return }
         if stackViewMan.image == #imageLiteral(resourceName: "hairstyle-4") {
             stackViewMan.image = #imageLiteral(resourceName: "hairstyle-2")
             femaleImageView.image = #imageLiteral(resourceName: "hairstyle-6")
@@ -151,9 +149,6 @@ class SignUpSexAndAgeViewController: UIViewController {
         }
         self.isFemale = false
     }
-    
-    
-    
 }
 
 extension SignUpSexAndAgeViewController: UIPickerViewDelegate, UIPickerViewDataSource {

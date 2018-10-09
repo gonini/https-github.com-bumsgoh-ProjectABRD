@@ -32,9 +32,7 @@ class ChatListTableViewCell: UITableViewCell {
         label.text = "BBQ Fried Chicken is amazing!"
         return label
     }()
-    
-    
-    
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -56,18 +54,10 @@ class ChatListTableViewCell: UITableViewCell {
         self.profileImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.9).isActive = true
         self.profileImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8).isActive = true
         
-        
         self.chatMemberLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 4).isActive = true
         self.chatMemberLabel.leadingAnchor.constraint(equalTo: self.profileImageView.trailingAnchor, constant: 16).isActive = true
         
         self.chatLabel.topAnchor.constraint(equalTo: self.chatMemberLabel.bottomAnchor, constant: 8).isActive = true
         self.chatLabel.leadingAnchor.constraint(equalTo: self.profileImageView.trailingAnchor, constant: 16).isActive = true
-        
-        
-        
-        
-        
     }
-    
-
 }

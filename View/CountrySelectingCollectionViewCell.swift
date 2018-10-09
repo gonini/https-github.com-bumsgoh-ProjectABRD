@@ -9,14 +9,12 @@
 import UIKit
 
 class CountrySelectingCollectionViewCell: UICollectionViewCell {
-    //Change
     let thumbNailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 15
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
-        imageView.isHidden = true
         return imageView
     }()
     
@@ -29,7 +27,6 @@ class CountrySelectingCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         UISetUp()
     }
     
@@ -40,7 +37,6 @@ class CountrySelectingCollectionViewCell: UICollectionViewCell {
     func UISetUp() {
         self.contentView.addSubview(thumbNailImageView)
         self.contentView.addSubview(titleLabel)
-        
         
         //imageView Setting
         //thumbNailImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
@@ -58,9 +54,7 @@ class CountrySelectingCollectionViewCell: UICollectionViewCell {
         //titleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 4).isActive = true
         titleLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor).isActive = true
         
-        
        // self.contentView.layer.masksToBounds = true
-    
     }
 }
 

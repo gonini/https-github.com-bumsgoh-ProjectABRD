@@ -46,9 +46,6 @@ class ChatViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isEditable = true
         view.backgroundColor = UIColor.white
-       
-        
-        
         return view
     }()
     
@@ -106,7 +103,6 @@ class ChatViewController: UIViewController {
         //socket.connect()
         let myJSON = [
             "roomName": "\(roomId)"
-        
         ]
         socket.emit("storedMessage", myJSON)
         
@@ -119,14 +115,13 @@ class ChatViewController: UIViewController {
                 print("message is \(msg["message"])")
                 self.message.append(["message": msg["message"]!, "sendMessageId": msg["sendMessageId"]!])
             }
+            
             OperationQueue.main.addOperation {
                 self.chatCollectionView.reloadData()
             }
-            
         }
         
         socket.on("receiveMessage") {(data,ack) in
-            
             let dataArray: NSArray = data as! NSArray
             //let rData: NSArray = dataArray[0] as! NSArray
             for msgData in dataArray {
@@ -138,11 +133,8 @@ class ChatViewController: UIViewController {
             OperationQueue.main.addOperation {
                 self.chatCollectionView.reloadData()
             }
-            
         }
-        
-        
-        }
+    }
     
     func UISetUp() {
         self.view.addSubview(chatCollectionView)
@@ -174,13 +166,9 @@ class ChatViewController: UIViewController {
         //self.chatSendButton.trailingAnchor.constraint(equalTo: self.chatInputBackgroundView.trailingAnchor, constant: -16).isActive = true
         self.chatSendButton.heightAnchor.constraint(lessThanOrEqualToConstant: 30).isActive = true
         self.chatSendButton.widthAnchor.constraint(lessThanOrEqualToConstant: 30).isActive = true
-        
-        
-        
     }
     
     @objc func sendButtonClicked() {
-        
         let myJSON = [
             "message": "\(chatTextView.text!)",
             "userId": "0",
@@ -188,16 +176,12 @@ class ChatViewController: UIViewController {
         ]
         //message.append(myJSON)
         
-        
         socket.emit("sendMessage", myJSON)
         OperationQueue.main.addOperation {
             self.chatTextView.text = ""
             self.chatCollectionView.reloadData()
         }
-        
-        
     }
-    
     
     func adjustingHeight(_ show:Bool, notification:NSNotification) {
         guard let userInfo = notification.userInfo else {return}
@@ -221,6 +205,7 @@ class ChatViewController: UIViewController {
         isKeyboardShowOnce = false
     }
 }
+
 extension ChatViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         //guard let width = self.width else {return CGSize.init()}
@@ -237,6 +222,7 @@ extension ChatViewController: UICollectionViewDelegateFlowLayout {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 }
+
 extension ChatViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
@@ -275,18 +261,17 @@ extension ChatViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.chatTextView.text = message[indexPath.row]["message"]!
         return cell
     }
-   
 }
 
 
 extension ChatViewController: UITextViewDelegate {
-    
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
             textView.textColor = UIColor.black
         }
     }
+    
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = "Type your message"

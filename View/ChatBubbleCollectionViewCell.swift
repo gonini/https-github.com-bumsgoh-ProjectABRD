@@ -10,7 +10,6 @@ import UIKit
 
 class ChatBubbleCollectionViewCell: UICollectionViewCell {
     
-    
     let thumbNailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -41,13 +40,14 @@ class ChatBubbleCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         UISetUp()
     }
+    
     override func prepareForReuse() {
         chatTextView.text = ""
         thumbNailImageView.image = nil
     }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -57,16 +57,17 @@ class ChatBubbleCollectionViewCell: UICollectionViewCell {
         self.contentView.addSubview(thumbNailImageView)
         self.textBubbleView.addSubview(chatTextView)
         
-       // textBubbleView.leadingAnchor.constraint(equalTo: self.thumbNailImageView.trailingAnchor).isActive = true
-       // textBubbleView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -46).isActive = true
+        // textBubbleView.leadingAnchor.constraint(equalTo: self.thumbNailImageView.trailingAnchor).isActive = true
+        // textBubbleView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -46).isActive = true
         textBubbleView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
         textBubbleView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
         
         //chatTextView.leadingAnchor.constraint(equalTo: self.textBubbleView.leadingAnchor).isActive = true
-       // chatTextView.trailingAnchor.constraint(equalTo: self.textBubbleView.trailingAnchor).isActive = true
+        // chatTextView.trailingAnchor.constraint(equalTo: self.textBubbleView.trailingAnchor).isActive = true
         chatTextView.topAnchor.constraint(equalTo: self.textBubbleView.topAnchor).isActive = true
         chatTextView.bottomAnchor.constraint(equalTo: self.textBubbleView.bottomAnchor).isActive = true
-       // chatTextView.leadingAnchor.constraint(equalTo: self.textBubbleView.leadingAnchor, constant: 16).isActive = true
+        // chatTextView.leadingAnchor.constraint(equalTo: self.textBubbleView.leadingAnchor, constant: 16).isActive = true
+        
         //imageView Setting
         //thumbNailImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
         thumbNailImageView.heightAnchor.constraint(lessThanOrEqualToConstant: 30).isActive = true
@@ -82,7 +83,6 @@ class ChatBubbleCollectionViewCell: UICollectionViewCell {
         //titleLabel Setting
         
         //titleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 4).isActive = true
-        
         
         // self.contentView.layer.masksToBounds = true
         

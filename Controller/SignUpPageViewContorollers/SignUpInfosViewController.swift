@@ -8,6 +8,7 @@
 
 import UIKit
 
+// 회원가입 아이디/비밀번호 화면
 class SignUpInfosViewController: UIViewController {
     let idLabel: UILabel = {
         let label = UILabel()
@@ -57,8 +58,6 @@ class SignUpInfosViewController: UIViewController {
         // textField.textAlignment = .center
         return textField
     }()
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

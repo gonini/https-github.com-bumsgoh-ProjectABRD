@@ -9,6 +9,7 @@
 import UIKit
 import SocketIO
 
+// 로그인 화면
 class LoginViewController: UIViewController {
     var socket: SocketIOClient!
     
@@ -19,7 +20,6 @@ class LoginViewController: UIViewController {
         view.image = #imageLiteral(resourceName: "backpack")
         return view
     }()
-    
     
     let loginIdTextField: UITextField = {
         let textField = UITextField()
@@ -104,10 +104,9 @@ class LoginViewController: UIViewController {
         socket.on(clientEvent: .connect) {data, ack in
             print("socket connected")}
             socket.connect()
-            
         
-        
-        socket.on("loginSuccess") {data, ack in
+        //로그인이 완료되면 다음화면으로 넘어감
+        socket.on("loginSuccess") { data, ack in
             print(data)
             print(ack)
             print("login Success")
@@ -124,10 +123,7 @@ class LoginViewController: UIViewController {
         } else {
             sender.backgroundColor == #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
         }
-        
     
-    
-        
         let myJSON = [
             "userId": "\(self.loginIdTextField.text!)",
             "password": "\(self.loginPasswordTextField.text!)",
@@ -135,14 +131,15 @@ class LoginViewController: UIViewController {
         ]
         socket.emit("loginRequest", myJSON)
     }
+    
     @objc func loginButtonReleased(sender: UIButton) {
-        
         if sender.backgroundColor == #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1) {
             sender.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         } else {
             sender.backgroundColor == #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
         }
     }
+    
     @objc func signUpButtonClicked(sender: UIButton) {
         let signUpPageVC: SignUpSexAndAgeViewController = SignUpSexAndAgeViewController()
         self.navigationController?.pushViewController(signUpPageVC, animated: true)
@@ -162,14 +159,10 @@ class LoginViewController: UIViewController {
         //self.appTitleLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.appTitleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16).isActive = true
         
-        
         self.logoImageView.topAnchor.constraint(equalTo: self.appTitleLabel.bottomAnchor, constant: 84).isActive = true
         self.logoImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.logoImageView.widthAnchor.constraint(equalToConstant: 80).isActive = true
         self.logoImageView.heightAnchor.constraint(equalToConstant: 80).isActive = true
-        
-        
-        
         
         self.loginIdTextField.topAnchor.constraint(equalTo: self.logoImageView.bottomAnchor, constant: 54).isActive = true
         self.loginIdTextField.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.6).isActive = true
@@ -178,7 +171,6 @@ class LoginViewController: UIViewController {
         
       //  self.loginIdTextField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -32).isActive = true
         //self.loginIdTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 32).isActive = true
-        
         
         self.idTextFieldDivider.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.idTextFieldDivider.widthAnchor.constraint(equalTo: self.loginIdTextField.widthAnchor).isActive = true
@@ -190,15 +182,10 @@ class LoginViewController: UIViewController {
         
         self.idTextFieldDivider.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
-        
-        
-        
         self.loginPasswordTextField.topAnchor.constraint(equalTo: self.idTextFieldDivider.bottomAnchor, constant: 24).isActive = true
         self.loginPasswordTextField.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.6).isActive = true
         self.loginPasswordTextField.heightAnchor.constraint(equalToConstant: 45).isActive = true
         self.loginPasswordTextField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        
-        
         
         self.passwordTextFieldDivider.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.passwordTextFieldDivider.topAnchor.constraint(equalTo: self.loginPasswordTextField.bottomAnchor).isActive = true
@@ -207,7 +194,6 @@ class LoginViewController: UIViewController {
         
         self.signUpTextLabel.topAnchor.constraint(equalTo: self.passwordTextFieldDivider.bottomAnchor, constant: 16).isActive = true
          self.signUpTextLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -64).isActive = true
-        
         
         self.loginButton.topAnchor.constraint(equalTo: self.signUpTextLabel.bottomAnchor, constant: 8).isActive = true
         self.loginButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -64).isActive = true
