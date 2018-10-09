@@ -9,13 +9,14 @@
 import UIKit
 
 class CountrySelectingCollectionViewCell: UICollectionViewCell {
-    
+    //Change
     let thumbNailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 15
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
+        imageView.isHidden = true
         return imageView
     }()
     
