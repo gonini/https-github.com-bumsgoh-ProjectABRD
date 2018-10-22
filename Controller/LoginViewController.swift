@@ -94,6 +94,9 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        self.navigationController?.pushViewController(MainTabBarController(), animated: true)
+        
         self.view.backgroundColor = UIColor.white
         self.loginIdTextField.delegate = self
         self.loginPasswordTextField.delegate = self
@@ -115,7 +118,7 @@ class LoginViewController: UIViewController {
     }
 
     @objc func loginButtonClicked(sender: UIButton) {
-        sender.state
+//        sender.state
         if sender.backgroundColor == #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1) {
             sender.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         } else {
