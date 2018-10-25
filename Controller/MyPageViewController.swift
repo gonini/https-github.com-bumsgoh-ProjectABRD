@@ -45,7 +45,7 @@ extension MyPageViewController: UITableViewDelegate {
 
 extension MyPageViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 7
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -62,17 +62,30 @@ extension MyPageViewController: UITableViewDataSource {
             return cell
         case 2:
             let cell: myPageTableViewCell = myPageTableViewCell()
+            cell.titleLabel.text = "성별"
+            // 이미지??
+            cell.dataLabel.text = "👩🏻"
+            cell.isUserInteractionEnabled = false
+            return cell
+        case 3:
+            let cell: myPageTableViewCell = myPageTableViewCell()
             cell.titleLabel.text = "나이"
             cell.dataLabel.text = "나이를 입력해주세요"
             cell.isUserInteractionEnabled = false
             return cell
-        case 3:
+        case 4:
             let cell: myPageTableViewCell = myPageTableViewCell()
             cell.titleLabel.text = "출신국가"
             cell.dataLabel.text = "출신국가를 선택해주세요"
             cell.isUserInteractionEnabled = false
             return cell
-        case 4:
+        case 5:
+            let cell: myPageTableViewCell = myPageTableViewCell()
+            cell.titleLabel.text = "여행 목적"
+            cell.dataLabel.text = "여행 목적을 입력해주세요"
+            cell.isUserInteractionEnabled = false
+            return cell
+        case 6:
             let cell: myPageIntroduceTableViewCell = myPageIntroduceTableViewCell()
             cell.titleLabel.text = "소개"
             cell.dataLabel.text = "소개를 입력해주세요"
@@ -139,6 +152,7 @@ class myPageTravelingTableViewCell: UITableViewCell {
         let slider = UISlider()
         slider.translatesAutoresizingMaskIntoConstraints = false
         slider.isUserInteractionEnabled = false
+        slider.setThumbImage(UIImage(named: "traveler-with-a-suitcase-3"), for: .normal)
         return slider
     }()
     
