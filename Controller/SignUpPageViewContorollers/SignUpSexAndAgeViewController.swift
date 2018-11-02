@@ -24,29 +24,38 @@ class SignUpSexAndAgeViewController: UIViewController {
     let sexLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 34)
-        label.text = "성별이 무엇인가요?"
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.text = "성별을 선택해주세요"
         label.textColor = UIColor.darkGray
         return label
     }()
     
-    let maleImageView: UIImageView = {
-        let view = UIImageView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = #imageLiteral(resourceName: "hairstyle-4")
-        view.isUserInteractionEnabled = true
-        //view.layer.borderWidth = 1
-        //view.layer.cornerRadius = 30
-        return view
+    let maleButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+//        view.image = #imageLiteral(resourceName: "hairstyle-4")
+        button.isUserInteractionEnabled = true
+        button.layer.borderWidth = 5
+        button.layer.cornerRadius = 30
+        button.setTitle("Man", for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        button.setTitleColor(.lightGray, for: .normal)
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        return button
     }()
     
-    let femaleImageView: UIImageView = {
-        let view = UIImageView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = #imageLiteral(resourceName: "hairstyle-3")
-        view.isUserInteractionEnabled = true
-        //view.layer.borderWidth = 1
-        return view
+    let femaleButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+//        view.image = #imageLiteral(resourceName: "hairstyle-3")
+        button.isUserInteractionEnabled = true
+        button.layer.borderWidth = 5
+        button.layer.cornerRadius = 30
+        button.setTitle("Woman", for: .normal)
+        button.setTitleColor(.lightGray, for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        return button
     }()
     
     let sexStackView: UIStackView = {
@@ -61,8 +70,8 @@ class SignUpSexAndAgeViewController: UIViewController {
     let ageLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 34)
-        label.text = "나이가 어떻게 되시나요?"
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.text = "나이를 선택해주세요"
         label.textColor = UIColor.darkGray
         return label
     }()
@@ -74,24 +83,12 @@ class SignUpSexAndAgeViewController: UIViewController {
         return picker
     }()
     
-    lazy var femaleImageRecognizer: UITapGestureRecognizer = {[weak self] in
-        let recognizer = UITapGestureRecognizer(target: self, action: #selector(femaleImageClicked(sender:)))
-        return recognizer
-    }()
-    
-    lazy var maleImageRecognizer: UITapGestureRecognizer = {[weak self] in
-        let recognizer = UITapGestureRecognizer(target: self, action: #selector(maleImageClicked(sender:)))
-        return recognizer
-        }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-        self.navigationItem.title = "1/3 진행"
         UISetUp()
         
-        maleImageView.addGestureRecognizer(maleImageRecognizer)
-        femaleImageView.addGestureRecognizer(femaleImageRecognizer)
         agePickerView.delegate = self
         agePickerView.dataSource = self
         
@@ -99,7 +96,7 @@ class SignUpSexAndAgeViewController: UIViewController {
     }
     
     @objc func nextButtonClicked(sender: UIBarButtonItem) {
-        let vc: SignUpInfosViewController = SignUpInfosViewController()
+        let vc: CountrySelectingCollectionViewController = CountrySelectingCollectionViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -107,45 +104,55 @@ class SignUpSexAndAgeViewController: UIViewController {
         self.view.addSubview(sexLabel)
         self.view.addSubview(sexStackView)
         
-        self.sexStackView.addArrangedSubview(femaleImageView)
-        self.sexStackView.addArrangedSubview(maleImageView)
+        self.sexStackView.addArrangedSubview(femaleButton)
+        self.sexStackView.addArrangedSubview(maleButton)
         
         self.view.addSubview(ageLabel)
         self.view.addSubview(agePickerView)
         
-        self.sexLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 32).isActive = true
-        self.sexLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 32).isActive = true
+        
+        maleButton.addTarget(self, action: #selector(maleImageClicked(_:)), for: .touchUpInside)
+        femaleButton.addTarget(self, action: #selector(femaleImageClicked(_:)), for: .touchUpInside)
+        
+        self.sexLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = true
+        self.sexLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30).isActive = true
         
         self.sexStackView.topAnchor.constraint(equalTo: self.sexLabel.bottomAnchor, constant: 24).isActive = true
         self.sexStackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
-        self.ageLabel.topAnchor.constraint(equalTo: self.sexStackView.bottomAnchor, constant: 72).isActive = true
-        self.ageLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 32).isActive = true
+        self.femaleButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        self.femaleButton.heightAnchor.constraint(equalToConstant: 80).isActive = true
         
-        self.agePickerView.topAnchor.constraint(equalTo: self.ageLabel.bottomAnchor, constant: 24).isActive = true
+        self.maleButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        self.maleButton.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        
+        self.ageLabel.topAnchor.constraint(equalTo: self.sexStackView.bottomAnchor, constant: 50).isActive = true
+        self.ageLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30).isActive = true
+        
+        self.agePickerView.topAnchor.constraint(equalTo: self.ageLabel.bottomAnchor, constant: 10).isActive = true
         self.agePickerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.agePickerView.heightAnchor.constraint(equalToConstant: 150)
     }
     
-    @objc func femaleImageClicked(sender: UIImageView) {
-        guard let stackViewWoman: UIImageView = sexStackView.arrangedSubviews[0] as? UIImageView else { return }
-        guard let stackViewMan: UIImageView = sexStackView.arrangedSubviews[1] as? UIImageView else { return }
-        if stackViewWoman.image == #imageLiteral(resourceName: "hairstyle-6") {
-            stackViewWoman.image = #imageLiteral(resourceName: "hairstyle-3")
-            maleImageView.image = #imageLiteral(resourceName: "hairstyle-4")
-        } else {
-            print("man")
+    @objc func femaleImageClicked(_ sender: UIButton) {
+        guard let stackViewWoman: UIButton = sexStackView.arrangedSubviews[0] as? UIButton else { return }
+        guard let stackViewMan: UIButton = sexStackView.arrangedSubviews[1] as? UIButton else { return }
+        if stackViewWoman.layer.borderColor == UIColor.lightGray.cgColor {
+            stackViewMan.layer.borderColor = UIColor.lightGray.cgColor
+            stackViewMan.setTitleColor(.lightGray, for: .normal)
+            stackViewWoman.layer.borderColor = #colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1).cgColor
+            stackViewWoman.setTitleColor(#colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1), for: .normal)
         }
         self.isFemale = true
     }
     
-    @objc func maleImageClicked(sender: UIImageView) {
-        guard let stackViewWoman: UIImageView = sexStackView.arrangedSubviews[0] as? UIImageView else { return }
-        guard let stackViewMan: UIImageView = sexStackView.arrangedSubviews[1] as? UIImageView else { return }
-        if stackViewMan.image == #imageLiteral(resourceName: "hairstyle-4") {
-            stackViewMan.image = #imageLiteral(resourceName: "hairstyle-2")
-            femaleImageView.image = #imageLiteral(resourceName: "hairstyle-6")
-        } else {
-            print("man")
+    @objc func maleImageClicked(_ sender: UIButton) {
+        guard let stackViewWoman: UIButton = sexStackView.arrangedSubviews[0] as? UIButton else { return }
+        guard let stackViewMan: UIButton = sexStackView.arrangedSubviews[1] as? UIButton else { return }
+        if stackViewMan.layer.borderColor == UIColor.lightGray.cgColor  {stackViewWoman.layer.borderColor = UIColor.lightGray.cgColor
+            stackViewWoman.setTitleColor(.lightGray, for: .normal)
+            stackViewMan.layer.borderColor = #colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1).cgColor
+            stackViewMan.setTitleColor(#colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1), for: .normal)
         }
         self.isFemale = false
     }

@@ -133,8 +133,7 @@ class LoginViewController: UIViewController {
     }
     
     @objc func signUpButtonClicked(sender: UIButton) {
-        let signUpPageVC: SignUpSexAndAgeViewController = SignUpSexAndAgeViewController()
-        self.navigationController?.isNavigationBarHidden = false
+        let signUpPageVC: SignUpInfosViewController = SignUpInfosViewController()
         self.navigationController?.pushViewController(signUpPageVC, animated: true)
     }
 

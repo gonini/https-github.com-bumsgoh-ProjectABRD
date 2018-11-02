@@ -157,10 +157,10 @@
 		B36AEA14214FD9D9009BDEC3 = {
 			isa = PBXGroup;
 			children = (
+				B36AEA51214FDACA009BDEC3 /* SupportingFiles */,
 				B36BD852216530FD0075F2F3 /* Networking */,
 				B36AEA52214FDAE5009BDEC3 /* View */,
 				B36AEA53214FDAEA009BDEC3 /* Model */,
-				B36AEA51214FDACA009BDEC3 /* SupportingFiles */,
 				B36AEA50214FDABF009BDEC3 /* Controller */,
 				B36AEA1F214FD9D9009BDEC3 /* AbroadApp */,
 				B36AEA34214FD9DA009BDEC3 /* AbroadAppTests */,
@@ -270,8 +270,8 @@
 		B3CD8CB1216687E9004F4FC6 /* SignUpPageViewContorollers */ = {
 			isa = PBXGroup;
 			children = (
-				B3CD8CB221668811004F4FC6 /* SignUpSexAndAgeViewController.swift */,
 				B3CD8CB421668828004F4FC6 /* SignUpInfosViewController.swift */,
+				B3CD8CB221668811004F4FC6 /* SignUpSexAndAgeViewController.swift */,
 			);
 			path = SignUpPageViewContorollers;
 			sourceTree = "<group>";
