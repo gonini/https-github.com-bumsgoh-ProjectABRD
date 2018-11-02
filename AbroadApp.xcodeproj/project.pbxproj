@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		43681B06B36291EDDDD509F1 /* Pods_AbroadAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF99E3927C625A873DEFA0B /* Pods_AbroadAppUITests.framework */; };
 		481E16ED417A3B041DA57C73 /* Pods_AbroadAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DAD6C4CA7838B3F71DB9C4D /* Pods_AbroadAppTests.framework */; };
-		B33D928D218C391F003DED43 /* online.png in Resources */ = {isa = PBXBuildFile; fileRef = B33D928C218C391F003DED43 /* online.png */; };
+		B33D928F218C5169003DED43 /* WelcomingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33D928E218C5168003DED43 /* WelcomingViewController.swift */; };
 		B36AEA21214FD9D9009BDEC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA20214FD9D9009BDEC3 /* AppDelegate.swift */; };
 		B36AEA23214FD9D9009BDEC3 /* CountryDetailSelectedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA22214FD9D9009BDEC3 /* CountryDetailSelectedViewController.swift */; };
 		B36AEA26214FD9D9009BDEC3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B36AEA24214FD9D9009BDEC3 /* Main.storyboard */; };
@@ -64,7 +64,7 @@
 		571F49C8298F1728F32E5AA8 /* Pods-AbroadApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AbroadApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AbroadApp/Pods-AbroadApp.debug.xcconfig"; sourceTree = "<group>"; };
 		9DAD6C4CA7838B3F71DB9C4D /* Pods_AbroadAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AbroadAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF202B6703BDBD2E6E3D256C /* Pods-AbroadApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AbroadApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-AbroadApp/Pods-AbroadApp.release.xcconfig"; sourceTree = "<group>"; };
-		B33D928C218C391F003DED43 /* online.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = online.png; sourceTree = "<group>"; };
+		B33D928E218C5168003DED43 /* WelcomingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomingViewController.swift; sourceTree = "<group>"; };
 		B36AEA1D214FD9D9009BDEC3 /* AbroadApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AbroadApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B36AEA20214FD9D9009BDEC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B36AEA22214FD9D9009BDEC3 /* CountryDetailSelectedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDetailSelectedViewController.swift; sourceTree = "<group>"; };
@@ -185,7 +185,6 @@
 			isa = PBXGroup;
 			children = (
 				B36AEA27214FD9DA009BDEC3 /* Assets.xcassets */,
-				B33D928C218C391F003DED43 /* online.png */,
 				B36AEA2C214FD9DA009BDEC3 /* Info.plist */,
 			);
 			path = AbroadApp;
@@ -223,6 +222,7 @@
 				B3A559862167C993006DCBD3 /* MainTabBarController.swift */,
 				B3B2E1E52167CC8500320F42 /* MyPageViewController.swift */,
 				D12A3C582182E476009FE06B /* MyPageSettingViewController.swift */,
+				B33D928E218C5168003DED43 /* WelcomingViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -386,7 +386,6 @@
 			files = (
 				B36AEA2B214FD9DA009BDEC3 /* LaunchScreen.storyboard in Resources */,
 				B36AEA28214FD9DA009BDEC3 /* Assets.xcassets in Resources */,
-				B33D928D218C391F003DED43 /* online.png in Resources */,
 				B36AEA26214FD9D9009BDEC3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -509,6 +508,7 @@
 				B36AEA21214FD9D9009BDEC3 /* AppDelegate.swift in Sources */,
 				B36AEA57215120D9009BDEC3 /* SignUpPageViewController.swift in Sources */,
 				B36BD851216522580075F2F3 /* LoginViewController.swift in Sources */,
+				B33D928F218C5169003DED43 /* WelcomingViewController.swift in Sources */,
 				B3CD8CB521668828004F4FC6 /* SignUpInfosViewController.swift in Sources */,
 				B36AEA5F215185C9009BDEC3 /* ChatBubbleCollectionViewCell.swift in Sources */,
 			);

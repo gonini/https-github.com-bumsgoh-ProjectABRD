@@ -19,7 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         /*let vc = CountrySelectingCollectionViewController()
         window?.rootViewController = UINavigationController(rootViewController: vc)*/
-        let vc = LoginViewController()
+        //let vc = LoginViewController()
+        let vc = WelcomingViewController()
         window?.backgroundColor = UIColor.white
         window?.rootViewController = UINavigationController(rootViewController: vc)
         return true
