@@ -184,7 +184,6 @@ class MyPageSettingViewController: UIViewController {
     }
     
     @objc func touchUpProfileImageView(_: UIImageView) {
-        print("click imageView")
         self.present(self.imagePicker, animated: true, completion: nil)
     }
 

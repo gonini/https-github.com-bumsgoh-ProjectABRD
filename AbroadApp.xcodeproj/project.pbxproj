@@ -13,7 +13,6 @@
 		B36AEA21214FD9D9009BDEC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA20214FD9D9009BDEC3 /* AppDelegate.swift */; };
 		B36AEA23214FD9D9009BDEC3 /* CountryDetailSelectedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA22214FD9D9009BDEC3 /* CountryDetailSelectedViewController.swift */; };
 		B36AEA26214FD9D9009BDEC3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B36AEA24214FD9D9009BDEC3 /* Main.storyboard */; };
-		B36AEA28214FD9DA009BDEC3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B36AEA27214FD9DA009BDEC3 /* Assets.xcassets */; };
 		B36AEA2B214FD9DA009BDEC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B36AEA29214FD9DA009BDEC3 /* LaunchScreen.storyboard */; };
 		B36AEA36214FD9DA009BDEC3 /* AbroadAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA35214FD9DA009BDEC3 /* AbroadAppTests.swift */; };
 		B36AEA41214FD9DA009BDEC3 /* AbroadAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA40214FD9DA009BDEC3 /* AbroadAppUITests.swift */; };
@@ -38,6 +37,7 @@
 		D103C8D4218B3A7F0029784A /* myPageTravelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D103C8D3218B3A7E0029784A /* myPageTravelView.swift */; };
 		D103C8F6218B43940029784A /* myPageCurrentTravelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D103C8F5218B43940029784A /* myPageCurrentTravelView.swift */; };
 		D12A3C592182E476009FE06B /* MyPageSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12A3C582182E476009FE06B /* MyPageSettingViewController.swift */; };
+		D1E391FC218C5AC8006CD9DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1E391FB218C5AC8006CD9DB /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,7 +69,6 @@
 		B36AEA20214FD9D9009BDEC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B36AEA22214FD9D9009BDEC3 /* CountryDetailSelectedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDetailSelectedViewController.swift; sourceTree = "<group>"; };
 		B36AEA25214FD9D9009BDEC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		B36AEA27214FD9DA009BDEC3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B36AEA2A214FD9DA009BDEC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B36AEA2C214FD9DA009BDEC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B36AEA31214FD9DA009BDEC3 /* AbroadAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AbroadAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,6 +98,7 @@
 		D103C8D3218B3A7E0029784A /* myPageTravelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myPageTravelView.swift; sourceTree = "<group>"; };
 		D103C8F5218B43940029784A /* myPageCurrentTravelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myPageCurrentTravelView.swift; sourceTree = "<group>"; };
 		D12A3C582182E476009FE06B /* MyPageSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSettingViewController.swift; sourceTree = "<group>"; };
+		D1E391FB218C5AC8006CD9DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../.Trash/Assets.xcassets; sourceTree = "<group>"; };
 		F600A5969BCCFA08797A9DD2 /* Pods-AbroadAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AbroadAppUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AbroadAppUITests/Pods-AbroadAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		FAF99E3927C625A873DEFA0B /* Pods_AbroadAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AbroadAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -184,7 +184,7 @@
 		B36AEA1F214FD9D9009BDEC3 /* AbroadApp */ = {
 			isa = PBXGroup;
 			children = (
-				B36AEA27214FD9DA009BDEC3 /* Assets.xcassets */,
+				D1E391FB218C5AC8006CD9DB /* Assets.xcassets */,
 				B33D928C218C391F003DED43 /* online.png */,
 				B36AEA2C214FD9DA009BDEC3 /* Info.plist */,
 			);
@@ -385,8 +385,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B36AEA2B214FD9DA009BDEC3 /* LaunchScreen.storyboard in Resources */,
-				B36AEA28214FD9DA009BDEC3 /* Assets.xcassets in Resources */,
 				B33D928D218C391F003DED43 /* online.png in Resources */,
+				D1E391FC218C5AC8006CD9DB /* Assets.xcassets in Resources */,
 				B36AEA26214FD9D9009BDEC3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

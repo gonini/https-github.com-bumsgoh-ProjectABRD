@@ -82,7 +82,37 @@ class SignUpSexAndAgeViewController: UIViewController {
         picker.numberOfRows(inComponent: 4)
         return picker
     }()
+
+    let nextButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("확인", for: .normal)
+        button.setTitleColor(.gray, for: .normal)
+        button.layer.borderColor = UIColor.gray.cgColor
+        button.layer.cornerRadius = 15
+        button.layer.borderWidth = 2.0
+        return button
+    }()
     
+    let backButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("취소", for: .normal)
+        button.setTitleColor(.gray, for: .normal)
+        button.layer.borderColor = UIColor.gray.cgColor
+        button.layer.cornerRadius = 15
+        button.layer.borderWidth = 2.0
+        return button
+    }()
+    
+    let buttonStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.spacing = 20
+        stackView.distribution = .fillEqually
+        return stackView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,12 +134,18 @@ class SignUpSexAndAgeViewController: UIViewController {
         self.view.addSubview(sexLabel)
         self.view.addSubview(sexStackView)
         
+        self.buttonStackView.addArrangedSubview(backButton)
+        self.buttonStackView.addArrangedSubview(nextButton)
+        
         self.sexStackView.addArrangedSubview(femaleButton)
         self.sexStackView.addArrangedSubview(maleButton)
         
         self.view.addSubview(ageLabel)
         self.view.addSubview(agePickerView)
+        self.view.addSubview(buttonStackView)
         
+        self.backButton.addTarget(self, action: #selector(touchUpCancelButton(_:)), for: .touchUpInside)
+        self.nextButton.addTarget(self, action: #selector(touchUpNextButton(_:)), for: .touchUpInside)
         
         maleButton.addTarget(self, action: #selector(maleImageClicked(_:)), for: .touchUpInside)
         femaleButton.addTarget(self, action: #selector(femaleImageClicked(_:)), for: .touchUpInside)
@@ -131,7 +167,11 @@ class SignUpSexAndAgeViewController: UIViewController {
         
         self.agePickerView.topAnchor.constraint(equalTo: self.ageLabel.bottomAnchor, constant: 10).isActive = true
         self.agePickerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.agePickerView.heightAnchor.constraint(equalToConstant: 150)
+        self.agePickerView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        
+        self.buttonStackView.topAnchor.constraint(equalTo: self.agePickerView.bottomAnchor, constant: 20).isActive = true
+        self.buttonStackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 50).isActive = true
+        self.buttonStackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -50).isActive = true
     }
     
     @objc func femaleImageClicked(_ sender: UIButton) {
@@ -155,6 +195,15 @@ class SignUpSexAndAgeViewController: UIViewController {
             stackViewMan.setTitleColor(#colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1), for: .normal)
         }
         self.isFemale = false
+    }
+
+    @objc func touchUpCancelButton(_: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func touchUpNextButton(_: UIButton) {
+        let vc: CountrySelectingCollectionViewController = CountrySelectingCollectionViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
