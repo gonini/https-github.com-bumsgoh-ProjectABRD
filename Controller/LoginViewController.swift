@@ -12,16 +12,18 @@ import SocketIO
 // 로그인 화면
 class LoginViewController: UIViewController {
     var socket: SocketIOClient!
-    
     let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
     
+    /*
     let logoImageView: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.contentMode = .scaleAspectFit
-        view.image = #imageLiteral(resourceName: "backpack")
+        view.image = nil
         return view
-    }()
+    }()*/
+    
+    
     
     let loginIdTextField: UITextField = {
         let textField = UITextField()
@@ -59,11 +61,6 @@ class LoginViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Get Started", for: UIControlState.normal)
-        //button.contentMode = .scaleAspectFit
-        //button.layer.borderWidth = 1
-        //button.layer.borderColor = UIColor.lightGray.cgColor
-        //button.layer.cornerRadius = 5
-        //button.titleEdgeInsets = .init(top: 3, left: 3, bottom: 3, right: 3)
         button.setTitleColor(#colorLiteral(red: 0.0919258669, green: 0.5034434199, blue: 0.9811272025, alpha: 1), for: UIControlState.normal)
         
         button.addTarget(self, action: #selector(loginButtonClicked(sender:)), for: UIControlEvents.touchUpInside)
@@ -93,12 +90,14 @@ class LoginViewController: UIViewController {
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(signUpButtonClicked(sender:)))
         return recognizer
     }()
-    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.navigationController?.pushViewController(MainTabBarController(), animated: true)
-//        
+        //self.navigationController?.pushViewController(MainTabBarController(), animated: true)
+        
         self.view.backgroundColor = UIColor.white
         self.loginIdTextField.delegate = self
         self.loginPasswordTextField.delegate = self
@@ -121,13 +120,6 @@ class LoginViewController: UIViewController {
     }
 
     @objc func loginButtonClicked(sender: UIButton) {
-//        sender.state
-        if sender.backgroundColor == #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1) {
-            sender.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
-        } else {
-            sender.backgroundColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
-        }
-    
         let myJSON = [
             "userId": "\(self.loginIdTextField.text!)",
             "password": "\(self.loginPasswordTextField.text!)",
@@ -137,11 +129,7 @@ class LoginViewController: UIViewController {
     }
     
     @objc func loginButtonReleased(sender: UIButton) {
-        if sender.backgroundColor == #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1) {
-            sender.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
-        } else {
-            sender.backgroundColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
-        }
+       
     }
     
     @objc func signUpButtonClicked(sender: UIButton) {
@@ -150,7 +138,7 @@ class LoginViewController: UIViewController {
     }
 
     func UISetUp () {
-        self.view.addSubview(logoImageView)
+       // self.view.addSubview(logoImageView)
         self.view.addSubview(appTitleLabel)
         self.view.addSubview(idTextFieldDivider)
         self.view.addSubview(loginButton)
@@ -160,16 +148,19 @@ class LoginViewController: UIViewController {
         self.view.addSubview(signUpTextLabel)
         self.view.addGestureRecognizer(tapGesture)
         
-        self.appTitleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 12).isActive = true
-        //self.appTitleLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.appTitleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16).isActive = true
         
+        self.appTitleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 100).isActive = true
+        //self.appTitleLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        //self.appTitleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16).isActive = true
+        
+        self.appTitleLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        /*
         self.logoImageView.topAnchor.constraint(equalTo: self.appTitleLabel.bottomAnchor, constant: 84).isActive = true
         self.logoImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.logoImageView.widthAnchor.constraint(equalToConstant: 80).isActive = true
         self.logoImageView.heightAnchor.constraint(equalToConstant: 80).isActive = true
-        
-        self.loginIdTextField.topAnchor.constraint(equalTo: self.logoImageView.bottomAnchor, constant: 54).isActive = true
+        */
+        self.loginIdTextField.topAnchor.constraint(equalTo: self.appTitleLabel.bottomAnchor, constant: 74).isActive = true
         self.loginIdTextField.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.6).isActive = true
         self.loginIdTextField.heightAnchor.constraint(equalToConstant: 45).isActive = true
         self.loginIdTextField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true

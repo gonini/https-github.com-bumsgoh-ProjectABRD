@@ -29,12 +29,13 @@ class SignUpPageViewController: UIPageViewController {
         
         return [sexAndAgeVC,infosVC]
     }()
-    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
+
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.dataSource = self
-       // self.tran
-        
         self.delegate = self
         tutorialDelegate?.tutorialPageViewController(self,
                                                      didUpdatePageCount: orderedViewControllers.count)
