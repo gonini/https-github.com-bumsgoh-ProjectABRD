@@ -12,11 +12,51 @@ import UIKit
 class SignUpInfosViewController: UIViewController {
     let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
     
+    let outsideStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = 40
+        return stackView
+    }()
+    
+    let idStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.spacing = 20
+        return stackView
+    }()
+
+    let passwordStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.spacing = 20
+        return stackView
+    }()
+    
+    let passwordTextFieldStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = 20
+        return stackView
+    }()
+    
+    let passwordLableStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.spacing = 20
+        return stackView
+    }()
+    
     let idLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 32)
-        label.text = "어떤 아이디를 원하시나요?"
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.text = "아이디"
         label.textColor = UIColor.darkGray
         return label
     }()
@@ -24,9 +64,8 @@ class SignUpInfosViewController: UIViewController {
     let passwordLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 28)
-        label.numberOfLines = 2
-        label.text = "아이디와 함께 사용할 비밀번호를 입력해주세요"
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.text = "비밀번호"
         label.textColor = UIColor.darkGray
         return label
     }()
@@ -35,9 +74,9 @@ class SignUpInfosViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = UIColor.clear
-        textField.font = UIFont.boldSystemFont(ofSize: 34)
-        textField.placeholder = "아이디를 입력해주세요"
-       // textField.textAlignment = .center
+        textField.font = .systemFont(ofSize: 18)
+        textField.placeholder = "사용할 아이디를 입력해주세요"
+        textField.borderStyle = .none
         return textField
     }()
     
@@ -45,9 +84,8 @@ class SignUpInfosViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = UIColor.clear
-        textField.font = UIFont.boldSystemFont(ofSize: 26)
+        textField.font = .systemFont(ofSize: 18)
         textField.placeholder = "비밀번호를 입력해주세요"
-        // textField.textAlignment = .center
         return textField
     }()
     
@@ -55,56 +93,59 @@ class SignUpInfosViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = UIColor.clear
-        textField.font = UIFont.boldSystemFont(ofSize: 26)
+        textField.font = .systemFont(ofSize: 18)
         textField.placeholder = "한번 더 입력해주세요"
-        // textField.textAlignment = .center
         return textField
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-        self.navigationItem.title = "2/3 진행"
         self.tapGesture.delegate = self
+        self.idTextField.delegate = self
         UISetUp()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(nextButtonClicked(sender:)))
     }
 
     @objc func nextButtonClicked(sender: UIBarButtonItem) {
-        let vc: CountrySelectingCollectionViewController = CountrySelectingCollectionViewController()
+        let vc: SignUpSexAndAgeViewController = SignUpSexAndAgeViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
     func UISetUp() {
-        self.view.addSubview(idLabel)
-        self.view.addSubview(idTextField)
-        self.view.addSubview(passwordLabel)
-        self.view.addSubview(passwordFirstTextField)
-        self.view.addSubview(passwordCheckTextField)
+        let tmpView = UIView()
+        
+        self.outsideStackView.addArrangedSubview(idStackView)
+        self.outsideStackView.addArrangedSubview(passwordStackView)
+        
+        self.idStackView.addArrangedSubview(self.idLabel)
+        self.idStackView.addArrangedSubview(self.idTextField)
+        
+        self.passwordLableStackView.addArrangedSubview(self.passwordLabel)
+        self.passwordLableStackView.addArrangedSubview(tmpView)
+        
+        self.passwordStackView.addArrangedSubview(self.passwordLableStackView)
+        self.passwordStackView.addArrangedSubview(self.passwordTextFieldStackView)
+        
+        self.passwordTextFieldStackView.addArrangedSubview(self.passwordFirstTextField)
+        self.passwordTextFieldStackView.addArrangedSubview(self.passwordCheckTextField)
+        
+        self.view.addSubview(outsideStackView)
         self.view.addGestureRecognizer(tapGesture)
         
-        self.idLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 32).isActive = true
-        self.idLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 32).isActive = true
+        self.idLabel.widthAnchor.constraint(equalToConstant: 80).isActive = true
         
-        self.idTextField.topAnchor.constraint(equalTo: self.idLabel.bottomAnchor, constant: 32).isActive = true
-        self.idTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 52).isActive = true
+        self.passwordLabel.widthAnchor.constraint(equalToConstant: 80).isActive = true
         
-        self.passwordLabel.topAnchor.constraint(equalTo: self.idTextField.bottomAnchor, constant: 92).isActive = true
-        self.passwordLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 32).isActive = true
-        self.passwordLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.8).isActive = true
-        
-        self.passwordFirstTextField.topAnchor.constraint(equalTo: self.passwordLabel.bottomAnchor, constant: 32).isActive = true
-        self.passwordFirstTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 52).isActive = true
-        
-        self.passwordCheckTextField.topAnchor.constraint(equalTo: self.passwordFirstTextField.bottomAnchor, constant: 24).isActive = true
-        self.passwordCheckTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 52).isActive = true
-        
+        self.outsideStackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.outsideStackView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
     }
-
+    
 }
 
 extension SignUpInfosViewController: UITextFieldDelegate {
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        print("alfskjfdlkjdalksf")
         textField.resignFirstResponder()
         return true
     }
@@ -112,6 +153,7 @@ extension SignUpInfosViewController: UITextFieldDelegate {
 
 extension SignUpInfosViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        print("alfskjfdlkjdalksf")
         self.view.endEditing(true)
         return true
     }

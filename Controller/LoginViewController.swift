@@ -97,8 +97,8 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.pushViewController(MainTabBarController(), animated: true)
-        
+//        self.navigationController?.pushViewController(MainTabBarController(), animated: true)
+//        
         self.view.backgroundColor = UIColor.white
         self.loginIdTextField.delegate = self
         self.loginPasswordTextField.delegate = self
@@ -145,7 +145,7 @@ class LoginViewController: UIViewController {
     }
     
     @objc func signUpButtonClicked(sender: UIButton) {
-        let signUpPageVC: SignUpSexAndAgeViewController = SignUpSexAndAgeViewController()
+        let signUpPageVC: SignUpInfosViewController = SignUpInfosViewController()
         self.navigationController?.pushViewController(signUpPageVC, animated: true)
     }
 
