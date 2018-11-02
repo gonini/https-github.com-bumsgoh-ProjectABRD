@@ -10,6 +10,8 @@ import UIKit
 
 // 회원가입 아이디/비밀번호 화면
 class SignUpInfosViewController: UIViewController {
+    let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
+    
     let idLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -63,6 +65,7 @@ class SignUpInfosViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         self.navigationItem.title = "2/3 진행"
+        self.tapGesture.delegate = self
         UISetUp()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(nextButtonClicked(sender:)))
     }
@@ -78,6 +81,7 @@ class SignUpInfosViewController: UIViewController {
         self.view.addSubview(passwordLabel)
         self.view.addSubview(passwordFirstTextField)
         self.view.addSubview(passwordCheckTextField)
+        self.view.addGestureRecognizer(tapGesture)
         
         self.idLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 32).isActive = true
         self.idLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 32).isActive = true
@@ -102,6 +106,13 @@ class SignUpInfosViewController: UIViewController {
 extension SignUpInfosViewController: UITextFieldDelegate {
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        return true
+    }
+}
+
+extension SignUpInfosViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        self.view.endEditing(true)
         return true
     }
 }

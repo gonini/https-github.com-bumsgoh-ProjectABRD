@@ -13,6 +13,8 @@ import SocketIO
 class LoginViewController: UIViewController {
     var socket: SocketIOClient!
     
+    let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
+    
     let logoImageView: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -95,11 +97,12 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.navigationController?.pushViewController(MainTabBarController(), animated: true)
+        self.navigationController?.pushViewController(MainTabBarController(), animated: true)
         
         self.view.backgroundColor = UIColor.white
         self.loginIdTextField.delegate = self
         self.loginPasswordTextField.delegate = self
+        self.tapGesture.delegate = self
         UISetUp()
         self.signUpTextLabel.addGestureRecognizer(signUpGestureRecognizer)
         socket = SocketManaging.socketManager.socket(forNamespace: "/login")
@@ -155,6 +158,7 @@ class LoginViewController: UIViewController {
         self.view.addSubview(loginPasswordTextField)
         self.view.addSubview(passwordTextFieldDivider)
         self.view.addSubview(signUpTextLabel)
+        self.view.addGestureRecognizer(tapGesture)
         
         self.appTitleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 12).isActive = true
         //self.appTitleLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
@@ -241,3 +245,10 @@ extension UIButton {
     }
 }
 */
+
+extension LoginViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        self.view.endEditing(true)
+        return true
+    }
+}
