@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /*let vc = CountrySelectingCollectionViewController()
         window?.rootViewController = UINavigationController(rootViewController: vc)*/
         let vc = LoginViewController()
+        window?.backgroundColor = UIColor.white
         window?.rootViewController = UINavigationController(rootViewController: vc)
         return true
     }

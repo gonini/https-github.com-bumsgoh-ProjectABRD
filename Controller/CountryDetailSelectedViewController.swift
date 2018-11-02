@@ -13,27 +13,27 @@ import MapKit
 class CountryDetailSelectedViewController: UIViewController {
     
     let cellIdentifier: String = "countryCell"
-    let regionRadius: CLLocationDistance = 10000
+    /*let regionRadius: CLLocationDistance = 10000
     let initialLocation = CLLocation(latitude: 21.282778, longitude: -157.829444)
-    
+    */
     let bulletBoardTableView: UITableView = {
         let tableview = UITableView()
         tableview.translatesAutoresizingMaskIntoConstraints = false
         return tableview
     }()
-    
+    /*
     let mapView: MKMapView = {
         let view = MKMapView()
         
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
+ */
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         self.bulletBoardTableView.register(PartnersTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-        self.view.addSubview(mapView)
+       /* self.view.addSubview(mapView)
         self.mapView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         self.mapView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         self.mapView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
@@ -57,22 +57,22 @@ class CountryDetailSelectedViewController: UIViewController {
         mapView.addAnnotation(artwork)
         mapView.addAnnotation(artwork2)
         mapView.addAnnotation(artwork3)
-        
+        */
         self.bulletBoardTableView.dataSource = self
         self.bulletBoardTableView.delegate = self
-        
+ 
         UISetUp()
     }
-    
+    /*
     func centerMapOnLocation(location: CLLocation) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
                                                                   regionRadius, regionRadius)
         mapView.setRegion(coordinateRegion, animated: true)
-    }
+    }*/
 }
 
 extension CountryDetailSelectedViewController: MKMapViewDelegate {
-    
+/*
     // 1
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         // 2
@@ -94,12 +94,12 @@ extension CountryDetailSelectedViewController: MKMapViewDelegate {
         }
         return view
     }
-    
+    */
     
     func UISetUp() {
         self.view.addSubview(bulletBoardTableView)
         
-        self.bulletBoardTableView.topAnchor.constraint(equalTo: self.mapView.bottomAnchor).isActive = true
+        self.bulletBoardTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         self.bulletBoardTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         self.bulletBoardTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         self.bulletBoardTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
@@ -135,7 +135,7 @@ extension CountryDetailSelectedViewController: UITableViewDelegate, UITableViewD
         guard let cell: PartnersTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PartnersTableViewCell else {return UITableViewCell.init()}
         
         cell.profileImageView.image = #imageLiteral(resourceName: "IMG_0596")
-        cell.memberNameLabel.text = "상순이"
+        cell.memberNameLabel.text = "상순이, 25"
         
         return cell
     }
@@ -146,6 +146,6 @@ extension CountryDetailSelectedViewController: UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80.0
+        return 160.0
     }
 }

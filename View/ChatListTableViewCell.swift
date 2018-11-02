@@ -23,6 +23,7 @@ class ChatListTableViewCell: UITableViewCell {
     let chatMemberLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.boldSystemFont(ofSize: 14)
         return label
     }()
     
