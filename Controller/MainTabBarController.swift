@@ -24,7 +24,7 @@ class MainTabBarController: UITabBarController {
         chatListsViewController.tabBarItem = UITabBarItem(title: "chatRooms", image: #imageLiteral(resourceName: "living-room-books-group"), tag: 1)
         
         let myPageViewController = MyPageViewController()
-        myPageViewController.tabBarItem = UITabBarItem(title: "chatRooms", image: #imageLiteral(resourceName: "man-user"), tag: 2)
+        myPageViewController.tabBarItem = UITabBarItem(title: "myPage", image: #imageLiteral(resourceName: "man-user"), tag: 2)
         let viewControllers = [countyDetailViewController, chatListsViewController, myPageViewController]
         self.setViewControllers(viewControllers, animated: false)
     }
