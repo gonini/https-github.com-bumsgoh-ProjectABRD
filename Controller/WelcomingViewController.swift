@@ -10,10 +10,14 @@ import UIKit
 
 class WelcomingViewController: UIViewController {
     
+    var timer = Timer()
+    var photoCount:Int = 0
+    let images: [UIImage] = [#imageLiteral(resourceName: "rough"),#imageLiteral(resourceName: "person"),#imageLiteral(resourceName: "tourist")]
     let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.isUserInteractionEnabled = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = #imageLiteral(resourceName: "tourist")
+        imageView.image = #imageLiteral(resourceName: "balloon")
         imageView.contentMode = .scaleAspectFill
         //imageView.layer.opacity = 0.9
         //imageView.layer.backgroundColor = UIColor.black.cgColor
@@ -22,6 +26,7 @@ class WelcomingViewController: UIViewController {
     
     let blackview: UIView = {
         let view = UIView()
+        view.isUserInteractionEnabled = true
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         return view
@@ -47,39 +52,78 @@ class WelcomingViewController: UIViewController {
         
         return label
     }()
+    
+    lazy var signUpLabel: UIButton = {
+        let label = UIButton()
+        label.translatesAutoresizingMaskIntoConstraints = false
+//label.text = "you don't have an account yet?"
+        
+        label.setTitle("you don't have an account yet?", for: UIControlState.normal)
+       // label.isUserInteractionEnabled = true
+        label.setTitleColor(UIColor.white, for: UIControlState.normal)
+        label.addTarget(self, action: #selector(signUpClicked), for: UIControlEvents.touchUpInside)
+        //textColor = UIColor.white
+        
+        return label
+    }()
+    
+   
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
     }
+    override func viewDidAppear(_ animated: Bool) {
+        
+       
+        backgroundImageView.image = UIImage.init(named: "balloon")
+        timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(onTransition), userInfo: nil, repeats: true)
+    
+        
+            
+            }
+  
+    @objc func onTransition() {
+    if (photoCount < images.count - 1){
+        photoCount = photoCount  + 1;
+    }else{
+        photoCount = 0;
+    }
+        //OperationQueue.main.addOperation {
+          
+        
+        UIView.transition(with: self.backgroundImageView, duration: 5.0, options: [UIViewAnimationOptions.transitionCrossDissolve, UIViewAnimationOptions.allowUserInteraction], animations: {
+       // self.backgroundImageView.transform = CGAffineTransform(translationX: -30, y: 0)
+           //self.backgroundImageView.alpha = 0.1
+        self.backgroundImageView.image = self.images[self.photoCount]
+    }, completion: {(done) in
+        //self.backgroundImageView.transform = CGAffineTransform.identity
+
+    })
+       // }
+}
     override func viewDidLoad() {
         super.viewDidLoad()
         UISetUp()
+       // self.view.backgroundColor = UIColor.black
+        //backgroundImageView.backgroundColor =
+        //backgroundImageView.alpha = 0.8
+       // titleLabel.alpha = 1
         
-        UIView.animate(withDuration: 3.0, delay: 10.0, options: [UIViewAnimationOptions.autoreverse, UIViewAnimationOptions.repeat], animations: {
-            //self.backgroundImageView.alpha = 1.0
-            self.backgroundImageView.alpha = 0.0
-            self.backgroundImageView.image = #imageLiteral(resourceName: "balloon")
-            /*UIView.animate(withDuration: 3.0, delay: 3.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
-                self.backgroundImageView.alpha = 1.0
-                self.backgroundImageView.image = #imageLiteral(resourceName: "balloon")
-                self.backgroundImageView.alpha = 0.0
-                }, completion: nil)
-            */
-            
-            
-            
-            
-            
-           // self.backgroundImageView.image = #imageLiteral(resourceName: "tourist")
-        }, completion: nil)
+        
         
     }
-    
+   
+    func randomImage() -> UIImage {
+        let ranValue: Int = Int.random(in: 0...2)
+        print(ranValue)
+        return self.images[ranValue]
+    }
     func UISetUp() {
         self.view.addSubview(backgroundImageView)
         
-        backgroundImageView.addSubview(blackview)
+        self.backgroundImageView.addSubview(blackview)
         blackview.addSubview(titleLabel)
         blackview.addSubview(contentLabel)
+        backgroundImageView.addSubview(signUpLabel)
         self.backgroundImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.backgroundImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.backgroundImageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
@@ -96,8 +140,41 @@ class WelcomingViewController: UIViewController {
         
         self.blackview.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.blackview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        self.blackview.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        self.blackview.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        self.blackview.leadingAnchor.constraint(equalTo: self.backgroundImageView.leadingAnchor,constant: -30).isActive = true
+        self.blackview.trailingAnchor.constraint(equalTo: self.backgroundImageView.trailingAnchor, constant: 30).isActive = true
         
+        self.signUpLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.signUpLabel.bottomAnchor.constraint(equalTo: self.blackview.bottomAnchor, constant: -32).isActive = true
+       // signUpLabel.addGestureRecognizer(recognizer)
     }
-}
+    
+   @objc func signUpClicked() {
+        print("clicked!!!")
+    }
+}/*
+extension UIImageView{
+    
+    func transition(toImage: UIImage, withDuration duration: TimeInterval){
+       
+        //UIView.setAnimationRepeatCount(10)
+        
+        UIView.animate(withDuration: duration, delay: 0, options: [UIViewAnimationOptions.autoreverse, UIViewAnimationOptions.repeat],animations: {
+            self.alpha = 0
+            self.transform = CGAffineTransform(translationX: -30, y: 0)
+            self.animationImag
+            self.transform = CGAffineTransform.identity
+            self.image = toImage
+            self.alpha = 1
+        }) { (bool) in
+            
+            UIView.animate(withDuration: duration, animations: {
+               
+                
+            }, completion: {
+                (_) in
+                
+            })
+        }
+        //self.image = #imageLiteral(resourceName: "balloon")
+    }
+}*/
