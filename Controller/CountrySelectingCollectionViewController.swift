@@ -22,6 +22,7 @@ class CountrySelectingCollectionViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 30)
         label.text = "어떤 나라를 여행하시나요?"
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -90,6 +91,7 @@ class CountrySelectingCollectionViewController: UIViewController {
         self.headerView.heightAnchor.constraint(equalToConstant: 120).isActive = true
         
         self.countryLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16).isActive = true
+        self.countryLabel.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         self.countryLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 40).isActive = true
         
         self.countryCollectionView.topAnchor.constraint(equalTo: self.headerView.bottomAnchor).isActive = true

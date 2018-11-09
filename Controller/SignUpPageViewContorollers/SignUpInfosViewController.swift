@@ -10,13 +10,6 @@ import UIKit
 
 // 회원가입 아이디/비밀번호 화면
 class SignUpInfosViewController: UIViewController {
-    let mainView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 30
-        view.backgroundColor = .white
-        return view
-    }()
     
     let imagePicker: UIImagePickerController = {
         let picker = UIImagePickerController()
@@ -36,10 +29,9 @@ class SignUpInfosViewController: UIViewController {
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.clipsToBounds = true
-        imageView.image = UIImage(named: "add")
-        imageView.layer.cornerRadius = 20
-        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "user")
+        imageView.layer.cornerRadius = 50
+        imageView.contentMode = .scaleAspectFill
         imageView.isUserInteractionEnabled = true
         return imageView
     }()
@@ -69,7 +61,7 @@ class SignUpInfosViewController: UIViewController {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = 20
+        stackView.spacing = 10
         return stackView
     }()
 
@@ -77,7 +69,7 @@ class SignUpInfosViewController: UIViewController {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = 20
+        stackView.spacing = 10
         return stackView
     }()
     
@@ -85,7 +77,8 @@ class SignUpInfosViewController: UIViewController {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = 20
+        stackView.spacing = 15
+        stackView.distribution = .fillEqually
         return stackView
     }()
     
@@ -93,7 +86,7 @@ class SignUpInfosViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
-        stackView.spacing = 20
+        stackView.spacing = 15
         return stackView
     }()
     
@@ -119,9 +112,10 @@ class SignUpInfosViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = UIColor.clear
-        textField.font = .systemFont(ofSize: 18)
+        textField.font = .systemFont(ofSize: 16)
         textField.placeholder = "사용할 아이디를 입력해주세요"
         textField.borderStyle = .none
+        
         return textField
     }()
     
@@ -129,7 +123,7 @@ class SignUpInfosViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = UIColor.clear
-        textField.font = .systemFont(ofSize: 18)
+        textField.font = .systemFont(ofSize: 16)
         textField.placeholder = "비밀번호를 입력해주세요"
         return textField
     }()
@@ -138,7 +132,7 @@ class SignUpInfosViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = UIColor.clear
-        textField.font = .systemFont(ofSize: 18)
+        textField.font = .systemFont(ofSize: 16)
         textField.placeholder = "비밀번호를 다시 입력해주세요"
         return textField
     }()
@@ -147,9 +141,10 @@ class SignUpInfosViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("확인", for: .normal)
-        button.setTitleColor(.gray, for: .normal)
-        button.layer.borderColor = UIColor.gray.cgColor
-        button.layer.cornerRadius = 15
+        button.setTitleColor(#colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1), for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 18)
+        button.layer.borderColor = #colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1).cgColor
+        button.layer.cornerRadius = 20
         button.layer.borderWidth = 2.0
         return button
     }()
@@ -158,9 +153,10 @@ class SignUpInfosViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("취소", for: .normal)
-        button.setTitleColor(.gray, for: .normal)
-        button.layer.borderColor = UIColor.gray.cgColor
-        button.layer.cornerRadius = 15
+        button.setTitleColor(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1), for: .normal)
+        button.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1).cgColor
+        button.titleLabel?.font = .boldSystemFont(ofSize: 18)
+        button.layer.cornerRadius = 20
         button.layer.borderWidth = 2.0
         return button
     }()
@@ -176,7 +172,6 @@ class SignUpInfosViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.view.backgroundColor = #colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1)
         self.view.backgroundColor = .white
         self.tapGesture.delegate = self
         self.idTextField.delegate = self
@@ -218,22 +213,15 @@ class SignUpInfosViewController: UIViewController {
         self.buttonStackView.addArrangedSubview(backButton)
         self.buttonStackView.addArrangedSubview(nextButton)
         
-        self.mainView.addSubview(signUpLabel)
-        self.mainView.addSubview(outsideStackView)
-        self.mainView.addSubview(buttonStackView)
+        self.view.addSubview(signUpLabel)
+        self.view.addSubview(outsideStackView)
+        self.view.addSubview(buttonStackView)
         
-        self.view.addSubview(mainView)
         self.view.addGestureRecognizer(tapGesture)
         self.profileImageView.addGestureRecognizer(tapImageView)
         
         self.backButton.addTarget(self, action: #selector(touchUpCancelButton(_:)), for: .touchUpInside)
         self.nextButton.addTarget(self, action: #selector(touchUpNextButton(_:)), for: .touchUpInside)
-        
-        
-        self.mainView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 5).isActive = true
-        self.mainView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 15).isActive = true
-        self.mainView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -15).isActive = true
-        self.mainView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 5).isActive = true
         
         self.signUpLabel.bottomAnchor.constraint(equalTo: self.outsideStackView.topAnchor, constant: -40).isActive = true
         self.signUpLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
@@ -241,16 +229,20 @@ class SignUpInfosViewController: UIViewController {
         self.profileImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         self.profileImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
         
-        self.idLabel.widthAnchor.constraint(equalToConstant: 65).isActive = true
+        self.idLabel.widthAnchor.constraint(equalToConstant: 64).isActive = true
         
-        self.passwordLabel.widthAnchor.constraint(equalToConstant: 65).isActive = true
+        self.passwordLabel.widthAnchor.constraint(equalToConstant: 64).isActive = true
         
-        self.outsideStackView.centerXAnchor.constraint(equalTo: self.mainView.centerXAnchor).isActive = true
-        self.outsideStackView.centerYAnchor.constraint(equalTo: self.mainView.centerYAnchor, constant: -20).isActive = true
+        self.outsideStackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.outsideStackView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -20).isActive = true
+        self.outsideStackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
+        self.outsideStackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -30).isActive = true
+        
         
         self.buttonStackView.topAnchor.constraint(equalTo: self.outsideStackView.bottomAnchor, constant: 50).isActive = true
-        self.buttonStackView.leadingAnchor.constraint(equalTo: self.mainView.leadingAnchor, constant: 50).isActive = true
-        self.buttonStackView.trailingAnchor.constraint(equalTo: self.mainView.trailingAnchor, constant: -50).isActive = true
+        self.buttonStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30).isActive = true
+        self.buttonStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -30).isActive = true
+        self.buttonStackView.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
     
     @objc func touchUpCancelButton(_: UIButton) {
@@ -263,15 +255,31 @@ class SignUpInfosViewController: UIViewController {
     }
     
     @objc func touchUpProfileImageView(_: UIImageView) {
-        print("click imageView")
         self.present(self.imagePicker, animated: true, completion: nil)
     }
     
+    override func viewDidLayoutSubviews() {
+        let idBorder = CALayer()
+        idBorder.frame = CGRect(x: 0, y: idTextField.frame.size.height + 5, width: idTextField.frame.width, height: 1)
+        idBorder.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1).cgColor
+        idTextField.layer.addSublayer(idBorder)
+        
+        let pwBorder = CALayer()
+        pwBorder.frame = CGRect(x: 0, y: passwordFirstTextField.frame.size.height + 5, width: passwordFirstTextField.frame.width, height: 1)
+        pwBorder.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1).cgColor
+        passwordFirstTextField.layer.addSublayer(pwBorder)
+        
+        let pwCheckBorder = CALayer()
+        pwCheckBorder.frame = CGRect(x: 0, y: passwordCheckTextField.frame.size.height + 5, width: passwordCheckTextField.frame.width, height: 1)
+        pwCheckBorder.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1).cgColor
+        passwordCheckTextField.layer.addSublayer(pwCheckBorder)
+        
+        print("clear")
+    }
 }
 
 extension SignUpInfosViewController: UITextFieldDelegate {
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        print("alfskjfdlkjdalksf")
         textField.resignFirstResponder()
         return true
     }
@@ -293,8 +301,10 @@ extension SignUpInfosViewController: UIImagePickerControllerDelegate {
         
         if let editImage: UIImage = info[UIImagePickerControllerEditedImage] as? UIImage{
             self.profileImageView.image = editImage
+            self.profileImageView.clipsToBounds = true
         } else if let originalImage: UIImage = info[UIImagePickerControllerOriginalImage] as? UIImage{
             self.profileImageView.image = originalImage
+            self.profileImageView.clipsToBounds = true
         }
         
         self.dismiss(animated: true, completion: nil)
