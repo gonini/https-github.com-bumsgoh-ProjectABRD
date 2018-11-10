@@ -26,6 +26,15 @@ class SignUpInfosViewController: UIViewController {
         return stackView
     }()
     
+    let passwordSecurityButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("☐ 비밀번호 보기", for: .normal)
+        button.setTitleColor(.lightGray, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 15)
+        return button
+    }()
+    
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -77,7 +86,7 @@ class SignUpInfosViewController: UIViewController {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = 15
+        stackView.spacing = 20
         stackView.distribution = .fillEqually
         return stackView
     }()
@@ -86,7 +95,7 @@ class SignUpInfosViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
-        stackView.spacing = 15
+        stackView.spacing = 16
         return stackView
     }()
     
@@ -115,7 +124,8 @@ class SignUpInfosViewController: UIViewController {
         textField.font = .systemFont(ofSize: 16)
         textField.placeholder = "사용할 아이디를 입력해주세요"
         textField.borderStyle = .none
-        
+        textField.clearButtonMode = .always
+        textField.keyboardType = .emailAddress
         return textField
     }()
     
@@ -125,6 +135,8 @@ class SignUpInfosViewController: UIViewController {
         textField.backgroundColor = UIColor.clear
         textField.font = .systemFont(ofSize: 16)
         textField.placeholder = "비밀번호를 입력해주세요"
+        textField.clearButtonMode = .always
+        textField.isSecureTextEntry = true
         return textField
     }()
     
@@ -134,6 +146,8 @@ class SignUpInfosViewController: UIViewController {
         textField.backgroundColor = UIColor.clear
         textField.font = .systemFont(ofSize: 16)
         textField.placeholder = "비밀번호를 다시 입력해주세요"
+        textField.clearButtonMode = .always
+        textField.isSecureTextEntry = true
         return textField
     }()
     
@@ -141,9 +155,9 @@ class SignUpInfosViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("확인", for: .normal)
-        button.setTitleColor(#colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1), for: .normal)
+        button.setTitleColor(#colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1), for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 18)
-        button.layer.borderColor = #colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1).cgColor
+        button.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1).cgColor
         button.layer.cornerRadius = 20
         button.layer.borderWidth = 2.0
         return button
@@ -153,8 +167,8 @@ class SignUpInfosViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("취소", for: .normal)
-        button.setTitleColor(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1), for: .normal)
-        button.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1).cgColor
+        button.setTitleColor(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1), for: .normal)
+        button.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1).cgColor
         button.titleLabel?.font = .boldSystemFont(ofSize: 18)
         button.layer.cornerRadius = 20
         button.layer.borderWidth = 2.0
@@ -176,13 +190,12 @@ class SignUpInfosViewController: UIViewController {
         self.tapGesture.delegate = self
         self.idTextField.delegate = self
         self.imagePicker.delegate = self
-        UISetUp()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(nextButtonClicked(sender:)))
-    }
+        
+        self.idTextField.delegate = self
+        self.passwordFirstTextField.delegate = self
+        self.passwordCheckTextField.delegate = self
 
-    @objc func nextButtonClicked(sender: UIBarButtonItem) {
-        let vc: SignUpSexAndAgeViewController = SignUpSexAndAgeViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        UISetUp()
     }
 
     func UISetUp() {
@@ -215,6 +228,7 @@ class SignUpInfosViewController: UIViewController {
         
         self.view.addSubview(signUpLabel)
         self.view.addSubview(outsideStackView)
+        self.view.addSubview(passwordSecurityButton)
         self.view.addSubview(buttonStackView)
         
         self.view.addGestureRecognizer(tapGesture)
@@ -222,6 +236,7 @@ class SignUpInfosViewController: UIViewController {
         
         self.backButton.addTarget(self, action: #selector(touchUpCancelButton(_:)), for: .touchUpInside)
         self.nextButton.addTarget(self, action: #selector(touchUpNextButton(_:)), for: .touchUpInside)
+        self.passwordSecurityButton.addTarget(self, action: #selector(touchUpPWSecurityButton(_:)), for: .touchUpInside)
         
         self.signUpLabel.bottomAnchor.constraint(equalTo: self.outsideStackView.topAnchor, constant: -40).isActive = true
         self.signUpLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
@@ -238,11 +253,27 @@ class SignUpInfosViewController: UIViewController {
         self.outsideStackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
         self.outsideStackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -30).isActive = true
         
+        self.passwordSecurityButton.topAnchor.constraint(equalTo: self.outsideStackView.bottomAnchor, constant: 15).isActive = true
+        self.passwordSecurityButton.trailingAnchor.constraint(equalTo: self.outsideStackView.trailingAnchor).isActive = true
         
-        self.buttonStackView.topAnchor.constraint(equalTo: self.outsideStackView.bottomAnchor, constant: 50).isActive = true
+        
+        
+        self.buttonStackView.topAnchor.constraint(equalTo: self.passwordSecurityButton.bottomAnchor, constant: 25).isActive = true
         self.buttonStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30).isActive = true
         self.buttonStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -30).isActive = true
         self.buttonStackView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    }
+    
+    @objc func touchUpPWSecurityButton(_ sender: UIButton) {
+        if sender.currentTitle == "☑︎ 비밀번호 보기" {
+            self.passwordFirstTextField.isSecureTextEntry = true
+            self.passwordCheckTextField.isSecureTextEntry = true
+            sender.setTitle("☐ 비밀번호 보기", for: .normal)
+        } else {
+            self.passwordFirstTextField.isSecureTextEntry = false
+            self.passwordCheckTextField.isSecureTextEntry = false
+            sender.setTitle("☑︎ 비밀번호 보기", for: .normal)
+        }
     }
     
     @objc func touchUpCancelButton(_: UIButton) {
@@ -250,8 +281,29 @@ class SignUpInfosViewController: UIViewController {
     }
     
     @objc func touchUpNextButton(_: UIButton) {
-        let vc: SignUpSexAndAgeViewController = SignUpSexAndAgeViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        if idTextField.text != "", passwordFirstTextField.text != "", passwordCheckTextField.text != "" {
+            if passwordFirstTextField.text == passwordCheckTextField.text {
+                let vc: SignUpSexAndAgeViewController = SignUpSexAndAgeViewController()
+                
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                let alert = UIAlertController(title: "알림", message: "비밀번호가 일치하지 않습니다", preferredStyle: .alert)
+                
+                let okButton = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
+                
+                alert.addAction(okButton)
+                
+                present(alert, animated: false)
+            }
+        } else {
+            let alert = UIAlertController(title: "알림", message: "모든 정보를 입력해주세요", preferredStyle: .alert)
+            
+            let okButton = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
+            
+            alert.addAction(okButton)
+            
+            present(alert, animated: false)
+        }
     }
     
     @objc func touchUpProfileImageView(_: UIImageView) {
@@ -279,7 +331,7 @@ class SignUpInfosViewController: UIViewController {
 }
 
 extension SignUpInfosViewController: UITextFieldDelegate {
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
@@ -312,3 +364,4 @@ extension SignUpInfosViewController: UIImagePickerControllerDelegate {
 }
 
 extension SignUpInfosViewController: UINavigationControllerDelegate {}
+

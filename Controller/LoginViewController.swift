@@ -96,7 +96,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//self.navigationController?.pushViewController(MainTabBarController(), animated: true)
+self.navigationController?.pushViewController(MainTabBarController(), animated: true)
         
         self.view.backgroundColor = UIColor.white
         self.loginIdTextField.delegate = self

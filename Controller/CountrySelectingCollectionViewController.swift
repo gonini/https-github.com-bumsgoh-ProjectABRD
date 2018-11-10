@@ -84,6 +84,7 @@ class CountrySelectingCollectionViewController: UIViewController {
         self.view.addSubview(headerView)
         self.headerView.addSubview(countryLabel)
         self.view.addSubview(countryCollectionView)
+        self.navigationController?.isNavigationBarHidden = false
         
         self.headerView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         self.headerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true

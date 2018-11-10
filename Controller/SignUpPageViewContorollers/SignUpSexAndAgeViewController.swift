@@ -16,6 +16,8 @@ class SignUpSexAndAgeViewController: UIViewController {
     var selectedCountry: String?
     var selectedAge: String?
     
+    let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
+    
     let ageArray: [String] = {
         var arr: [String] = []
         for i in 19...50 {
@@ -98,9 +100,9 @@ class SignUpSexAndAgeViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("확인", for: .normal)
-        button.setTitleColor(#colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1), for: .normal)
+        button.setTitleColor(#colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1), for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 18)
-        button.layer.borderColor = #colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1).cgColor
+        button.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1).cgColor
         button.layer.cornerRadius = 20
         button.layer.borderWidth = 2.0
         return button
@@ -110,8 +112,8 @@ class SignUpSexAndAgeViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("취소", for: .normal)
-        button.setTitleColor(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1), for: .normal)
-        button.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1).cgColor
+        button.setTitleColor(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1), for: .normal)
+        button.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1).cgColor
         button.titleLabel?.font = .boldSystemFont(ofSize: 18)
         button.layer.cornerRadius = 20
         button.layer.borderWidth = 2.0
@@ -160,6 +162,7 @@ class SignUpSexAndAgeViewController: UIViewController {
         self.agePickerView.delegate = self
         self.agePickerView.dataSource = self
         self.countryPickerView.delegate = self
+        self.tapGesture.delegate = self
         
         UISetUp()
         createToolbar()
@@ -190,6 +193,7 @@ class SignUpSexAndAgeViewController: UIViewController {
         self.view.addSubview(countryLabel)
         self.view.addSubview(countrySelectTextField)
         self.view.addSubview(buttonStackView)
+        self.view.addGestureRecognizer(tapGesture)
         
         self.backButton.addTarget(self, action: #selector(touchUpCancelButton(_:)), for: .touchUpInside)
         self.nextButton.addTarget(self, action: #selector(touchUpNextButton(_:)), for: .touchUpInside)
@@ -330,4 +334,9 @@ extension SignUpSexAndAgeViewController: UIPickerViewDelegate, UIPickerViewDataS
 //    }
 }
 
-extension SignUpSexAndAgeViewController: UIGestureRecognizerDelegate {}
+extension SignUpSexAndAgeViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        self.view.endEditing(true)
+        return true
+    }
+}

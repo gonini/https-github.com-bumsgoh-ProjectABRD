@@ -13,7 +13,7 @@ class PartnersTableViewCell: UITableViewCell {
     let profileImageView: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         view.contentMode = .scaleAspectFill
         view.layer.masksToBounds = true
         view.image = #imageLiteral(resourceName: "IMG_0596")
@@ -23,10 +23,10 @@ class PartnersTableViewCell: UITableViewCell {
     let onOffImageView: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        //view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 7
         view.contentMode = .scaleAspectFit
-       // view.layer.masksToBounds = true
-        view.image = #imageLiteral(resourceName: "online.png")
+        view.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        view.clipsToBounds = true
         return view
     }()
     
@@ -34,6 +34,14 @@ class PartnersTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 19)
+        label.textColor = .darkGray
+        return label
+    }()
+    
+    let countryLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "🇰🇷"
         return label
     }()
     
@@ -42,6 +50,8 @@ class PartnersTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "BBQ Fried Chicken is amazing!BBQ Fried Chicken is amazing!BBQ Fried Chicken is amazing!BBQ Fried Chicken is amazing!BBQ Fried Chicken is amazing!"
         label.numberOfLines = 5
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = .gray
         return label
     }()
    
@@ -59,28 +69,30 @@ class PartnersTableViewCell: UITableViewCell {
         self.contentView.addSubview(onOffImageView)
         self.contentView.addSubview(profileImageView)
         self.contentView.addSubview(memberNameLabel)
+        self.contentView.addSubview(countryLabel)
         self.contentView.addSubview(chatLabel)
         
         self.profileImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
-        
-        
         self.profileImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.8).isActive = true
         self.profileImageView.widthAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.8).isActive = true
-        self.profileImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8).isActive = true
+        self.profileImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15).isActive = true
         
         
-        self.onOffImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        self.onOffImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
-       
-        self.onOffImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8).isActive = true
-        self.onOffImageView.leadingAnchor.constraint(equalTo: self.profileImageView.trailingAnchor, constant: 8).isActive = true
+        self.onOffImageView.widthAnchor.constraint(equalToConstant: 14).isActive = true
+        self.onOffImageView.heightAnchor.constraint(equalToConstant: 14).isActive = true
+        self.onOffImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20).isActive = true
+        self.onOffImageView.leadingAnchor.constraint(equalTo: self.profileImageView.trailingAnchor, constant: 20).isActive = true
+        
         self.memberNameLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 16).isActive = true
-        self.memberNameLabel.leadingAnchor.constraint(equalTo: self.onOffImageView.trailingAnchor, constant: 16).isActive = true
+        self.memberNameLabel.leadingAnchor.constraint(equalTo: self.onOffImageView.trailingAnchor, constant: 10).isActive = true
         
-        self.chatLabel.topAnchor.constraint(equalTo: self.memberNameLabel.bottomAnchor, constant: 8).isActive = true
-        self.chatLabel.leadingAnchor.constraint(equalTo: self.profileImageView.trailingAnchor, constant: 16).isActive = true
-        self.chatLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -8).isActive = true
-        //self.chatLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 8).isActive = true
+        self.countryLabel.centerYAnchor.constraint(equalTo: self.memberNameLabel.centerYAnchor).isActive = true
+        self.countryLabel.leadingAnchor.constraint(equalTo: self.memberNameLabel.trailingAnchor, constant: 5).isActive = true
+        
+        self.chatLabel.topAnchor.constraint(equalTo: self.onOffImageView.bottomAnchor, constant: 8).isActive = true
+        self.chatLabel.leadingAnchor.constraint(equalTo: self.profileImageView.trailingAnchor, constant: 20).isActive = true
+        self.chatLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -12).isActive = true
+        self.chatLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -15).isActive = true
         
     }
 }
