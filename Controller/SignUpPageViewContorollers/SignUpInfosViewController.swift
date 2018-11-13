@@ -11,6 +11,13 @@ import UIKit
 // 회원가입 아이디/비밀번호 화면
 class SignUpInfosViewController: UIViewController {
     
+    let textFieldDivider: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        return view
+    }()
+    
     let imagePicker: UIImagePickerController = {
         let picker = UIImagePickerController()
         picker.sourceType = .photoLibrary
@@ -121,6 +128,7 @@ class SignUpInfosViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = UIColor.clear
+        textField.setBottomBorder()
         textField.font = .systemFont(ofSize: 16)
         textField.placeholder = "사용할 아이디를 입력해주세요"
         textField.borderStyle = .none
@@ -133,6 +141,7 @@ class SignUpInfosViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = UIColor.clear
+        textField.setBottomBorder()
         textField.font = .systemFont(ofSize: 16)
         textField.placeholder = "비밀번호를 입력해주세요"
         textField.clearButtonMode = .always
@@ -144,6 +153,7 @@ class SignUpInfosViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = UIColor.clear
+        textField.setBottomBorder()
         textField.font = .systemFont(ofSize: 16)
         textField.placeholder = "비밀번호를 다시 입력해주세요"
         textField.clearButtonMode = .always
@@ -309,9 +319,9 @@ class SignUpInfosViewController: UIViewController {
     @objc func touchUpProfileImageView(_: UIImageView) {
         self.present(self.imagePicker, animated: true, completion: nil)
     }
-    
+  
     override func viewDidLayoutSubviews() {
-        let idBorder = CALayer()
+      /*  let idBorder = CALayer()
         idBorder.frame = CGRect(x: 0, y: idTextField.frame.size.height + 5, width: idTextField.frame.width, height: 1)
         idBorder.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1).cgColor
         idTextField.layer.addSublayer(idBorder)
@@ -326,7 +336,7 @@ class SignUpInfosViewController: UIViewController {
         pwCheckBorder.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1).cgColor
         passwordCheckTextField.layer.addSublayer(pwCheckBorder)
         
-        print("clear")
+        print("clear")*/
     }
 }
 
@@ -365,3 +375,14 @@ extension SignUpInfosViewController: UIImagePickerControllerDelegate {
 
 extension SignUpInfosViewController: UINavigationControllerDelegate {}
 
+extension UITextField {
+    func setBottomBorder() {
+        self.borderStyle = .none
+        self.layer.backgroundColor = UIColor.white.cgColor
+        self.layer.masksToBounds = false
+        self.layer.shadowColor = UIColor.gray.cgColor
+        self.layer.shadowOffset = CGSize(width: 0.0, height: 0.7)
+        self.layer.shadowOpacity = 0.8
+        self.layer.shadowRadius = 0.0
+    }
+}

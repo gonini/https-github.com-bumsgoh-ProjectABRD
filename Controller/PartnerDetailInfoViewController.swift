@@ -10,7 +10,7 @@ import UIKit
 
 class PartnerDetailInfoViewController: UITableViewController {
     
-    let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+    lazy var panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
     
     private let tableHeaderViewHeight: CGFloat = 400.0
     private let tableHeaderViewCutaway: CGFloat = 0.0
@@ -84,7 +84,7 @@ class PartnerDetailInfoViewController: UITableViewController {
     }
     
     @objc func handlePanGesture(_: UIPanGestureRecognizer) {
-        print("pangesture")
+        
     }
 }
 
