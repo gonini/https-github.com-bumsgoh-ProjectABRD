@@ -10,7 +10,7 @@ import UIKit
 
 class PartnerDetailInfoViewController: UITableViewController {
     
-    let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+    lazy var panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
     
     private let tableHeaderViewHeight: CGFloat = 400.0
     private let tableHeaderViewCutaway: CGFloat = 0.0
@@ -83,9 +83,36 @@ class PartnerDetailInfoViewController: UITableViewController {
         headerView.frame = headerRect
     }
     
-    @objc func handlePanGesture(_: UIPanGestureRecognizer) {
-        print("pangesture")
+    @objc func handlePanGesture(_ sender: UIPanGestureRecognizer) {
+        var startLocation = 0
+        var endLocation = 0
+        
+        switch sender.state {
+        case .began:
+            startLocation = Int(sender.location(in: self.tableView).y)
+        case .ended:
+            endLocation = Int(sender.location(in: self.tableView).y)
+            let totalMovement = endLocation - startLocation
+            print("start: \(startLocation), end: \(endLocation), total: \(totalMovement)")
+            if totalMovement > 50 {
+                dismiss(animated: true, completion: nil)
+            }
+        default:
+            break
+        }
     }
+    
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        guard let touch = touches.first else { return }
+//        print(startLocation)
+//        self.startLocation = Int(touch.location(in: self.view).y)
+//    }
+//
+//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        guard let touch = touches.first else { return }
+//        print(endLocation)
+//        self.endLocation = Int(touch.location(in: self.view).y)
+//    }
 }
 
 extension PartnerDetailInfoViewController {
