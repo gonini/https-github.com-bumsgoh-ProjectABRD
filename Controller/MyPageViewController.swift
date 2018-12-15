@@ -89,10 +89,10 @@ class MyPageViewController: UIViewController {
             nameLabel.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
             nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 20),
             
-            settingButton.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 10),
-            settingButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -10),
-            settingButton.heightAnchor.constraint(equalToConstant: 20),
-            settingButton.widthAnchor.constraint(equalToConstant: 20)
+            settingButton.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 15),
+            settingButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -15),
+            settingButton.heightAnchor.constraint(equalToConstant: 25),
+            settingButton.widthAnchor.constraint(equalToConstant: 25)
             ])
         
         return headerView
@@ -205,7 +205,7 @@ class myPageTableViewCell: UITableViewCell {
     let dataLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .gray
+        label.textColor = .lightGray
         return label
     }()
     
@@ -244,7 +244,7 @@ class myPageIntroduceTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.textColor = .gray
+        label.textColor = .lightGray
         return label
     }()
     

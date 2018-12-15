@@ -65,12 +65,23 @@ class CountryDetailSelectedViewController: UIViewController {
  
         UISetUp()
     }
+    
+    func UISetUp() {
+        self.view.addSubview(bulletBoardTableView)
+        
+        self.bulletBoardTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
+        self.bulletBoardTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        self.bulletBoardTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        self.bulletBoardTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+    }
+    
     /*
     func centerMapOnLocation(location: CLLocation) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
                                                                   regionRadius, regionRadius)
         mapView.setRegion(coordinateRegion, animated: true)
     }*/
+    
 }
 
 extension CountryDetailSelectedViewController: MKMapViewDelegate {
@@ -97,16 +108,34 @@ extension CountryDetailSelectedViewController: MKMapViewDelegate {
         return view
     }
     */
+}
+
+
+extension CountryDetailSelectedViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
     
-    func UISetUp() {
-        self.view.addSubview(bulletBoardTableView)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell: PartnersTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PartnersTableViewCell else {return UITableViewCell.init()}
         
-        self.bulletBoardTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
-        self.bulletBoardTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        self.bulletBoardTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        self.bulletBoardTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        cell.profileImageView.image = #imageLiteral(resourceName: "IMG_0596")
+        cell.memberNameLabel.text = "상순이 (25)"
+        cell.accessoryType = .disclosureIndicator
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let VC: PartnerDetailInfoViewController = PartnerDetailInfoViewController()
+        self.navigationController?.present(VC, animated: true, completion: nil)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150.0
     }
 }
+
 
 class Artwork: NSObject, MKAnnotation {
     let title: String?
