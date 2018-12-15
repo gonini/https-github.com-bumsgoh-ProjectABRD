@@ -16,7 +16,7 @@ class PartnersTableViewCell: UITableViewCell {
         view.layer.cornerRadius = 5
         view.contentMode = .scaleAspectFill
         view.layer.masksToBounds = true
-        view.image = #imageLiteral(resourceName: "IMG_0596")
+        view.image = nil
         return view
     }()
     
@@ -26,7 +26,7 @@ class PartnersTableViewCell: UITableViewCell {
         //view.layer.cornerRadius = 5
         view.contentMode = .scaleAspectFit
        // view.layer.masksToBounds = true
-        view.image = #imageLiteral(resourceName: "online.png")
+        view.image = #imageLiteral(resourceName: "statue-of-liberty")
         return view
     }()
     
@@ -40,7 +40,7 @@ class PartnersTableViewCell: UITableViewCell {
     let chatLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "BBQ Fried Chicken is amazing!BBQ Fried Chicken is amazing!BBQ Fried Chicken is amazing!BBQ Fried Chicken is amazing!BBQ Fried Chicken is amazing!"
+        label.text = ""
         label.numberOfLines = 5
         return label
     }()
@@ -69,11 +69,11 @@ class PartnersTableViewCell: UITableViewCell {
         self.profileImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8).isActive = true
         
         
-        self.onOffImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        self.onOffImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        self.onOffImageView.widthAnchor.constraint(equalToConstant: 10).isActive = true
+        self.onOffImageView.heightAnchor.constraint(equalToConstant: 10).isActive = true
        
-        self.onOffImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8).isActive = true
-        self.onOffImageView.leadingAnchor.constraint(equalTo: self.profileImageView.trailingAnchor, constant: 8).isActive = true
+        self.onOffImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 16).isActive = true
+        self.onOffImageView.leadingAnchor.constraint(equalTo: self.profileImageView.trailingAnchor, constant: 16).isActive = true
         self.memberNameLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 16).isActive = true
         self.memberNameLabel.leadingAnchor.constraint(equalTo: self.onOffImageView.trailingAnchor, constant: 16).isActive = true
         

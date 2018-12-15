@@ -53,17 +53,12 @@ class WelcomingViewController: UIViewController {
         return label
     }()
     
-    lazy var signUpLabel: UIButton = {
+    lazy var signUpButton: UIButton = {
         let label = UIButton()
         label.translatesAutoresizingMaskIntoConstraints = false
-//label.text = "you don't have an account yet?"
-        
         label.setTitle("you don't have an account yet?", for: UIControlState.normal)
-       // label.isUserInteractionEnabled = true
         label.setTitleColor(UIColor.white, for: UIControlState.normal)
         label.addTarget(self, action: #selector(signUpClicked), for: UIControlEvents.touchUpInside)
-        //textColor = UIColor.white
-        
         return label
     }()
     
@@ -87,29 +82,15 @@ class WelcomingViewController: UIViewController {
     }else{
         photoCount = 0;
     }
-        //OperationQueue.main.addOperation {
-          
-        
         UIView.transition(with: self.backgroundImageView, duration: 5.0, options: [UIViewAnimationOptions.transitionCrossDissolve, UIViewAnimationOptions.allowUserInteraction], animations: {
-       // self.backgroundImageView.transform = CGAffineTransform(translationX: -30, y: 0)
-           //self.backgroundImageView.alpha = 0.1
         self.backgroundImageView.image = self.images[self.photoCount]
     }, completion: {(done) in
-        //self.backgroundImageView.transform = CGAffineTransform.identity
 
     })
-       // }
 }
     override func viewDidLoad() {
         super.viewDidLoad()
         UISetUp()
-       // self.view.backgroundColor = UIColor.black
-        //backgroundImageView.backgroundColor =
-        //backgroundImageView.alpha = 0.8
-       // titleLabel.alpha = 1
-        
-        
-        
     }
    
     func randomImage() -> UIImage {
@@ -123,7 +104,7 @@ class WelcomingViewController: UIViewController {
         self.backgroundImageView.addSubview(blackview)
         blackview.addSubview(titleLabel)
         blackview.addSubview(contentLabel)
-        backgroundImageView.addSubview(signUpLabel)
+        backgroundImageView.addSubview(signUpButton)
         self.backgroundImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.backgroundImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.backgroundImageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
@@ -134,7 +115,6 @@ class WelcomingViewController: UIViewController {
         
         self.contentLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 17).isActive = true
         self.contentLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        //self.contentLabel.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.5).isActive = true
         self.contentLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16).isActive = true
         self.contentLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16).isActive = true
         
@@ -143,38 +123,13 @@ class WelcomingViewController: UIViewController {
         self.blackview.leadingAnchor.constraint(equalTo: self.backgroundImageView.leadingAnchor,constant: -30).isActive = true
         self.blackview.trailingAnchor.constraint(equalTo: self.backgroundImageView.trailingAnchor, constant: 30).isActive = true
         
-        self.signUpLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.signUpLabel.bottomAnchor.constraint(equalTo: self.blackview.bottomAnchor, constant: -32).isActive = true
+        self.signUpButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.signUpButton.bottomAnchor.constraint(equalTo: self.blackview.bottomAnchor, constant: -32).isActive = true
        // signUpLabel.addGestureRecognizer(recognizer)
     }
     
    @objc func signUpClicked() {
-        print("clicked!!!")
+    let signUpViewController: SignUpPageViewController = SignUpPageViewController()
+        self.navigationController?.pushViewController(signUpViewController, animated: true)
     }
-}/*
-extension UIImageView{
-    
-    func transition(toImage: UIImage, withDuration duration: TimeInterval){
-       
-        //UIView.setAnimationRepeatCount(10)
-        
-        UIView.animate(withDuration: duration, delay: 0, options: [UIViewAnimationOptions.autoreverse, UIViewAnimationOptions.repeat],animations: {
-            self.alpha = 0
-            self.transform = CGAffineTransform(translationX: -30, y: 0)
-            self.animationImag
-            self.transform = CGAffineTransform.identity
-            self.image = toImage
-            self.alpha = 1
-        }) { (bool) in
-            
-            UIView.animate(withDuration: duration, animations: {
-               
-                
-            }, completion: {
-                (_) in
-                
-            })
-        }
-        //self.image = #imageLiteral(resourceName: "balloon")
-    }
-}*/
+}

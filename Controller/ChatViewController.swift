@@ -58,7 +58,7 @@ class ChatViewController: UIViewController {
         //button.backgroundColor = UIColor.lightGray
         //button.setTitleColor(UIColor., for: UIControlState.normal)
         button.setImage(#imageLiteral(resourceName: "flaticon1537340769-64"), for: UIControlState.normal)
-        
+       
         return button
     }()
 

@@ -84,10 +84,12 @@ class ChatListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         let VC: ChatViewController = ChatViewController()
         VC.roomId = chatRooms[indexPath.row].roomId
         VC.socket = self.socket
         self.navigationController?.pushViewController(VC, animated: true)
     }
+   
 
 }

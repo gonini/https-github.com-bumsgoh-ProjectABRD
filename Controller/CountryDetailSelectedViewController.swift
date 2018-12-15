@@ -11,7 +11,9 @@ import MapKit
 
 // 맵
 class CountryDetailSelectedViewController: UIViewController {
-    
+    let imageArr: [UIImage] = [#imageLiteral(resourceName: "hairstyle-2"),#imageLiteral(resourceName: "hairstyle-3")]
+    let introArr: [String] = ["안녕하세요, 이번에 뮌헨에서 10월 7일부터 9일까지 여행하게되었습니다. 같이 동행하실분 연락주세요!", "프랑크푸르트 ~ 함부르크까지 같이 여행하실분 찾습니다. 나이스한 분들만", "여자3명 파리 여행합니다. 같이 여행하면서 사진찍으실분 서로 찍어주면 개꿀쓰", "이번에 독일에 교환학생왔는데 여행 같이하면 좋을거같아요 하이델베르크 같이가실 2분 구합니다! 저랑 저 친구 같이있어요~ 연락주세요"]
+    let onoffArr: [UIImage] = [#imageLiteral(resourceName: "onbutton"),#imageLiteral(resourceName: "offbutton")]
     let cellIdentifier: String = "countryCell"
     /*let regionRadius: CLLocationDistance = 10000
     let initialLocation = CLLocation(latitude: 21.282778, longitude: -157.829444)
@@ -134,8 +136,10 @@ extension CountryDetailSelectedViewController: UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell: PartnersTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PartnersTableViewCell else {return UITableViewCell.init()}
         
-        cell.profileImageView.image = #imageLiteral(resourceName: "IMG_0596")
+        cell.profileImageView.image = imageArr[Int.random(in: 0...1)]
         cell.memberNameLabel.text = "상순이, 25"
+        cell.chatLabel.text = introArr[Int.random(in: 0...3)]
+        cell.onOffImageView.image = onoffArr[Int.random(in: 0...1)]
         
         return cell
     }
