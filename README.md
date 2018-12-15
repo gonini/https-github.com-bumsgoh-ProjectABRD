@@ -1,6 +1,8 @@
 # 여행자들을 매칭해주는 ABROAD !
 
-
+<div>
+  <img width="200" src ="https://user-images.githubusercontent.com/34180216/50044433-b9120000-00c6-11e9-9374-f13729a3edee.png">
+</div>
 ![simulator screen shot - iphone xr - 2018-12-15 at 23 45 17](https://user-images.githubusercontent.com/34180216/50044433-b9120000-00c6-11e9-9374-f13729a3edee.png)
 ![simulator screen shot - iphone xr - 2018-12-15 at 23 45 23](https://user-images.githubusercontent.com/34180216/50044435-bc0cf080-00c6-11e9-847f-a0994773d776.png)
 ![simulator screen shot - iphone xr - 2018-12-15 at 23 45 33](https://user-images.githubusercontent.com/34180216/50044436-bd3e1d80-00c6-11e9-9830-36ad197013ff.png)
