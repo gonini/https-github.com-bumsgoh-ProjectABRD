@@ -8,22 +8,14 @@
 
 import UIKit
 import SocketIO
-
+import CoreLocation
 // 로그인 화면
 class LoginViewController: UIViewController {
+    
     var socket: SocketIOClient!
     let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
-    
-    /*
-    let logoImageView: UIImageView = {
-        let view = UIImageView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.contentMode = .scaleAspectFit
-        view.image = nil
-        return view
-    }()*/
-    
-    
+    let locationManager = CLLocationManager()
+    var locValue:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0, longitude: 0)
     
     let loginIdTextField: UITextField = {
         let textField = UITextField()
@@ -31,6 +23,8 @@ class LoginViewController: UIViewController {
         textField.backgroundColor = UIColor.clear
         textField.placeholder = "아이디를 입력해주세요"
         textField.textAlignment = .center
+        textField.textContentType = .emailAddress
+        
         return textField
     }()
     
@@ -96,6 +90,17 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        locationManager.startUpdatingLocation()
+        
+        
+        
+        
 //self.navigationController?.pushViewController(MainTabBarController(), animated: true)
         
         self.view.backgroundColor = UIColor.white
@@ -103,29 +108,49 @@ class LoginViewController: UIViewController {
         self.loginPasswordTextField.delegate = self
         self.tapGesture.delegate = self
         UISetUp()
+        print("hi")
         self.signUpTextLabel.addGestureRecognizer(signUpGestureRecognizer)
-        socket = SocketManaging.socketManager.socket(forNamespace: "/login")
+        socket = SocketManaging.socketManager.socket(forNamespace: "/signIn")
+        socket.connect()
         socket.on(clientEvent: .connect) {data, ack in
-            print("socket connected")}
-            socket.connect()
+            print("socket connected")
+            
+        }
+        
         
         //로그인이 완료되면 다음화면으로 넘어감
-        socket.on("loginSuccess") { data, ack in
-            print(data)
-            print(ack)
-            print("login Success")
-            let vc: ChatListTableViewController = ChatListTableViewController()
+        socket.on("signInSuccess") { data, ack in
+            let dataFromServer: [NSArray] = data as! [NSArray]
+            let info: [String: String] = dataFromServer[0][0] as! [String : String]
+            if let email = info["e_mail"], let userName = info["userName"],let userUuid = info["userUuid"] {
+                UserInfo.userInfo.email = email
+                UserInfo.userInfo.userName = userName
+                UserInfo.userInfo.userUuid = userUuid
+                print(UserInfo.userInfo)
+                
+            } else {
+                return
+            }
+            
+            let locationJson = [
+                "longitude": self.locValue.longitude,
+                "latitude": self.locValue.latitude,
+                "userUuid": UserInfo.userInfo.userUuid,
+                "distance": 5.0,
+                ] as [String : Any]
+            
+            self.socket.emit("saveLocation", locationJson)
+            let vc: MainTabBarController = MainTabBarController()
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
 
     @objc func loginButtonClicked(sender: UIButton) {
-        let myJSON = [
-            "userId": "\(self.loginIdTextField.text!)",
+        let loginRequestJson = [
+            "e_mail": "\(self.loginIdTextField.text!)",
             "password": "\(self.loginPasswordTextField.text!)",
-            "nickName": "\(self.loginIdTextField.text!)"
         ]
-        socket.emit("loginRequest", myJSON)
+        socket.emit("signInRequest", loginRequestJson)
     }
     
     @objc func loginButtonReleased(sender: UIButton) {
@@ -226,17 +251,17 @@ extension LoginViewController: UITextFieldDelegate {
     }*/
 }
 
-/*
-extension UIButton {
-    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
-        UIView.animate(withDuration: 0.5) {
-            
-            self.transform = CGAffineTransform.identity
-        }
+
+extension LoginViewController: CLLocationManagerDelegate  {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        locValue = manager.location!.coordinate
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
+        
+        
     }
 }
-*/
+
 
 extension LoginViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {

@@ -26,37 +26,32 @@ class ChatListTableViewController: UITableViewController {
         self.tableView.dataSource = self
         self.tableView.register(ChatListTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         
-        self.socket = SocketManaging.socketManager.socket(forNamespace: "/login/chat")
+        self.socket = SocketManaging.socketManager.socket(forNamespace: "/chat")
         socket.connect()
         
         socket.on(clientEvent: .connect) {[weak self] data, ack in
             print("socket chat connected")
-            self?.socket.emit("getChatList", "1")
+            //self?.socket.emit("chatList")
             let myJSON = [
-                "id0": "1",
-                "id1": "0"
+                "userUuid": UserInfo.userInfo.userUuid
             ]
             
-            self?.socket.emit("requestJoin", myJSON)
+            self?.socket.emit("chatList", myJSON)
             
-            self?.socket.on("joinSuccess") {(data,ack) in
-                for fixed in data {
+            self?.socket.on("chatListSuccess") {(data,ack) in
+                let parseData : [NSArray] = data as! [NSArray]
+                print(parseData)
+                for fixed in parseData[0] {
                     var dataDic: [String : Any] = [:]
-                    print(data)
                     dataDic = (fixed as! NSDictionary) as! [String : Any]
                     let members: [String] = dataDic["joinMembers"] as! [String]
-                    let roomId: String = dataDic["roomName"] as! String
-                    //print(members)
-                    //print(roomId)
-                    let chatData: ChatRoom = ChatRoom(member: members[0], roomId: roomId)
+                    let lastChatMessage: String = dataDic["lastMessage"] as! String
+                    let chatData: ChatRoom = ChatRoom(member: members[0], roomId: dataDic["roomName"] as! String, message: lastChatMessage)
                     self?.chatRooms.append(chatData)
-                    //print("cell count : \(self?.chatRooms.count)")
                 }
-                //print(self?.chatRooms)
                 OperationQueue.main.addOperation {
                     self?.tableView.reloadData()
                 }
-                //print(type(of: data))
             }
         }
     }
@@ -70,11 +65,10 @@ class ChatListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell: ChatListTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ChatListTableViewCell else {
-            print("fucked up")
             return UITableViewCell.init()
         }
         cell.chatMemberLabel.text = chatRooms[indexPath.row].chatMember
-        cell.chatLabel.text = chatRooms[indexPath.row].roomId
+        cell.chatLabel.text = chatRooms[indexPath.row].message
         
         return cell
     }

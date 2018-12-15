@@ -7,13 +7,18 @@
 //
 
 import UIKit
-
+import CoreLocation
 class MainTabBarController: UITabBarController {
     
+    let locationManager = CLLocationManager()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = false
         makeViewControllers()
+        
+        
+        //UserInfo.userInfo.latitude = locationManager.location.
+        
     }
     
     func makeViewControllers() {
@@ -28,4 +33,5 @@ class MainTabBarController: UITabBarController {
         let viewControllers = [countyDetailViewController, chatListsViewController, myPageViewController]
         self.setViewControllers(viewControllers, animated: false)
     }
+   
 }

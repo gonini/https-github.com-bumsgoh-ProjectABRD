@@ -54,12 +54,21 @@ class WelcomingViewController: UIViewController {
     }()
     
     lazy var signUpButton: UIButton = {
-        let label = UIButton()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.setTitle("you don't have an account yet?", for: UIControlState.normal)
-        label.setTitleColor(UIColor.white, for: UIControlState.normal)
-        label.addTarget(self, action: #selector(signUpClicked), for: UIControlEvents.touchUpInside)
-        return label
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("you don't have an account yet?", for: UIControlState.normal)
+        button.setTitleColor(UIColor.white, for: UIControlState.normal)
+        button.addTarget(self, action: #selector(signUpClicked), for: UIControlEvents.touchUpInside)
+        return button
+    }()
+    
+    lazy var signInButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Sign In", for: UIControlState.normal)
+        button.setTitleColor(UIColor.white, for: UIControlState.normal)
+        button.addTarget(self, action: #selector(signInClicked), for: UIControlEvents.touchUpInside)
+        return button
     }()
     
    
@@ -67,13 +76,10 @@ class WelcomingViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
     }
     override func viewDidAppear(_ animated: Bool) {
-        
-       
+
         backgroundImageView.image = UIImage.init(named: "balloon")
         timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(onTransition), userInfo: nil, repeats: true)
-    
-        
-            
+
             }
   
     @objc func onTransition() {
@@ -82,7 +88,7 @@ class WelcomingViewController: UIViewController {
     }else{
         photoCount = 0;
     }
-        UIView.transition(with: self.backgroundImageView, duration: 5.0, options: [UIViewAnimationOptions.transitionCrossDissolve, UIViewAnimationOptions.allowUserInteraction], animations: {
+        UIView.transition(with: self.backgroundImageView, duration: 10.0, options: [UIViewAnimationOptions.transitionCrossDissolve, UIViewAnimationOptions.allowUserInteraction], animations: {
         self.backgroundImageView.image = self.images[self.photoCount]
     }, completion: {(done) in
 
@@ -105,6 +111,7 @@ class WelcomingViewController: UIViewController {
         blackview.addSubview(titleLabel)
         blackview.addSubview(contentLabel)
         backgroundImageView.addSubview(signUpButton)
+        backgroundImageView.addSubview(signInButton)
         self.backgroundImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.backgroundImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.backgroundImageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
@@ -123,13 +130,22 @@ class WelcomingViewController: UIViewController {
         self.blackview.leadingAnchor.constraint(equalTo: self.backgroundImageView.leadingAnchor,constant: -30).isActive = true
         self.blackview.trailingAnchor.constraint(equalTo: self.backgroundImageView.trailingAnchor, constant: 30).isActive = true
         
+        
+        self.signInButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.signInButton.bottomAnchor.constraint(equalTo: self.signUpButton.bottomAnchor, constant: -46).isActive = true
+        
         self.signUpButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.signUpButton.bottomAnchor.constraint(equalTo: self.blackview.bottomAnchor, constant: -32).isActive = true
        // signUpLabel.addGestureRecognizer(recognizer)
     }
     
-   @objc func signUpClicked() {
-    let signUpViewController: SignUpPageViewController = SignUpPageViewController()
+    @objc func signUpClicked() {
+        let signUpViewController: SignUpInfosViewController = SignUpInfosViewController()
         self.navigationController?.pushViewController(signUpViewController, animated: true)
+    }
+    
+    @objc func signInClicked() {
+        let loginViewController: LoginViewController = LoginViewController()
+        self.navigationController?.pushViewController(loginViewController, animated: true)
     }
 }

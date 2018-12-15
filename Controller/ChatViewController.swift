@@ -86,7 +86,7 @@ class ChatViewController: UIViewController {
         }
         
         // self.socket = manager.defaultSocket
-        self.socket = SocketManaging.socketManager.socket(forNamespace: "/login/chat")
+        self.socket = SocketManaging.socketManager.socket(forNamespace: "/chat")
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         UISetUp()
@@ -113,16 +113,25 @@ class ChatViewController: UIViewController {
             "roomName": "\(roomId)"
         ]
         
-        socket.emit("storedMessage", myJSON)
+        socket.emit("chatMessage", myJSON)
         
-        socket.on("responseStoredMessage") {(data,ack) in
-            
-            let dataArray: NSArray = data as NSArray
-            let rData: NSArray = dataArray[0] as! NSArray
+        socket.on("chatMessageSuccess") {(data,ack) in
+            print(data)
+            let dataArray: [NSArray] = data as! [NSArray]
+            let rData = dataArray[0]
             for msgData in rData {
-                let msg: [String: String] = (msgData as! NSDictionary) as! [String : String]
+                let msg: [String: Any] = (msgData as! NSDictionary) as! [String : Any]
                 print("message is \(msg["message"])")
-                self.message.append(["message": msg["message"]!, "sendMessageId": msg["sendMessageId"]!])
+                if let messageString = msg["message"] , let id = msg["sendMessageId"]  {
+                    if let msg = messageString as? String, let Uid = id as? String {
+                          self.message.append(["message": msg , "sendMessageId": Uid])
+                    }else {
+                        self.message.append(["message": "" , "sendMessageId": ""])
+                    }
+                  
+                } else {
+                   
+                }
             }
             
             OperationQueue.main.addOperation {
@@ -133,10 +142,11 @@ class ChatViewController: UIViewController {
         socket.on("receiveMessage") {(data,ack) in
             let dataArray: NSArray = data as NSArray
             //let rData: NSArray = dataArray[0] as! NSArray
+            print(dataArray)
             for msgData in dataArray {
                 let msg: [String: String] = (msgData as! NSDictionary) as! [String : String]
                 print("message is \(msg["message"])")
-                self.message.append(["message": msg["message"]!, "sendMessageId": msg["userId"]!])
+                self.message.append(["message": msg["message"]!, "sendMessageId": msg["sendMessageId"]!])
             }
             print(data)
             OperationQueue.main.addOperation {
@@ -180,9 +190,10 @@ class ChatViewController: UIViewController {
     
     @objc func sendButtonClicked() {
         let myJSON = [
-            "message": "\(chatTextView.text!)",
-            "userId": "1",
-            "roomName": "\(roomId)"
+            "userName": UserInfo.userInfo.userName,
+            "userUuid": UserInfo.userInfo.userUuid,
+            "roomName": "\(roomId)",
+            "message": "\(chatTextView.text!)"
         ]
         //message.append(myJSON)
         
@@ -249,7 +260,7 @@ extension ChatViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         let estimatedForm = NSString(string: messageText["message"]!).boundingRect(with: size, options: option, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
         
-        if !(messageText["sendMessageId"] == "1") {
+        if !(messageText["sendMessageId"] == UserInfo.userInfo.userName) {
             cell.chatTextView.frame = CGRect(x: 40 + 8, y: 0, width: estimatedForm.width + 16, height: estimatedForm.height + 20)
             
              cell.textBubbleView.frame = CGRect(x: 40, y: 0, width: estimatedForm.width + 24, height: estimatedForm.height + 20)

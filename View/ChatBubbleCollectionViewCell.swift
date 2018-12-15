@@ -26,6 +26,7 @@ class ChatBubbleCollectionViewCell: UICollectionViewCell {
         textView.backgroundColor = UIColor.clear
         textView.isScrollEnabled = false
         textView.isEditable = false
+        
         return textView
     }()
     
@@ -37,6 +38,7 @@ class ChatBubbleCollectionViewCell: UICollectionViewCell {
         view.layer.masksToBounds = true
         return view
     }()
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -63,9 +65,10 @@ class ChatBubbleCollectionViewCell: UICollectionViewCell {
         textBubbleView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
         
         //chatTextView.leadingAnchor.constraint(equalTo: self.textBubbleView.leadingAnchor).isActive = true
-        // chatTextView.trailingAnchor.constraint(equalTo: self.textBubbleView.trailingAnchor).isActive = true
+             //chatTextView.trailingAnchor.constraint(equalTo: self.textBubbleView.trailingAnchor, constant: 0).isActive = true
+        
         chatTextView.topAnchor.constraint(equalTo: self.textBubbleView.topAnchor).isActive = true
-        chatTextView.bottomAnchor.constraint(equalTo: self.textBubbleView.bottomAnchor).isActive = true
+       // chatTextView.bottomAnchor.constraint(equalTo: self.textBubbleView.bottomAnchor).isActive = true
         // chatTextView.leadingAnchor.constraint(equalTo: self.textBubbleView.leadingAnchor, constant: 16).isActive = true
         
         //imageView Setting

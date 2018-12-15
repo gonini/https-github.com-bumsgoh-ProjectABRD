@@ -11,9 +11,11 @@ import UIKit
 struct ChatRoom {
     let chatMember: String
     let roomId: String
+    let message: String
     
-    init(member: String, roomId: String) {
+    init(member: String, roomId: String, message: String) {
         self.chatMember = member
         self.roomId = roomId
+        self.message = message
     }
 }

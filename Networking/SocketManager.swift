@@ -10,7 +10,7 @@ import Foundation
 import SocketIO
 
 class SocketManaging {
-    static var socketManager = SocketManager(socketURL: URL(string: "49.236.137.55/")!, config: [.log(false), .compress])
+    static var socketManager = SocketManager(socketURL: URL(string: "http://49.236.137.55")!, config: [.log(false), .compress])
     
     private init() {}
 }
