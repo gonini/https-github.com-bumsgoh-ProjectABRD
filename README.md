@@ -19,9 +19,9 @@
 </div>
  
 
-<div>
+<div><img width="300" src ="https://user-images.githubusercontent.com/34180216/50044441-c333fe80-00c6-11e9-82fd-21dc54e65f3a.png">
   <img width="300" src ="https://user-images.githubusercontent.com/34180216/50044440-c202d180-00c6-11e9-8ab0-47a9fe2b9705.png">
-  <img width="300" src ="https://user-images.githubusercontent.com/34180216/50044441-c333fe80-00c6-11e9-82fd-21dc54e65f3a.png">
+  
  
 </div>
 
