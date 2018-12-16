@@ -24,6 +24,7 @@ class LoginViewController: UIViewController {
         textField.placeholder = "아이디를 입력해주세요"
         textField.textAlignment = .center
         textField.textContentType = .emailAddress
+        textField.autocapitalizationType = .none
         
         return textField
     }()

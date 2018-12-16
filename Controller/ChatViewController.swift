@@ -54,10 +54,8 @@ class ChatViewController: UIViewController {
     let chatSendButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        //button.setTitle("send", for: UIControlState.normal)
-        //button.backgroundColor = UIColor.lightGray
-        //button.setTitleColor(UIColor., for: UIControlState.normal)
-        button.setImage(#imageLiteral(resourceName: "flaticon1537340769-64"), for: UIControlState.normal)
+        button.setTitle("send", for: UIControlState.normal)
+        button.setTitleColor(#colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), for: UIControlState.normal)
        
         return button
     }()
@@ -71,7 +69,7 @@ class ChatViewController: UIViewController {
         
         chatCollectionView.delegate = self
         chatCollectionView.dataSource = self
-        chatCollectionView.register(ChatBubbleCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+    chatCollectionView.register(ChatBubbleCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
         self.view.backgroundColor = UIColor.white
         
@@ -84,30 +82,16 @@ class ChatViewController: UIViewController {
         } else {
             width = UIScreen.main.bounds.height
         }
-        
-        // self.socket = manager.defaultSocket
         self.socket = SocketManaging.socketManager.socket(forNamespace: "/chat")
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         UISetUp()
         self.chatSendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
         
-        /*
-            self?.socket.on("invitedJoin") {(data,ack) in
-                print("joined")
-                print(data)
-                let myJSON = [
-                    "message": "test message1",
-                    "userId": "1",
-                    "roomName": "141a7a6d-2cc6-4601-a9e2-d5ccca816bf0"
-                ]
-                //message.append(myJSON)
-                
-                
-                self?.socket.emit("sendMessage", myJSON)
-                
-            }*/
-        
+        let uuid = [
+            "userUuid": UserInfo.userInfo.userUuid
+        ]
+        socket.emit("chatConnected", uuid)
         //socket.connect()
         let myJSON = [
             "roomName": "\(roomId)"
@@ -121,38 +105,42 @@ class ChatViewController: UIViewController {
             let rData = dataArray[0]
             for msgData in rData {
                 let msg: [String: Any] = (msgData as! NSDictionary) as! [String : Any]
-                print("message is \(msg["message"])")
                 if let messageString = msg["message"] , let id = msg["sendMessageId"]  {
                     if let msg = messageString as? String, let Uid = id as? String {
                           self.message.append(["message": msg , "sendMessageId": Uid])
                     }else {
                         self.message.append(["message": "" , "sendMessageId": ""])
                     }
-                  
-                } else {
-                   
-                }
+                } else {}
             }
-            
             OperationQueue.main.addOperation {
                 self.chatCollectionView.reloadData()
             }
         }
         
-        socket.on("receiveMessage") {(data,ack) in
+        socket.on("receiveMessage") {[weak self] (data,ack) in
             let dataArray: NSArray = data as NSArray
-            //let rData: NSArray = dataArray[0] as! NSArray
-            print(dataArray)
-            for msgData in dataArray {
-                let msg: [String: String] = (msgData as! NSDictionary) as! [String : String]
-                print("message is \(msg["message"])")
-                self.message.append(["message": msg["message"]!, "sendMessageId": msg["sendMessageId"]!])
-            }
-            print(data)
+            
             OperationQueue.main.addOperation {
-                self.chatCollectionView.reloadData()
+                for msgData in dataArray {
+                    let msg: [String: String] = (msgData as! NSDictionary) as! [String : String]
+                    self?.message.append(["message": msg["message"]!, "sendMessageId": msg["sendMessageId"]!])
+                }
+                guard let numberOfItems  = self?.message.count else {
+                    
+                    return
+                }
+                let count = numberOfItems - 1
+                let insertIdx = IndexPath(item: count, section: 0)
+                self?.chatCollectionView.insertItems(at: [insertIdx])
+                self?.chatCollectionView.scrollToItem(at: insertIdx, at: .bottom, animated: true)
             }
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+    
+        //chatCollectionView.scroll
     }
     
     func UISetUp() {
@@ -169,15 +157,15 @@ class ChatViewController: UIViewController {
         
         self.chatInputBackgroundView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         self.chatInputBackgroundView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        self.chatInputBackgroundView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        self.chatInputBackgroundView.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-        let bottomConstraint = NSLayoutConstraint(item: chatInputBackgroundView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 16.0)
+        let bottomConstraint = NSLayoutConstraint(item: chatInputBackgroundView, attribute: .bottom, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 4)
         self.bottomConstraint = bottomConstraint
         bottomConstraint.isActive = true //키보드가 올라왔을때 뷰를 조정하기 위해서 따로 설정하였습니다.
         
         self.chatTextView.topAnchor.constraint(equalTo: self.chatInputBackgroundView.topAnchor).isActive = true
         self.chatTextView.leadingAnchor.constraint(equalTo: self.chatInputBackgroundView.leadingAnchor, constant: 16).isActive = true
-        self.chatTextView.widthAnchor.constraint(equalTo: self.chatInputBackgroundView.widthAnchor, multiplier: 0.7).isActive = true
+        self.chatTextView.widthAnchor.constraint(equalTo: self.chatInputBackgroundView.widthAnchor, multiplier: 0.6).isActive = true
         self.chatTextView.bottomAnchor.constraint(equalTo: self.chatInputBackgroundView.bottomAnchor).isActive = true
         
         //self.chatSendButton.topAnchor.constraint(equalTo: self.chatInputBackgroundView.topAnchor).isActive = true
@@ -185,7 +173,7 @@ class ChatViewController: UIViewController {
         self.chatSendButton.trailingAnchor.constraint(equalTo: self.chatInputBackgroundView.trailingAnchor, constant: -8).isActive = true
         //self.chatSendButton.trailingAnchor.constraint(equalTo: self.chatInputBackgroundView.trailingAnchor, constant: -16).isActive = true
         self.chatSendButton.heightAnchor.constraint(lessThanOrEqualToConstant: 30).isActive = true
-        self.chatSendButton.widthAnchor.constraint(lessThanOrEqualToConstant: 30).isActive = true
+        self.chatSendButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
     @objc func sendButtonClicked() {
@@ -200,7 +188,7 @@ class ChatViewController: UIViewController {
         socket.emit("sendMessage", myJSON)
         OperationQueue.main.addOperation {
             self.chatTextView.text = ""
-            self.chatCollectionView.reloadData()
+          //  self.chatCollectionView.reloadData()
         }
     }
     
@@ -229,14 +217,13 @@ class ChatViewController: UIViewController {
 
 extension ChatViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        //guard let width = self.width else {return CGSize.init()}
-        if let messageText: [String: String] = self.message[indexPath.row] {
+        let messageText: [String: String] = self.message[indexPath.row]
             let size: CGSize = CGSize(width: 250, height: 1000)
             let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
             let estimatedForm = NSString(string: messageText["message"]!).boundingRect(with: size, options: option, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
             return CGSize(width: self.view.frame.width, height: estimatedForm.height + 20)
-        }
-        return CGSize(width: self.view.frame.width, height: 100)
+        
+       // return CGSize(width: self.view.frame.width, height: 100)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -246,9 +233,7 @@ extension ChatViewController: UICollectionViewDelegateFlowLayout {
 
 extension ChatViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        print(message.count)
-        return message.count
+        return self.message.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -268,8 +253,8 @@ extension ChatViewController: UICollectionViewDelegate, UICollectionViewDataSour
             cell.chatTextView.textColor = UIColor.black
             cell.thumbNailImageView.image = #imageLiteral(resourceName: "IMG_0596")
         } else {
-            cell.chatTextView.frame = CGRect(x: self.view.frame.width - estimatedForm.width - 16, y: 0, width: estimatedForm.width + 16, height: estimatedForm.height + 20)
-            cell.textBubbleView.frame = CGRect(x: self.view.frame.width - estimatedForm.width - 24, y: 0, width: estimatedForm.width + 24, height: estimatedForm.height + 20)
+            cell.chatTextView.frame = CGRect(x: (self.view.frame.width - estimatedForm.width - 16), y: 0, width: estimatedForm.width + 16, height: estimatedForm.height + 20)
+            cell.textBubbleView.frame = CGRect(x: self.view.frame.width - estimatedForm.width - 16, y: 0, width: estimatedForm.width + 24, height: estimatedForm.height + 20)
             cell.textBubbleView.backgroundColor = UIColor(red: 0, green: 137/245, blue: 249/255, alpha: 1)
             cell.chatTextView.textColor = UIColor.white
         }
