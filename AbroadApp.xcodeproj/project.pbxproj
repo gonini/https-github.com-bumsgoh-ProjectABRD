@@ -69,6 +69,7 @@
 		571F49C8298F1728F32E5AA8 /* Pods-AbroadApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AbroadApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AbroadApp/Pods-AbroadApp.debug.xcconfig"; sourceTree = "<group>"; };
 		9DAD6C4CA7838B3F71DB9C4D /* Pods_AbroadAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AbroadAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF202B6703BDBD2E6E3D256C /* Pods-AbroadApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AbroadApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-AbroadApp/Pods-AbroadApp.release.xcconfig"; sourceTree = "<group>"; };
+		B31B733C21D762AF0074F86F /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B33D928E218C5168003DED43 /* WelcomingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomingViewController.swift; sourceTree = "<group>"; };
 		B36AEA1D214FD9D9009BDEC3 /* AbroadApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AbroadApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B36AEA20214FD9D9009BDEC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -240,6 +241,7 @@
 		B36AEA51214FDACA009BDEC3 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				B31B733C21D762AF0074F86F /* GoogleService-Info.plist */,
 				B36AEA24214FD9D9009BDEC3 /* Main.storyboard */,
 				B36AEA20214FD9D9009BDEC3 /* AppDelegate.swift */,
 				B36AEA29214FD9DA009BDEC3 /* LaunchScreen.storyboard */,
@@ -429,13 +431,13 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-AbroadApp/Pods-AbroadApp-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
-				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
