@@ -56,18 +56,18 @@ class WelcomingViewController: UIViewController {
     lazy var signUpButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("you don't have an account yet?", for: UIControlState.normal)
-        button.setTitleColor(UIColor.white, for: UIControlState.normal)
-        button.addTarget(self, action: #selector(signUpClicked), for: UIControlEvents.touchUpInside)
+        button.setTitle("you don't have an account yet?", for: UIControl.State.normal)
+        button.setTitleColor(UIColor.white, for: UIControl.State.normal)
+        button.addTarget(self, action: #selector(signUpClicked), for: UIControl.Event.touchUpInside)
         return button
     }()
     
     lazy var signInButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Sign In", for: UIControlState.normal)
-        button.setTitleColor(UIColor.white, for: UIControlState.normal)
-        button.addTarget(self, action: #selector(signInClicked), for: UIControlEvents.touchUpInside)
+        button.setTitle("Sign In", for: UIControl.State.normal)
+        button.setTitleColor(UIColor.white, for: UIControl.State.normal)
+        button.addTarget(self, action: #selector(signInClicked), for: UIControl.Event.touchUpInside)
         return button
     }()
     
@@ -88,7 +88,7 @@ class WelcomingViewController: UIViewController {
     }else{
         photoCount = 0;
     }
-        UIView.transition(with: self.backgroundImageView, duration: 10.0, options: [UIViewAnimationOptions.transitionCrossDissolve, UIViewAnimationOptions.allowUserInteraction], animations: {
+        UIView.transition(with: self.backgroundImageView, duration: 10.0, options: [UIView.AnimationOptions.transitionCrossDissolve, UIView.AnimationOptions.allowUserInteraction], animations: {
         self.backgroundImageView.image = self.images[self.photoCount]
     }, completion: {(done) in
 

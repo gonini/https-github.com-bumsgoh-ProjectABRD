@@ -6,10 +6,23 @@
 //  Copyright © 2018년 고상범. All rights reserved.
 //
 
+/*
+ 변경사항 : 헤더뷰를 다른 클래스 파일로 만듬 -> viewController 코드 길이 줄이는 용도
+ 
+ 
+ */
+
+
+
+
+
 import UIKit
 
-class PartnerDetailInfoViewController: UITableViewController {
+class PartnerDetailInfoViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
+    fileprivate let detailInfoCellId = "cellId"
+    fileprivate let detailInfoHeaderId = "headerId"
+    /*
     lazy var panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
     
     private let tableHeaderViewHeight: CGFloat = 400.0
@@ -25,17 +38,33 @@ class PartnerDetailInfoViewController: UITableViewController {
         imageView.image = #imageLiteral(resourceName: "IMG_0596")
         return imageView
     }()
-    
+    */
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.panGesture.delegate = self
-        UISetUp()
-        self.view.backgroundColor = UIColor.white
+        //self.panGesture.delegate = self
+       // UISetUp()
+       
+        collectionView.backgroundColor = UIColor.white
+        collectionView.register(PartnerDetailInfoCollectionViewCell.self, forCellWithReuseIdentifier: detailInfoCellId)
         //self.view.alpha = 0.3
+        collectionView.register(PartnerDetailHeaderReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: detailInfoHeaderId)
+        
         
     }
     
-    func UISetUp() {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+   /* override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+    }*/
+    
+    
+    
+    
+}
+    /*func UISetUp() {
         self.tableView.addGestureRecognizer(panGesture)
         
         tableView.estimatedRowHeight = tableView.rowHeight
@@ -53,8 +82,8 @@ class PartnerDetailInfoViewController: UITableViewController {
         tableView.contentOffset = CGPoint(x: 0, y: -effectiveHeight)
         
         updateHeaderView()
-    }
-    
+*/
+    /*
     func setHeaderView() -> UIView {
         let headerView = UIView()
         
@@ -69,7 +98,9 @@ class PartnerDetailInfoViewController: UITableViewController {
         
         return headerView
     }
+    */
     
+    /*
     func updateHeaderView() {
         let effectiveHeight = tableHeaderViewHeight - tableHeaderViewCutaway/2
         
@@ -101,7 +132,7 @@ class PartnerDetailInfoViewController: UITableViewController {
             break
         }
     }
-    
+    */
 //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 //        guard let touch = touches.first else { return }
 //        print(startLocation)
@@ -113,8 +144,8 @@ class PartnerDetailInfoViewController: UITableViewController {
 //        print(endLocation)
 //        self.endLocation = Int(touch.location(in: self.view).y)
 //    }
-}
 
+/*
 extension PartnerDetailInfoViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
@@ -139,78 +170,4 @@ extension PartnerDetailInfoViewController: UIGestureRecognizerDelegate {
     }
 }
 
-class PartnerDetailTableViewCell: UITableViewCell {
-    
-    let memberNameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 40)
-        label.text = "고상범"
-        return label
-    }()
-    
-    let ageLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .darkGray
-        label.text = "25"
-        label.font = .systemFont(ofSize: 30)
-        return label
-    }()
-    
-    let countryLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "🇰🇷"
-        label.font = .systemFont(ofSize: 30)
-        return label
-    }()
-    
-    let titleStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.spacing = 10
-        return stackView
-    }()
-    
-    let tripPlanLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.textColor = .darkGray
-        label.text = "독일에서 3일 프랑크푸르트에 숙박예정, 이후에 뮌헨으로 가서 4일동안 구경하고 호프브로이 하우스 관광예정입니다."
-        return label
-    }()
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        UISetUp()
-    }
-    
-    func UISetUp() {
-        titleStackView.addArrangedSubview(memberNameLabel)
-        titleStackView.addArrangedSubview(ageLabel)
-//        titleStackView.addArrangedSubview(countryLabel)
-        
-        self.contentView.addSubview(titleStackView)
-        self.contentView.addSubview(tripPlanLabel)
-        
-        NSLayoutConstraint.activate([
-            self.contentView.heightAnchor.constraint(equalToConstant: 350),
-            
-            titleStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20),
-            titleStackView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
-            
-            tripPlanLabel.topAnchor.constraint(equalTo: memberNameLabel.bottomAnchor, constant: 25),
-            tripPlanLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
-            tripPlanLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -20)
-            ])
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-}
+*/

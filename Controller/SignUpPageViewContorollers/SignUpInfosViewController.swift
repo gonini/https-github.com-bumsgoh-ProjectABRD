@@ -304,7 +304,7 @@ class SignUpInfosViewController: UIViewController {
                     guard let user = authResult?.user else {
                         
                         let alert = UIAlertController(title: "알림", message: "회원 가입 요청 실패", preferredStyle: .alert)
-                        let okButton = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
+                        let okButton = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
                         alert.addAction(okButton)
                         self?.present(alert, animated: false)
                         return
@@ -312,7 +312,8 @@ class SignUpInfosViewController: UIViewController {
                 Database.database().reference().child("users").child(user.uid).setValue(["userId": user.email])
                     let storageRef = self?.storage.reference()
                     let userProfileImageRef = storageRef?.child("userProfileImage/\(user.uid).jpg")
-                    guard let data = UIImageJPEGRepresentation(self?.profileImageView.image ?? UIImage.init(), 0.1) else {
+                  
+                    guard let data = self?.profileImageView.image?.jpegData(compressionQuality: 0.1) else {
                         return
                     }
                     userProfileImageRef?.putData(data, metadata: nil) { (metadata, error) in
@@ -328,7 +329,7 @@ class SignUpInfosViewController: UIViewController {
                                 return
                                 
                             }
-                            Database.database().reference().child("users").child(user.uid).setValue(["userId": user.email, "userImageUrl": url]  )
+                            Database.database().reference().child("users").child(user.uid).setValue(["uid": user.uid, "userId": user.email, "userImageUrl": url]  )
                         }
                     }.resume()
                 }
@@ -337,7 +338,7 @@ class SignUpInfosViewController: UIViewController {
             } else {
                 let alert = UIAlertController(title: "알림", message: "비밀번호가 일치하지 않습니다", preferredStyle: .alert)
                 
-                let okButton = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
+                let okButton = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
                 
                 alert.addAction(okButton)
                 
@@ -346,7 +347,7 @@ class SignUpInfosViewController: UIViewController {
         } else {
             let alert = UIAlertController(title: "알림", message: "모든 정보를 입력해주세요", preferredStyle: .alert)
             
-            let okButton = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
+            let okButton = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
             
             alert.addAction(okButton)
             
@@ -378,18 +379,18 @@ extension SignUpInfosViewController: UIImagePickerControllerDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        if let editImage: UIImage = info[UIImagePickerControllerEditedImage] as? UIImage{
-            self.profileImageView.image = editImage
+   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let editedImage = info[.editedImage] as? UIImage {
+            self.profileImageView.image = editedImage
             self.profileImageView.clipsToBounds = true
-        } else if let originalImage: UIImage = info[UIImagePickerControllerOriginalImage] as? UIImage{
+        } else if let originalImage: UIImage = info[.originalImage] as? UIImage {
             self.profileImageView.image = originalImage
             self.profileImageView.clipsToBounds = true
         }
         
         self.dismiss(animated: true, completion: nil)
     }
+    
 }
 
 extension SignUpInfosViewController: UINavigationControllerDelegate {}

@@ -55,10 +55,10 @@ class LoginViewController: UIViewController {
     lazy var loginButton: UIButton = {[weak self] in
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Get Started", for: UIControlState.normal)
-        button.setTitleColor(#colorLiteral(red: 0.0919258669, green: 0.5034434199, blue: 0.9811272025, alpha: 1), for: UIControlState.normal)
+        button.setTitle("Get Started", for: UIControl.State.normal)
+        button.setTitleColor(#colorLiteral(red: 0.0919258669, green: 0.5034434199, blue: 0.9811272025, alpha: 1), for: UIControl.State.normal)
         
-        button.addTarget(self, action: #selector(loginButtonClicked(sender:)), for: UIControlEvents.touchUpInside)
+        button.addTarget(self, action: #selector(loginButtonClicked(sender:)), for: UIControl.Event.touchUpInside)
         return button
     }()
     

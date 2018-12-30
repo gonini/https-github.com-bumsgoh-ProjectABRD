@@ -251,15 +251,15 @@ extension MyPageSettingViewController: UIImagePickerControllerDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        if let editImage: UIImage = info[UIImagePickerControllerEditedImage] as? UIImage{
+    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+
+        if let editImage = info[UIImagePickerController.InfoKey.editedImage.rawValue] as? UIImage {
             self.profileImageView.image = editImage
-        } else if let originalImage: UIImage = info[UIImagePickerControllerOriginalImage] as? UIImage{
+        } else if let originalImage: UIImage = info[UIImagePickerController.InfoKey.editedImage.rawValue] as? UIImage {
             self.profileImageView.image = originalImage
         }
         
-        self.dismiss(animated: true, completion: nil)
+         self.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -280,7 +280,7 @@ class settingMyPageTableViewCell: UITableViewCell {
         return textField
     }()
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setLayout()
     }
@@ -320,7 +320,7 @@ class settingMyPageIntroduceTableViewCell: UITableViewCell {
         return textView
     }()
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.dataTextView.delegate = self
         setLayout()

@@ -54,8 +54,8 @@ class ChatViewController: UIViewController {
     let chatSendButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("send", for: UIControlState.normal)
-        button.setTitleColor(#colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), for: UIControlState.normal)
+        button.setTitle("send", for: UIControl.State.normal)
+        button.setTitleColor(#colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), for: UIControl.State.normal)
        
         return button
     }()
@@ -83,8 +83,8 @@ class ChatViewController: UIViewController {
             width = UIScreen.main.bounds.height
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         UISetUp()
         self.chatSendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
         
@@ -145,8 +145,8 @@ class ChatViewController: UIViewController {
     
     func adjustingHeight(_ show:Bool, notification:NSNotification) {
         guard let userInfo = notification.userInfo else { return }
-        guard let keyboardFrame: CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey]) as? CGRect else { return }
-        guard let animationDurarion: TimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval else {return}
+        guard let keyboardFrame: CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey]) as? CGRect else { return }
+        guard let animationDurarion: TimeInterval = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else {return}
         let changeInHeight = (keyboardFrame.height) * (show ? 1 : -1)
         UIView.animate(withDuration: animationDurarion, animations: {() in
             self.bottomConstraint.constant -= changeInHeight
@@ -171,7 +171,7 @@ extension ChatViewController: UICollectionViewDelegateFlowLayout {
         let messageText: [String: String] = self.message[indexPath.row]
             let size: CGSize = CGSize(width: 250, height: 1000)
             let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-            let estimatedForm = NSString(string: messageText["message"]!).boundingRect(with: size, options: option, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
+        let estimatedForm = NSString(string: messageText["message"]!).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)], context: nil)
             return CGSize(width: self.view.frame.width, height: estimatedForm.height + 20)
         
        // return CGSize(width: self.view.frame.width, height: 100)
@@ -194,7 +194,7 @@ extension ChatViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let size: CGSize = CGSize(width: 250, height: 1000)
         let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         
-        let estimatedForm = NSString(string: messageText["message"]!).boundingRect(with: size, options: option, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
+        let estimatedForm = NSString(string: messageText["message"]!).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)], context: nil)
         
         if !(messageText["sendMessageId"] == UserInfo.userInfo.userName) {
             cell.chatTextView.frame = CGRect(x: 40 + 8, y: 0, width: estimatedForm.width + 16, height: estimatedForm.height + 20)
