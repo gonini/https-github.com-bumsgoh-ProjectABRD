@@ -24,99 +24,195 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     
     fileprivate let detailInfoCellId = "cellId"
     fileprivate let detailInfoHeaderId = "headerId"
+    fileprivate let detailPlanAndLikesHeaderId = "planAndLikesheaderId"
+    fileprivate let detailInfoFooterId = "footerId"
+    fileprivate let tempId = "tmpId"
     fileprivate let padding: CGFloat = 16
     
-    var headerView: PartnerDetailHeaderReusableView?
+    let downArrowImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.zPosition = .greatestFiniteMagnitude
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        imageView.image = #imageLiteral(resourceName: "swipe-down")
+        return imageView
+    }()
+    
+    let string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+    
+    var profileHeaderView: PartnerDetailHeaderReusableView?
+    var planHeaderView: PlanAndLikesCollectionReusableView?
     /*
     lazy var panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
     
-    private let tableHeaderViewHeight: CGFloat = 400.0
-    private let tableHeaderViewCutaway: CGFloat = 0.0
-    
-    var headerView: UIView!
-    
-    let profileImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.image = #imageLiteral(resourceName: "IMG_0596")
-        return imageView
-    }()
     */
-   
-    
-   
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        collectionView.addSubview(downArrowImageView)
         setUpCollectionView()
         setUpCollectionViewLayout()
+        collectionView.isPrefetchingEnabled = false
         
     }
     
     
     fileprivate func setUpCollectionViewLayout() {
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
-            
             layout.sectionInset = .init(top: padding, left: padding, bottom: padding, right: padding)
+            layout.sectionFootersPinToVisibleBounds = true
         }
+        
     }
     
     fileprivate func setUpCollectionView() {
         collectionView.backgroundColor = UIColor.white
         collectionView.contentInsetAdjustmentBehavior = .never
         
-        collectionView.register(PartnerDetailInfoCollectionViewCell.self, forCellWithReuseIdentifier: detailInfoCellId)
+        collectionView.register(PartnerDetailViewCommentCellCollectionViewCell.self, forCellWithReuseIdentifier: detailInfoCellId)
         
         collectionView.register(PartnerDetailHeaderReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: detailInfoHeaderId)
+        collectionView.register(PlanAndLikesCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: detailPlanAndLikesHeaderId)
+        
+        collectionView.register(PartnerDetailBottomView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: detailInfoFooterId)
+        collectionView.register(TempCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: tempId)
+        
     }
     
     
     
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
-    }
+    
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: detailInfoCellId, for: indexPath)
-        cell.backgroundColor = .black
         return cell
     }
+
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
-        headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: detailInfoHeaderId, for: indexPath) as? PartnerDetailHeaderReusableView
-        
-        guard let headerView = headerView else {
-            return UICollectionReusableView.init()
+        let section = indexPath.section
+       
+        switch kind {
+        case UICollectionView.elementKindSectionHeader:
+            if section == 0 {
+            profileHeaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: detailInfoHeaderId, for: indexPath) as? PartnerDetailHeaderReusableView
             
-        }
-        return headerView
-        
+            guard let headerView = profileHeaderView else {
+                return UICollectionReusableView.init()
+                
+            }
+               
+                downArrowImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+                downArrowImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+                downArrowImageView.centerYAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -10).isActive = true
+                downArrowImageView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -32).isActive = true
+               
+                
+            return headerView
+                
+            } else if section == 1 {
+                planHeaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: detailPlanAndLikesHeaderId, for: indexPath) as? PlanAndLikesCollectionReusableView
+                
+                
+                guard let headerView = planHeaderView else {
+                    return UICollectionReusableView.init()
+                    
+                }
+                headerView.planLabel.text = string
+                return headerView
+            }
+        case UICollectionView.elementKindSectionFooter:
+            if section == 1 {
+                guard let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: detailInfoFooterId, for: indexPath) as? PartnerDetailBottomView else {
+                    return UICollectionReusableView.init()
+                }
+                footerView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                return footerView
+            } else {
+                return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: tempId, for: indexPath)
+            }
+        default:
+            return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: tempId, for: indexPath)
+    }
+         return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: tempId, for: indexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+       
+        switch section {
+        case 0:
+            return .init(width: view.frame.width, height: 350)
+        case 1:
+            let size: CGSize = CGSize(width: view.frame.width, height: 250)
+            let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+            let estimatedForm = NSString(string: string).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20)], context: nil)
+            
+            return .init(width: view.frame.width, height: estimatedForm.height+10)
+        default:
+            return .init(width: view.frame.width, height: 350)
+        }
         
-        return .init(width: view.frame.width, height: 350)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        if section == 1 {
+            return .init(width: view.frame.width, height: 100)
+        } else {
+             return .init(width: view.frame.width, height: 1)
+        }
+       
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return .init(width: view.frame.width - 2 * padding, height: 50)
+        let size: CGSize = CGSize(width: view.frame.width, height: 250)
+        let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+        let estimatedForm = NSString(string: "[MC] System group container for systemgroup.com.apple.configurationprofiles path is /Users/bum/Library/Developer/CoreSimulator/Devices/A8D1299C-F22A-4416-B4EF-19144E22EB48/data/Containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles").boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)], context: nil)
+        
+        
+        return .init(width: view.frame.width - 2 * padding, height: estimatedForm.height)
     }
-    
+
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let contentOffSetY = scrollView.contentOffset.y
         if contentOffSetY > 0 {
-            headerView?.animator.fractionComplete = 0
+            profileHeaderView?.animator.fractionComplete = 0
             return
         }
-        headerView?.animator.fractionComplete = abs(contentOffSetY) / 100
+        print(contentOffSetY)
+        
+        collectionViewLayout.invalidateLayout()
+        profileHeaderView?.animator.fractionComplete = abs(contentOffSetY) / 100
+        
+        if contentOffSetY < -200 {
+            profileHeaderView?.animator.stopAnimation(true)
+            dismiss(animated: true, completion: nil)
+        }
+        
+    }
+    
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        
+        return 2
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        switch section {
+        case 0:
+            return 0
+        case 1:
+            return 7
+        default:
+            return 1
+        }
         
     }
     
 }
+
+
+
+
     /*func UISetUp() {
         self.tableView.addGestureRecognizer(panGesture)
         

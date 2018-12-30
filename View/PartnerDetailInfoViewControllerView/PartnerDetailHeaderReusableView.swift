@@ -54,12 +54,7 @@ class PartnerDetailHeaderReusableView: UICollectionReusableView {
         addSubview(userNameLabel)
         addSubview(userAgeLabel)
         
-        profileImageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        profileImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        profileImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        profileImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        
-        
+        profileImageView.fillSuperView(with: 0)
         userNameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16).isActive = true
         userNameLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
         

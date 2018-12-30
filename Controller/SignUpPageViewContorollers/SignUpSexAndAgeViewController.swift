@@ -8,8 +8,9 @@
 
 import UIKit
 import FirebaseAuth
-import Firebase
-// 회원가입 성별/나이 화면
+import FirebaseDatabase
+
+// 회원가입 성별/나이 화면 //이름 추가됨 (상범) +  confirmButton에 파이어베이스 관련 데이터베이스 추가
 class SignUpSexAndAgeViewController: UIViewController {
     
     var isFemale: Bool = true
@@ -38,6 +39,7 @@ class SignUpSexAndAgeViewController: UIViewController {
         "USA",
         "UK"
     ]
+    
     
     let sexLabel: UILabel = {
         let label = UILabel()
@@ -130,6 +132,27 @@ class SignUpSexAndAgeViewController: UIViewController {
         return stackView
     }()
     
+    
+    let nameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "이름을 입력해주세요"
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = UIColor.darkGray
+        return label
+    }()
+
+    let nameTextField: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.backgroundColor = UIColor.clear
+        textField.setBottomBorder()
+        textField.font = .systemFont(ofSize: 20)
+        textField.clearButtonMode = .always
+        textField.isSecureTextEntry = true
+        return textField
+    }()
+    
     let countryLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -180,6 +203,18 @@ class SignUpSexAndAgeViewController: UIViewController {
         self.countrySelectTextField.inputView = countryPickerView
         self.ageSelectTextField.inputView = agePickerView
         
+        self.view.addSubview(nameLabel)
+        self.view.addSubview(nameTextField)
+        
+        self.nameLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = true
+        self.nameLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30).isActive = true
+        
+        self.nameTextField.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 20).isActive = true
+        self.nameTextField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.nameTextField.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 40).isActive = true
+        self.nameTextField.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -40).isActive = true
+        
+        
         self.view.addSubview(sexLabel)
         self.view.addSubview(sexStackView)
         
@@ -202,7 +237,7 @@ class SignUpSexAndAgeViewController: UIViewController {
         maleButton.addTarget(self, action: #selector(maleImageClicked(_:)), for: .touchUpInside)
         femaleButton.addTarget(self, action: #selector(femaleImageClicked(_:)), for: .touchUpInside)
         
-        self.sexLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = true
+        self.sexLabel.topAnchor.constraint(equalTo: self.nameTextField.bottomAnchor, constant: 30).isActive = true
         self.sexLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30).isActive = true
         
         self.sexStackView.topAnchor.constraint(equalTo: self.sexLabel.bottomAnchor, constant: 24).isActive = true
@@ -280,17 +315,22 @@ class SignUpSexAndAgeViewController: UIViewController {
     }
     
     @objc func touchUpConfirmButton(_: UIButton) {
+        guard let user = Auth.auth().currentUser else {
+            fatalError()
+        }
+        let age = ageSelectTextField.text!.components(separatedBy: " ")
         
-      let handle = Auth.auth().addStateDidChangeListener { [weak self] (auth, user)  in
-        if let user = user {
-            user.photoURL
-        }/*
-        Analytics.setUserProperty("\(self.isFemale)", forName: "sex")
-        Analytics.setUserProperty("\(self.selectedCountry)", forName: "country")
-        Analytics.setUserProperty("\(self.selectedAge)", forName: "age")
-        */
+        let userData = ["userName": nameTextField.text!,
+                        "sex": "\(isFemale)",
+                        "age": age[0],
+                        "country": countrySelectTextField.text!,] as [String : Any]
+        Database.database().reference().child("users").child(user.uid).updateChildValues(userData) { [weak self] (Error, DatabaseReference) in
+            if let error = Error {
+                return
             }
-        Auth.auth().removeStateDidChangeListener(handle)
+            let MainVC: MainTabBarController = MainTabBarController()
+            self?.navigationController?.pushViewController(MainVC, animated: false)
+        }
         
     }
     
