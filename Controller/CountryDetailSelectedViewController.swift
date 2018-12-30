@@ -147,7 +147,8 @@ extension CountryDetailSelectedViewController: UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let VC: PartnerDetailInfoViewController = PartnerDetailInfoViewController()
+        let VC: PartnerDetailInfoViewController = PartnerDetailInfoViewController(collectionViewLayout: StretchableHeaderFlowLayout())
+       
         self.navigationController?.present(VC, animated: true, completion: nil)
     }
     

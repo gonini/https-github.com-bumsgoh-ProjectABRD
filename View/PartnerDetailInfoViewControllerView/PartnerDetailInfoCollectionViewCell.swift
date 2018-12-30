@@ -51,12 +51,12 @@ class PartnerDetailInfoCollectionViewCell: UICollectionViewCell {
         label.text = "독일에서 3일 프랑크푸르트에 숙박예정, 이후에 뮌헨으로 가서 4일동안 구경하고 호프브로이 하우스 관광예정입니다."
         return label
     }()
-    
+ 
     override init(frame: CGRect) {
         super.init(frame: frame)
-         UISetUp()
+        // UISetUp()
     }
-    
+ 
     
     func UISetUp() {
         titleStackView.addArrangedSubview(memberNameLabel)

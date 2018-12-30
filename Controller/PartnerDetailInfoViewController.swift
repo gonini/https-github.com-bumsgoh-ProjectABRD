@@ -7,7 +7,9 @@
 //
 
 /*
- 변경사항 : 헤더뷰를 다른 클래스 파일로 만듬 -> viewController 코드 길이 줄이는 용도
+ 변경사항 : 1. 헤더뷰를 다른 클래스 파일로 만듬 -> viewController 코드 길이 줄이는 용도 (PartnerDetailViewControllorView 폴더안에 넣어 놓음)
+        2. tableViewController -> collectionViewController 로 바꿈. 각 사람마다 여행 후기를 쓰고 별점을 줄 수 있는 기능을 만드려고함.
+        3. 화면을 내렸을 시 흐려지는 Blur 이펙트를 추가함
  
  
  */
@@ -22,6 +24,9 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     
     fileprivate let detailInfoCellId = "cellId"
     fileprivate let detailInfoHeaderId = "headerId"
+    fileprivate let padding: CGFloat = 16
+    
+    var headerView: PartnerDetailHeaderReusableView?
     /*
     lazy var panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
     
@@ -39,29 +44,77 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         return imageView
     }()
     */
+   
+    
+   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.panGesture.delegate = self
-       // UISetUp()
-       
-        collectionView.backgroundColor = UIColor.white
-        collectionView.register(PartnerDetailInfoCollectionViewCell.self, forCellWithReuseIdentifier: detailInfoCellId)
-        //self.view.alpha = 0.3
-        collectionView.register(PartnerDetailHeaderReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: detailInfoHeaderId)
         
+        setUpCollectionView()
+        setUpCollectionViewLayout()
         
     }
+    
+    
+    fileprivate func setUpCollectionViewLayout() {
+        if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
+            
+            layout.sectionInset = .init(top: padding, left: padding, bottom: padding, right: padding)
+        }
+    }
+    
+    fileprivate func setUpCollectionView() {
+        collectionView.backgroundColor = UIColor.white
+        collectionView.contentInsetAdjustmentBehavior = .never
+        
+        collectionView.register(PartnerDetailInfoCollectionViewCell.self, forCellWithReuseIdentifier: detailInfoCellId)
+        
+        collectionView.register(PartnerDetailHeaderReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: detailInfoHeaderId)
+    }
+    
+    
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return 30
     }
     
-   /* override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: detailInfoCellId, for: indexPath)
+        cell.backgroundColor = .black
+        return cell
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-    }*/
+        headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: detailInfoHeaderId, for: indexPath) as? PartnerDetailHeaderReusableView
+        
+        guard let headerView = headerView else {
+            return UICollectionReusableView.init()
+            
+        }
+        return headerView
+        
+    }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        return .init(width: view.frame.width, height: 350)
+    }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return .init(width: view.frame.width - 2 * padding, height: 50)
+    }
     
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentOffSetY = scrollView.contentOffset.y
+        if contentOffSetY > 0 {
+            headerView?.animator.fractionComplete = 0
+            return
+        }
+        headerView?.animator.fractionComplete = abs(contentOffSetY) / 100
+        
+    }
     
 }
     /*func UISetUp() {
