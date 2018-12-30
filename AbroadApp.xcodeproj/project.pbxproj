@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		43681B06B36291EDDDD509F1 /* Pods_AbroadAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF99E3927C625A873DEFA0B /* Pods_AbroadAppUITests.framework */; };
 		481E16ED417A3B041DA57C73 /* Pods_AbroadAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DAD6C4CA7838B3F71DB9C4D /* Pods_AbroadAppTests.framework */; };
+		B31B733E21D76B050074F86F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B31B733D21D76B050074F86F /* GoogleService-Info.plist */; };
 		B33D928F218C5169003DED43 /* WelcomingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33D928E218C5168003DED43 /* WelcomingViewController.swift */; };
 		B36AEA21214FD9D9009BDEC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA20214FD9D9009BDEC3 /* AppDelegate.swift */; };
 		B36AEA23214FD9D9009BDEC3 /* CountryDetailSelectedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA22214FD9D9009BDEC3 /* CountryDetailSelectedViewController.swift */; };
@@ -24,7 +25,6 @@
 		B36AEA5D2151548C009BDEC3 /* MessageForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA5C2151548C009BDEC3 /* MessageForm.swift */; };
 		B36AEA5F215185C9009BDEC3 /* ChatBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA5E215185C9009BDEC3 /* ChatBubbleCollectionViewCell.swift */; };
 		B36BD851216522580075F2F3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36BD850216522580075F2F3 /* LoginViewController.swift */; };
-		B36BD854216531100075F2F3 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36BD853216531100075F2F3 /* SocketManager.swift */; };
 		B3A559832167B7A2006DCBD3 /* PartnersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A559822167B7A2006DCBD3 /* PartnersTableViewCell.swift */; };
 		B3A559852167BB58006DCBD3 /* PartnerDetailInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A559842167BB58006DCBD3 /* PartnerDetailInfoViewController.swift */; };
 		B3A559872167C993006DCBD3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A559862167C993006DCBD3 /* MainTabBarController.swift */; };
@@ -69,7 +69,7 @@
 		571F49C8298F1728F32E5AA8 /* Pods-AbroadApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AbroadApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AbroadApp/Pods-AbroadApp.debug.xcconfig"; sourceTree = "<group>"; };
 		9DAD6C4CA7838B3F71DB9C4D /* Pods_AbroadAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AbroadAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF202B6703BDBD2E6E3D256C /* Pods-AbroadApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AbroadApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-AbroadApp/Pods-AbroadApp.release.xcconfig"; sourceTree = "<group>"; };
-		B31B733C21D762AF0074F86F /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B31B733D21D76B050074F86F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../.Trash/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B33D928E218C5168003DED43 /* WelcomingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomingViewController.swift; sourceTree = "<group>"; };
 		B36AEA1D214FD9D9009BDEC3 /* AbroadApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AbroadApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B36AEA20214FD9D9009BDEC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -91,7 +91,6 @@
 		B36AEA5C2151548C009BDEC3 /* MessageForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageForm.swift; sourceTree = "<group>"; };
 		B36AEA5E215185C9009BDEC3 /* ChatBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		B36BD850216522580075F2F3 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		B36BD853216531100075F2F3 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
 		B3A559822167B7A2006DCBD3 /* PartnersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnersTableViewCell.swift; sourceTree = "<group>"; };
 		B3A559842167BB58006DCBD3 /* PartnerDetailInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerDetailInfoViewController.swift; sourceTree = "<group>"; };
 		B3A559862167C993006DCBD3 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -195,6 +194,7 @@
 		B36AEA1F214FD9D9009BDEC3 /* AbroadApp */ = {
 			isa = PBXGroup;
 			children = (
+				B31B733D21D76B050074F86F /* GoogleService-Info.plist */,
 				D1DF6D5E21901B6200F65B5C /* Assets.xcassets */,
 				B36AEA2C214FD9DA009BDEC3 /* Info.plist */,
 			);
@@ -241,7 +241,6 @@
 		B36AEA51214FDACA009BDEC3 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
-				B31B733C21D762AF0074F86F /* GoogleService-Info.plist */,
 				B36AEA24214FD9D9009BDEC3 /* Main.storyboard */,
 				B36AEA20214FD9D9009BDEC3 /* AppDelegate.swift */,
 				B36AEA29214FD9DA009BDEC3 /* LaunchScreen.storyboard */,
@@ -278,7 +277,6 @@
 			children = (
 				B3CB845C21C527FD00689353 /* ErrorHandler.swift */,
 				B3CB845A21C527F000689353 /* APIService.swift */,
-				B36BD853216531100075F2F3 /* SocketManager.swift */,
 				B3CB845821C5167500689353 /* NetworkManager.swift */,
 			);
 			path = Networking;
@@ -402,6 +400,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B36AEA2B214FD9DA009BDEC3 /* LaunchScreen.storyboard in Resources */,
+				B31B733E21D76B050074F86F /* GoogleService-Info.plist in Resources */,
 				D1DF6D5F21901B6200F65B5C /* Assets.xcassets in Resources */,
 				B36AEA26214FD9D9009BDEC3 /* Main.storyboard in Resources */,
 			);
@@ -431,12 +430,16 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-AbroadApp/Pods-AbroadApp-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -514,7 +517,6 @@
 				B3CB845D21C527FD00689353 /* ErrorHandler.swift in Sources */,
 				B36AEA4F214FDAB3009BDEC3 /* CountrySelectingCollectionViewCell.swift in Sources */,
 				B36AEA5B21513D80009BDEC3 /* ChatViewController.swift in Sources */,
-				B36BD854216531100075F2F3 /* SocketManager.swift in Sources */,
 				B3CD8CBB2166968B004F4FC6 /* ChatListTableViewCell.swift in Sources */,
 				B3CD8CB321668811004F4FC6 /* SignUpSexAndAgeViewController.swift in Sources */,
 				B3CB845F21C52CDC00689353 /* UserInfo.swift in Sources */,

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SocketIO
+
 
 class ChatViewController: UIViewController {
     let reuseIdentifier: String = "chatBubbleCell"
@@ -22,7 +22,7 @@ class ChatViewController: UIViewController {
     }
     
     var width: CGFloat?
-    var socket: SocketIOClient!
+
     var bottomConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var isKeyboardShowOnce: Bool = false
     
@@ -82,60 +82,15 @@ class ChatViewController: UIViewController {
         } else {
             width = UIScreen.main.bounds.height
         }
-        self.socket = SocketManaging.socketManager.socket(forNamespace: "/chat")
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         UISetUp()
         self.chatSendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
         
-        let uuid = [
-            "userUuid": UserInfo.userInfo.userUuid
-        ]
-        socket.emit("chatConnected", uuid)
-        //socket.connect()
-        let myJSON = [
-            "roomName": "\(roomId)"
-        ]
         
-        socket.emit("chatMessage", myJSON)
         
-        socket.on("chatMessageSuccess") {(data,ack) in
-            print(data)
-            let dataArray: [NSArray] = data as! [NSArray]
-            let rData = dataArray[0]
-            for msgData in rData {
-                let msg: [String: Any] = (msgData as! NSDictionary) as! [String : Any]
-                if let messageString = msg["message"] , let id = msg["sendMessageId"]  {
-                    if let msg = messageString as? String, let Uid = id as? String {
-                          self.message.append(["message": msg , "sendMessageId": Uid])
-                    }else {
-                        self.message.append(["message": "" , "sendMessageId": ""])
-                    }
-                } else {}
-            }
-            OperationQueue.main.addOperation {
-                self.chatCollectionView.reloadData()
-            }
-        }
         
-        socket.on("receiveMessage") {[weak self] (data,ack) in
-            let dataArray: NSArray = data as NSArray
-            
-            OperationQueue.main.addOperation {
-                for msgData in dataArray {
-                    let msg: [String: String] = (msgData as! NSDictionary) as! [String : String]
-                    self?.message.append(["message": msg["message"]!, "sendMessageId": msg["sendMessageId"]!])
-                }
-                guard let numberOfItems  = self?.message.count else {
-                    
-                    return
-                }
-                let count = numberOfItems - 1
-                let insertIdx = IndexPath(item: count, section: 0)
-                self?.chatCollectionView.insertItems(at: [insertIdx])
-                self?.chatCollectionView.scrollToItem(at: insertIdx, at: .bottom, animated: true)
-            }
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -185,11 +140,7 @@ class ChatViewController: UIViewController {
         ]
         //message.append(myJSON)
         
-        socket.emit("sendMessage", myJSON)
-        OperationQueue.main.addOperation {
-            self.chatTextView.text = ""
-          //  self.chatCollectionView.reloadData()
-        }
+       
     }
     
     func adjustingHeight(_ show:Bool, notification:NSNotification) {

@@ -7,9 +7,15 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseStorage
+import FirebaseDatabase
+
 
 // 회원가입 아이디/비밀번호 화면
 class SignUpInfosViewController: UIViewController {
+    
+    let storage = Storage.storage()
     
     let textFieldDivider: UIView = {
         let view = UIView()
@@ -29,7 +35,7 @@ class SignUpInfosViewController: UIViewController {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
+        stackView.distribution = .equalCentering
         return stackView
     }()
     
@@ -265,9 +271,7 @@ class SignUpInfosViewController: UIViewController {
         
         self.passwordSecurityButton.topAnchor.constraint(equalTo: self.outsideStackView.bottomAnchor, constant: 15).isActive = true
         self.passwordSecurityButton.trailingAnchor.constraint(equalTo: self.outsideStackView.trailingAnchor).isActive = true
-        
-        
-        
+
         self.buttonStackView.topAnchor.constraint(equalTo: self.passwordSecurityButton.bottomAnchor, constant: 25).isActive = true
         self.buttonStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30).isActive = true
         self.buttonStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -30).isActive = true
@@ -292,8 +296,42 @@ class SignUpInfosViewController: UIViewController {
     
     @objc func touchUpNextButton(_: UIButton) {
         if idTextField.text != "", passwordFirstTextField.text != "", passwordCheckTextField.text != "" {
+            
             if passwordFirstTextField.text == passwordCheckTextField.text {
                 let vc: SignUpSexAndAgeViewController = SignUpSexAndAgeViewController()
+                Auth.auth().createUser(withEmail: idTextField.text!, password: passwordCheckTextField.text!) { [weak self] (authResult, error)  in
+                    
+                    guard let user = authResult?.user else {
+                        
+                        let alert = UIAlertController(title: "알림", message: "회원 가입 요청 실패", preferredStyle: .alert)
+                        let okButton = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
+                        alert.addAction(okButton)
+                        self?.present(alert, animated: false)
+                        return
+                    }
+                Database.database().reference().child("users").child(user.uid).setValue(["userId": user.email])
+                    let storageRef = self?.storage.reference()
+                    let userProfileImageRef = storageRef?.child("userProfileImage/\(user.uid).jpg")
+                    guard let data = UIImageJPEGRepresentation(self?.profileImageView.image ?? UIImage.init(), 0.1) else {
+                        return
+                    }
+                    userProfileImageRef?.putData(data, metadata: nil) { (metadata, error) in
+                        guard let metadata = metadata else {
+                            return
+                        }
+                        userProfileImageRef?.downloadURL { (url, error) in
+                            
+                            if let error = error {
+                                return
+                            }
+                            guard let url = url?.absoluteString else {
+                                return
+                                
+                            }
+                            Database.database().reference().child("users").child(user.uid).setValue(["userId": user.email, "userImageUrl": url]  )
+                        }
+                    }.resume()
+                }
                 
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
@@ -318,25 +356,6 @@ class SignUpInfosViewController: UIViewController {
     
     @objc func touchUpProfileImageView(_: UIImageView) {
         self.present(self.imagePicker, animated: true, completion: nil)
-    }
-  
-    override func viewDidLayoutSubviews() {
-      /*  let idBorder = CALayer()
-        idBorder.frame = CGRect(x: 0, y: idTextField.frame.size.height + 5, width: idTextField.frame.width, height: 1)
-        idBorder.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1).cgColor
-        idTextField.layer.addSublayer(idBorder)
-        
-        let pwBorder = CALayer()
-        pwBorder.frame = CGRect(x: 0, y: passwordFirstTextField.frame.size.height + 5, width: passwordFirstTextField.frame.width, height: 1)
-        pwBorder.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1).cgColor
-        passwordFirstTextField.layer.addSublayer(pwBorder)
-        
-        let pwCheckBorder = CALayer()
-        pwCheckBorder.frame = CGRect(x: 0, y: passwordCheckTextField.frame.size.height + 5, width: passwordCheckTextField.frame.width, height: 1)
-        pwCheckBorder.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1).cgColor
-        passwordCheckTextField.layer.addSublayer(pwCheckBorder)
-        
-        print("clear")*/
     }
 }
 

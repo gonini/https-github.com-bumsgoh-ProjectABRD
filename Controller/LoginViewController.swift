@@ -7,12 +7,12 @@
 //
 
 import UIKit
-import SocketIO
+import FirebaseAuth
+
 import CoreLocation
 // 로그인 화면
 class LoginViewController: UIViewController {
-    
-    var socket: SocketIOClient!
+
     let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
     let locationManager = CLLocationManager()
     var locValue:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0, longitude: 0)
@@ -93,8 +93,6 @@ class LoginViewController: UIViewController {
         
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
-        
-        
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.startUpdatingLocation()
@@ -109,49 +107,24 @@ class LoginViewController: UIViewController {
         self.loginPasswordTextField.delegate = self
         self.tapGesture.delegate = self
         UISetUp()
-        print("hi")
         self.signUpTextLabel.addGestureRecognizer(signUpGestureRecognizer)
-        socket = SocketManaging.socketManager.socket(forNamespace: "/signIn")
-        socket.connect()
-        socket.on(clientEvent: .connect) {data, ack in
-            print("socket connected")
-            
-        }
-        
-        
-        //로그인이 완료되면 다음화면으로 넘어감
-        socket.on("signInSuccess") { data, ack in
-            let dataFromServer: [NSArray] = data as! [NSArray]
-            let info: [String: String] = dataFromServer[0][0] as! [String : String]
-            if let email = info["e_mail"], let userName = info["userName"],let userUuid = info["userUuid"] {
-                UserInfo.userInfo.email = email
-                UserInfo.userInfo.userName = userName
-                UserInfo.userInfo.userUuid = userUuid
-                print(UserInfo.userInfo)
-                
-            } else {
-                return
-            }
-            
-            let locationJson = [
-                "longitude": self.locValue.longitude,
-                "latitude": self.locValue.latitude,
-                "userUuid": UserInfo.userInfo.userUuid,
-                "distance": 5.0,
-                ] as [String : Any]
-            
-            self.socket.emit("saveLocation", locationJson)
-            let vc: MainTabBarController = MainTabBarController()
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
     }
 
     @objc func loginButtonClicked(sender: UIButton) {
-        let loginRequestJson = [
-            "e_mail": "\(self.loginIdTextField.text!)",
-            "password": "\(self.loginPasswordTextField.text!)",
-        ]
-        socket.emit("signInRequest", loginRequestJson)
+        guard let email = loginIdTextField.text, let password = loginPasswordTextField.text else {
+            
+            return
+        }
+        Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            if let user = user?.user {
+                let MainPageVC: MainTabBarController = MainTabBarController()
+                self.navigationController?.pushViewController(MainPageVC, animated: true)
+            }
+        }
     }
     
     @objc func loginButtonReleased(sender: UIButton) {
@@ -165,7 +138,7 @@ class LoginViewController: UIViewController {
     }
 
     func UISetUp () {
-       // self.view.addSubview(logoImageView)
+       
         self.view.addSubview(appTitleLabel)
         self.view.addSubview(idTextFieldDivider)
         self.view.addSubview(loginButton)

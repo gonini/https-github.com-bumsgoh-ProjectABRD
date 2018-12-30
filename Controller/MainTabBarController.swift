@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreLocation
+
+
 class MainTabBarController: UITabBarController {
     
     let locationManager = CLLocationManager()
@@ -15,10 +17,6 @@ class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = false
         makeViewControllers()
-        
-        
-        //UserInfo.userInfo.latitude = locationManager.location.
-        
     }
     
     func makeViewControllers() {

@@ -7,7 +7,8 @@
 //
 
 import UIKit
-
+import FirebaseAuth
+import Firebase
 // 회원가입 성별/나이 화면
 class SignUpSexAndAgeViewController: UIViewController {
     
@@ -196,7 +197,7 @@ class SignUpSexAndAgeViewController: UIViewController {
         self.view.addGestureRecognizer(tapGesture)
         
         self.backButton.addTarget(self, action: #selector(touchUpCancelButton(_:)), for: .touchUpInside)
-        self.nextButton.addTarget(self, action: #selector(touchUpNextButton(_:)), for: .touchUpInside)
+        self.nextButton.addTarget(self, action: #selector(touchUpConfirmButton(_:)), for: .touchUpInside)
         
         maleButton.addTarget(self, action: #selector(maleImageClicked(_:)), for: .touchUpInside)
         femaleButton.addTarget(self, action: #selector(femaleImageClicked(_:)), for: .touchUpInside)
@@ -278,10 +279,21 @@ class SignUpSexAndAgeViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @objc func touchUpNextButton(_: UIButton) {
-        let vc: CountrySelectingCollectionViewController = CountrySelectingCollectionViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+    @objc func touchUpConfirmButton(_: UIButton) {
+        
+      let handle = Auth.auth().addStateDidChangeListener { [weak self] (auth, user)  in
+        if let user = user {
+            user.photoURL
+        }/*
+        Analytics.setUserProperty("\(self.isFemale)", forName: "sex")
+        Analytics.setUserProperty("\(self.selectedCountry)", forName: "country")
+        Analytics.setUserProperty("\(self.selectedAge)", forName: "age")
+        */
+            }
+        Auth.auth().removeStateDidChangeListener(handle)
+        
     }
+    
 }
 
 extension SignUpSexAndAgeViewController: UIPickerViewDelegate, UIPickerViewDataSource {
