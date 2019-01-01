@@ -12,6 +12,15 @@ import FirebaseAuth
 
 class MemberListViewController: UIViewController {
     
+    lazy var indicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+//        activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+//        activityIndicator.center = CGPoint(x: self.bulletBoardTableView.bounds.width / 2, y: self.bulletBoardTableView.bounds.height / 2 - 50)
+//        activityIndicator.color = .black
+        activityIndicator.style = .gray
+        return activityIndicator
+    }()
+    
     var userInformationArray: [UserInformation] = [] {
         
         didSet {
@@ -49,6 +58,8 @@ class MemberListViewController: UIViewController {
     
     func UISetUp() {
         self.view.addSubview(bulletBoardTableView)
+//        self.bulletBoardTableView.addSubview(indicator)
+//        indicator.startAnimating()
         
         self.bulletBoardTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         self.bulletBoardTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
@@ -67,7 +78,7 @@ class MemberListViewController: UIViewController {
         
         Database.database().reference().child("users").observeSingleEvent(of: DataEventType.value) { [weak self] (snapshot) in
             if let data = snapshot.children.allObjects as? [DataSnapshot] {
-                data.compactMap{
+                data.compactMap {
                     guard let dict = $0.value as? NSDictionary else {
                         fatalError()
                     }
@@ -116,7 +127,8 @@ extension MemberListViewController: UITableViewDelegate, UITableViewDataSource {
             
         })
         
-        cell.memberNameLabel.text = "\(userInformationArray[indexPath.row].userName), \(userInformationArray[indexPath.row].userAge)   \(userInformationArray[indexPath.row].userConuntry)"
+        cell.memberNameLabel.text = "\(userInformationArray[indexPath.row].userName) (\(userInformationArray[indexPath.row].userAge))"
+        cell.countryLabel.text = "\(userInformationArray[indexPath.row].userConuntry)"
         cell.chatLabel.text = userInformationArray[indexPath.row].planContents
         cell.onOffImageView.image = onoffArr[Int.random(in: 0...1)]
         
