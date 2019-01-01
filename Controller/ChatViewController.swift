@@ -10,6 +10,7 @@ import UIKit
 
 
 class ChatViewController: UIViewController {
+    
     let reuseIdentifier: String = "chatBubbleCell"
     var roomId: String = ""
     
@@ -132,14 +133,7 @@ class ChatViewController: UIViewController {
     }
     
     @objc func sendButtonClicked() {
-        let myJSON = [
-            "userName": UserInfo.userInfo.userName,
-            "userUuid": UserInfo.userInfo.userUuid,
-            "roomName": "\(roomId)",
-            "message": "\(chatTextView.text!)"
-        ]
-        //message.append(myJSON)
-        
+   
        
     }
     
@@ -196,7 +190,7 @@ extension ChatViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         let estimatedForm = NSString(string: messageText["message"]!).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)], context: nil)
         
-        if !(messageText["sendMessageId"] == UserInfo.userInfo.userName) {
+        if !(messageText["sendMessageId"] == UserInformation().userName) {
             cell.chatTextView.frame = CGRect(x: 40 + 8, y: 0, width: estimatedForm.width + 16, height: estimatedForm.height + 20)
             
              cell.textBubbleView.frame = CGRect(x: 40, y: 0, width: estimatedForm.width + 24, height: estimatedForm.height + 20)

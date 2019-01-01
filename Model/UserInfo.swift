@@ -8,36 +8,14 @@
 
 import Foundation
 
-class UserInfo {
-    
-    static var userInfo: UserInformation = UserInformation()
-    
-    struct UserInformation {
-        var email: String
-        var password: String
-        var userName: String
-        var userUuid: String
-        var latitude: String
-        var longitude: String
-        
-        init(email: String, password: String, userName: String, userUuid: String) {
-            self.email = email
-            self.password = password
-            self.userName = userName
-            self.userUuid = userUuid
-            self.latitude = ""
-            self.longitude = ""
-        }
-        
-        init() {
-            self.email = ""
-            self.password = ""
-            self.userName = ""
-            self.userUuid = ""
-            self.latitude = ""
-            self.longitude = ""
-        }
-}
-
-
+struct UserInformation {
+    var userName: String = ""
+    var userAge: String = ""
+    var userConuntry: String = ""
+    var userUid: String = ""
+    var userSex: String = ""
+    var profileImageUrl: String = ""
+    var planContents: String = ""
+    var latitude: Int = 0
+    var longitude: Int = 0
 }

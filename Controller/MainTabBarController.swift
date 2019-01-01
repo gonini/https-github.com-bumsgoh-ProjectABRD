@@ -20,7 +20,7 @@ class MainTabBarController: UITabBarController {
     }
     
     func makeViewControllers() {
-        let countyDetailViewController = CountryDetailSelectedViewController()
+        let countyDetailViewController = MemberListViewController()
         countyDetailViewController.tabBarItem = UITabBarItem(title: "map", image: #imageLiteral(resourceName: "map-2"), tag: 0)
         
         let chatListsViewController = ChatListTableViewController()

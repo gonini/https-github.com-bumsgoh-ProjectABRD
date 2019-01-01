@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		43681B06B36291EDDDD509F1 /* Pods_AbroadAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF99E3927C625A873DEFA0B /* Pods_AbroadAppUITests.framework */; };
 		481E16ED417A3B041DA57C73 /* Pods_AbroadAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DAD6C4CA7838B3F71DB9C4D /* Pods_AbroadAppTests.framework */; };
+		B3180BCD21D9DFD10064477A /* ChatUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3180BCC21D9DFD10064477A /* ChatUserModel.swift */; };
+		B3180BCF21D9E0F30064477A /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3180BCE21D9E0F30064477A /* ChatModel.swift */; };
 		B31B733E21D76B050074F86F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B31B733D21D76B050074F86F /* GoogleService-Info.plist */; };
 		B31B734121D897130074F86F /* PartnerDetailHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31B734021D897130074F86F /* PartnerDetailHeaderReusableView.swift */; };
 		B31B734321D8991E0074F86F /* PartnerDetailInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31B734221D8991E0074F86F /* PartnerDetailInfoCollectionViewCell.swift */; };
@@ -20,7 +22,7 @@
 		B31B735021D920120074F86F /* PartnerDetailViewCommentCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31B734F21D920120074F86F /* PartnerDetailViewCommentCellCollectionViewCell.swift */; };
 		B33D928F218C5169003DED43 /* WelcomingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33D928E218C5168003DED43 /* WelcomingViewController.swift */; };
 		B36AEA21214FD9D9009BDEC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA20214FD9D9009BDEC3 /* AppDelegate.swift */; };
-		B36AEA23214FD9D9009BDEC3 /* CountryDetailSelectedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA22214FD9D9009BDEC3 /* CountryDetailSelectedViewController.swift */; };
+		B36AEA23214FD9D9009BDEC3 /* MemberListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA22214FD9D9009BDEC3 /* MemberListViewController.swift */; };
 		B36AEA26214FD9D9009BDEC3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B36AEA24214FD9D9009BDEC3 /* Main.storyboard */; };
 		B36AEA2B214FD9DA009BDEC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B36AEA29214FD9DA009BDEC3 /* LaunchScreen.storyboard */; };
 		B36AEA36214FD9DA009BDEC3 /* AbroadAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA35214FD9DA009BDEC3 /* AbroadAppTests.swift */; };
@@ -77,6 +79,8 @@
 		571F49C8298F1728F32E5AA8 /* Pods-AbroadApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AbroadApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AbroadApp/Pods-AbroadApp.debug.xcconfig"; sourceTree = "<group>"; };
 		9DAD6C4CA7838B3F71DB9C4D /* Pods_AbroadAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AbroadAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF202B6703BDBD2E6E3D256C /* Pods-AbroadApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AbroadApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-AbroadApp/Pods-AbroadApp.release.xcconfig"; sourceTree = "<group>"; };
+		B3180BCC21D9DFD10064477A /* ChatUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUserModel.swift; sourceTree = "<group>"; };
+		B3180BCE21D9E0F30064477A /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		B31B733D21D76B050074F86F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../.Trash/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B31B734021D897130074F86F /* PartnerDetailHeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerDetailHeaderReusableView.swift; sourceTree = "<group>"; };
 		B31B734221D8991E0074F86F /* PartnerDetailInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerDetailInfoCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -89,7 +93,7 @@
 		B33D928E218C5168003DED43 /* WelcomingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomingViewController.swift; sourceTree = "<group>"; };
 		B36AEA1D214FD9D9009BDEC3 /* AbroadApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AbroadApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B36AEA20214FD9D9009BDEC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B36AEA22214FD9D9009BDEC3 /* CountryDetailSelectedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDetailSelectedViewController.swift; sourceTree = "<group>"; };
+		B36AEA22214FD9D9009BDEC3 /* MemberListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberListViewController.swift; sourceTree = "<group>"; };
 		B36AEA25214FD9D9009BDEC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B36AEA2A214FD9DA009BDEC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B36AEA2C214FD9DA009BDEC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -268,7 +272,7 @@
 				B3CD8CB821669672004F4FC6 /* ChatListTableViewController.swift */,
 				B36BD850216522580075F2F3 /* LoginViewController.swift */,
 				B3A559842167BB58006DCBD3 /* PartnerDetailInfoViewController.swift */,
-				B36AEA22214FD9D9009BDEC3 /* CountryDetailSelectedViewController.swift */,
+				B36AEA22214FD9D9009BDEC3 /* MemberListViewController.swift */,
 				B3A559862167C993006DCBD3 /* MainTabBarController.swift */,
 				B3B2E1E52167CC8500320F42 /* MyPageViewController.swift */,
 				D12A3C582182E476009FE06B /* MyPageSettingViewController.swift */,
@@ -308,6 +312,8 @@
 				B36AEA5821512A4E009BDEC3 /* ChatRoom.swift */,
 				B36AEA5C2151548C009BDEC3 /* MessageForm.swift */,
 				B3CB845E21C52CDC00689353 /* UserInfo.swift */,
+				B3180BCC21D9DFD10064477A /* ChatUserModel.swift */,
+				B3180BCE21D9E0F30064477A /* ChatModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -553,7 +559,7 @@
 				D1D93C0E2195F3B2005E6F1E /* NoCursurTextField.swift in Sources */,
 				B3B2E1E62167CC8500320F42 /* MyPageViewController.swift in Sources */,
 				B36AEA5921512A4E009BDEC3 /* ChatRoom.swift in Sources */,
-				B36AEA23214FD9D9009BDEC3 /* CountryDetailSelectedViewController.swift in Sources */,
+				B36AEA23214FD9D9009BDEC3 /* MemberListViewController.swift in Sources */,
 				B31B734521D8B7FC0074F86F /* StretchableHeaderFlowLayout.swift in Sources */,
 				B3A559872167C993006DCBD3 /* MainTabBarController.swift in Sources */,
 				D12A3C592182E476009FE06B /* MyPageSettingViewController.swift in Sources */,
@@ -561,6 +567,7 @@
 				B36AEA4F214FDAB3009BDEC3 /* CountrySelectingCollectionViewCell.swift in Sources */,
 				B36AEA5B21513D80009BDEC3 /* ChatViewController.swift in Sources */,
 				B3CD8CBB2166968B004F4FC6 /* ChatListTableViewCell.swift in Sources */,
+				B3180BCF21D9E0F30064477A /* ChatModel.swift in Sources */,
 				B3CD8CB321668811004F4FC6 /* SignUpSexAndAgeViewController.swift in Sources */,
 				B3CB845F21C52CDC00689353 /* UserInfo.swift in Sources */,
 				B31B735021D920120074F86F /* PartnerDetailViewCommentCellCollectionViewCell.swift in Sources */,
@@ -584,6 +591,7 @@
 				B31B734E21D916300074F86F /* TempCollectionReusableView.swift in Sources */,
 				B3CD8CB521668828004F4FC6 /* SignUpInfosViewController.swift in Sources */,
 				B31B734121D897130074F86F /* PartnerDetailHeaderReusableView.swift in Sources */,
+				B3180BCD21D9DFD10064477A /* ChatUserModel.swift in Sources */,
 				B36AEA5F215185C9009BDEC3 /* ChatBubbleCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

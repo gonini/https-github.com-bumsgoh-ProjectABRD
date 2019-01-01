@@ -29,6 +29,8 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     fileprivate let tempId = "tmpId"
     fileprivate let padding: CGFloat = 16
     
+    var userInfos: UserInformation = UserInformation()
+    
     let downArrowImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -96,18 +98,31 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         case UICollectionView.elementKindSectionHeader:
             if section == 0 {
             profileHeaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: detailInfoHeaderId, for: indexPath) as? PartnerDetailHeaderReusableView
-            
-            guard let headerView = profileHeaderView else {
-                return UICollectionReusableView.init()
                 
-            }
-               
+                guard let headerView = profileHeaderView else {
+                    return UICollectionReusableView.init()
+                    
+                }
+                
+                guard let url: URL = URL(string: userInfos.profileImageUrl) else {
+                    return UICollectionReusableView.init()
+                }
+                NetworkManager.shared.getImageWithCaching(url: url) { (image, error) in
+                    if let error = error {
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        headerView.profileImageView.image = image
+                    }
+                }
+                headerView.userAgeLabel.text = userInfos.userAge
+                headerView.userNameLabel.text = userInfos.userName
+           
                 downArrowImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
                 downArrowImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
                 downArrowImageView.centerYAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -10).isActive = true
                 downArrowImageView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -32).isActive = true
-               
-                
+  
             return headerView
                 
             } else if section == 1 {

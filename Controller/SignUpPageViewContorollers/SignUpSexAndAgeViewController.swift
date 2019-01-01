@@ -40,7 +40,6 @@ class SignUpSexAndAgeViewController: UIViewController {
         "UK"
     ]
     
-    
     let sexLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -323,7 +322,8 @@ class SignUpSexAndAgeViewController: UIViewController {
         let userData = ["userName": nameTextField.text!,
                         "sex": "\(isFemale)",
                         "age": age[0],
-                        "country": countrySelectTextField.text!,] as [String : Any]
+                        "country": countrySelectTextField.text!,
+                        "planContents": ""] as [String : Any]
         Database.database().reference().child("users").child(user.uid).updateChildValues(userData) { [weak self] (Error, DatabaseReference) in
             if let error = Error {
                 return
@@ -366,26 +366,8 @@ extension SignUpSexAndAgeViewController: UIPickerViewDelegate, UIPickerViewDataS
             countrySelectTextField.text = selectedCountry
         }
     }
-    
-//    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-//        var label: UILabel
-//
-//        if let view = view as? UILabel {
-//            label = view
-//        } else {
-//            label = UILabel()
-//        }
-//
-//        label.textColor = .darkGray
-//        label.textAlignment = .center
-//        label.font = UIFont(name: "Menlo-Regular", size: 17)
-//
-//        label.text = ageArray[row]
-//
-//        return label
-//    }
 }
-
+    
 extension SignUpSexAndAgeViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         self.view.endEditing(true)
