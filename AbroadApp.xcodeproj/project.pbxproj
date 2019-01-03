@@ -22,6 +22,8 @@
 		B31B735021D920120074F86F /* PartnerDetailViewCommentCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31B734F21D920120074F86F /* PartnerDetailViewCommentCellCollectionViewCell.swift */; };
 		B33D928F218C5169003DED43 /* WelcomingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33D928E218C5168003DED43 /* WelcomingViewController.swift */; };
 		B356C06A21DE2AE100FB951B /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B356C06921DE2AE100FB951B /* LoadingIndicatorView.swift */; };
+		B356C06B21DE422200FB951B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B31B733D21D76B050074F86F /* GoogleService-Info.plist */; };
+		B356C06C21DE422200FB951B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B31B733D21D76B050074F86F /* GoogleService-Info.plist */; };
 		B36AEA21214FD9D9009BDEC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA20214FD9D9009BDEC3 /* AppDelegate.swift */; };
 		B36AEA23214FD9D9009BDEC3 /* MemberListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AEA22214FD9D9009BDEC3 /* MemberListViewController.swift */; };
 		B36AEA26214FD9D9009BDEC3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B36AEA24214FD9D9009BDEC3 /* Main.storyboard */; };
@@ -469,6 +471,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B356C06B21DE422200FB951B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -476,6 +479,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B356C06C21DE422200FB951B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
