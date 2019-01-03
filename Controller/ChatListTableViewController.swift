@@ -20,17 +20,20 @@ class ChatListTableViewController: UITableViewController {
     }
     
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.register(ChatListTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        setTableView()
         
         }
 
-
-
     // MARK: - Table view data source
+    fileprivate func setTableView() {
+        self.tableView.tableFooterView = UIView()
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
@@ -58,6 +61,19 @@ class ChatListTableViewController: UITableViewController {
       
         self.navigationController?.pushViewController(VC, animated: true)
     }
-   
+    
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        return self.chatRooms.count > 0 ? 0 : 100
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "no chat rooms"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        return label
+    }
 
 }

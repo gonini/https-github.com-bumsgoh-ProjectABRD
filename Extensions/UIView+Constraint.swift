@@ -21,4 +21,14 @@ extension UIView {
         self.topAnchor.constraint(equalTo: superView.topAnchor, constant: padding).isActive = true
         self.bottomAnchor.constraint(equalTo: superView.bottomAnchor, constant: -padding).isActive = true
     }
+    
+    func centerSuperView() {
+        guard let superView = self.superview else {
+            
+            return
+        }
+        
+        self.centerXAnchor.constraint(equalTo: superView.centerXAnchor).isActive = true
+        self.centerYAnchor.constraint(equalTo: superView.centerYAnchor).isActive = true
+    }
 }

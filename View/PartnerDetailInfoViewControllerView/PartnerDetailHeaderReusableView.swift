@@ -22,7 +22,7 @@ class PartnerDetailHeaderReusableView: UICollectionReusableView {
     let userNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "James"
+        label.text = ""
         label.font = UIFont.boldSystemFont(ofSize: 38)
         label.textColor = UIColor.white
         return label

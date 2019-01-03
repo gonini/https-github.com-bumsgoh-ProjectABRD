@@ -56,8 +56,10 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         setUpCollectionViewLayout()
         collectionView.isPrefetchingEnabled = false
         
+        
     }
     
+   
     
     fileprivate func setUpCollectionViewLayout() {
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
@@ -116,7 +118,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
                     }
                 }
                 headerView.userAgeLabel.text = userInfos.userAge
-                headerView.userNameLabel.text = userInfos.userName
+                headerView.userNameLabel.text = userInfos.userName.uppercased()
            
                 downArrowImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
                 downArrowImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
