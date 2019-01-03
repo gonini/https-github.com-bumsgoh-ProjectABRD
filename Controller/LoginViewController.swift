@@ -25,7 +25,7 @@ class LoginViewController: UIViewController {
         textField.textAlignment = .center
         textField.textContentType = .emailAddress
         textField.autocapitalizationType = .none
-        
+        textField.clearButtonMode = .always
         return textField
     }()
     
@@ -34,7 +34,9 @@ class LoginViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = UIColor.clear
         textField.placeholder = "비밀번호를 입력해주세요"
+        textField.isSecureTextEntry = true
         textField.textAlignment = .center
+        textField.clearButtonMode = .always
         return textField
     }()
     
@@ -112,11 +114,15 @@ class LoginViewController: UIViewController {
 
     @objc func loginButtonClicked(sender: UIButton) {
         guard let email = loginIdTextField.text, let password = loginPasswordTextField.text else {
-            
             return
         }
         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
             if let error = error {
+                let alertController = UIAlertController(title: "알림", message: "아이디 혹은 비밀번호를 확인해주세요", preferredStyle: .alert)
+                let okButton = UIAlertAction(title: "확인", style: .cancel, handler: nil)
+                alertController.addAction(okButton)
+                self.present(alertController, animated: true, completion: nil)
+                
                 print(error.localizedDescription)
                 return
             }

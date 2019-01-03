@@ -84,7 +84,7 @@ class MemberListViewController: UIViewController {
         Database.database().reference().child("users").observeSingleEvent(of: DataEventType.value) { [weak self] (snapshot) in
             
             if let data = snapshot.children.allObjects as? [DataSnapshot] {
-                data.compactMap{
+                data.compactMap {
                     guard let dict = $0.value as? NSDictionary else {
                         fatalError()
                     }
@@ -137,7 +137,8 @@ extension MemberListViewController: UITableViewDelegate, UITableViewDataSource {
             
         })
         
-        cell.memberNameLabel.text = "\(userInformationArray[indexPath.row].userName), \(userInformationArray[indexPath.row].userAge)   \(userInformationArray[indexPath.row].userConuntry)"
+        cell.memberNameLabel.text = "\(userInformationArray[indexPath.row].userName) (\(userInformationArray[indexPath.row].userAge))"
+        cell.countryLabel.text = "\(userInformationArray[indexPath.row].userConuntry)"
         cell.chatLabel.text = userInformationArray[indexPath.row].planContents
         cell.onOffImageView.image = onoffArr[Int.random(in: 0...1)]
         

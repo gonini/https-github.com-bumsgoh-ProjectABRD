@@ -56,7 +56,11 @@ class WelcomingViewController: UIViewController {
     lazy var signUpButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("you don't have an account yet?", for: UIControl.State.normal)
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderWidth = 1.3
+        button.layer.cornerRadius = 15
+        button.setTitle("  you don't have an account yet?  ", for: UIControl.State.normal)
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.setTitleColor(UIColor.white, for: UIControl.State.normal)
         button.addTarget(self, action: #selector(signUpClicked), for: UIControl.Event.touchUpInside)
         return button
@@ -65,6 +69,9 @@ class WelcomingViewController: UIViewController {
     lazy var signInButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderWidth = 1.3
+        button.layer.cornerRadius = 15
         button.setTitle("Sign In", for: UIControl.State.normal)
         button.setTitleColor(UIColor.white, for: UIControl.State.normal)
         button.addTarget(self, action: #selector(signInClicked), for: UIControl.Event.touchUpInside)
@@ -132,9 +139,14 @@ class WelcomingViewController: UIViewController {
         
         self.signInButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.signInButton.bottomAnchor.constraint(equalTo: self.signUpButton.bottomAnchor, constant: -46).isActive = true
+        self.signInButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 50).isActive = true
+        self.signInButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -50).isActive = true
         
         self.signUpButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.signUpButton.bottomAnchor.constraint(equalTo: self.blackview.bottomAnchor, constant: -32).isActive = true
+        self.signUpButton.bottomAnchor.constraint(equalTo: self.blackview.bottomAnchor, constant: -50).isActive = true
+        self.signUpButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 50).isActive = true
+        self.signUpButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -50).isActive = true
+        
        // signUpLabel.addGestureRecognizer(recognizer)
     }
     

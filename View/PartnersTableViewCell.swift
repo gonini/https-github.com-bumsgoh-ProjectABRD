@@ -34,7 +34,7 @@ class PartnersTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 19)
-        label.textColor = .darkGray
+        label.textColor = .black
         return label
     }()
     
@@ -86,8 +86,8 @@ class PartnersTableViewCell: UITableViewCell {
         self.memberNameLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 16).isActive = true
         self.memberNameLabel.leadingAnchor.constraint(equalTo: self.onOffImageView.trailingAnchor, constant: 10).isActive = true
         
-        self.countryLabel.centerYAnchor.constraint(equalTo: self.memberNameLabel.centerYAnchor).isActive = true
-        self.countryLabel.leadingAnchor.constraint(equalTo: self.memberNameLabel.trailingAnchor, constant: 5).isActive = true
+        self.countryLabel.topAnchor.constraint(equalTo: self.memberNameLabel.bottomAnchor, constant: 5).isActive = true
+        self.countryLabel.leadingAnchor.constraint(equalTo: self.onOffImageView.trailingAnchor, constant: 10).isActive = true
         
         self.chatLabel.topAnchor.constraint(equalTo: self.onOffImageView.bottomAnchor, constant: 8).isActive = true
         self.chatLabel.leadingAnchor.constraint(equalTo: self.profileImageView.trailingAnchor, constant: 20).isActive = true
