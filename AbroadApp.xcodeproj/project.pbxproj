@@ -91,6 +91,7 @@
 		B31B734D21D916300074F86F /* TempCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempCollectionReusableView.swift; sourceTree = "<group>"; };
 		B31B734F21D920120074F86F /* PartnerDetailViewCommentCellCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerDetailViewCommentCellCollectionViewCell.swift; sourceTree = "<group>"; };
 		B330F46621DE46940032E525 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B330F46921DF46250032E525 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B33D928E218C5168003DED43 /* WelcomingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomingViewController.swift; sourceTree = "<group>"; };
 		B356C06921DE2AE100FB951B /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		B36AEA1D214FD9D9009BDEC3 /* AbroadApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AbroadApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -208,6 +209,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		B330F46821DF461B0032E525 /* GooglePlist */ = {
+			isa = PBXGroup;
+			children = (
+				B330F46921DF46250032E525 /* GoogleService-Info.plist */,
+			);
+			path = GooglePlist;
+			sourceTree = "<group>";
+		};
 		B356C06821DE2AA800FB951B /* LoadingIndicatorView */ = {
 			isa = PBXGroup;
 			children = (
@@ -219,6 +228,7 @@
 		B36AEA14214FD9D9009BDEC3 = {
 			isa = PBXGroup;
 			children = (
+				B330F46821DF461B0032E525 /* GooglePlist */,
 				B31B734A21D900A50074F86F /* Extensions */,
 				B36AEA51214FDACA009BDEC3 /* SupportingFiles */,
 				B36BD852216530FD0075F2F3 /* Networking */,
