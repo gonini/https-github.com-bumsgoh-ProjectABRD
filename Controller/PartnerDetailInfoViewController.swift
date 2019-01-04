@@ -154,7 +154,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     }
     @objc func moveToWriteCommentController(_: UIButton) {
         print("button clicked")
-        self.present(WriteCommentViewController(), animated: true, completion: nil)
+       // self.present(WriteCommentViewController(), animated: true, completion: nil)
     }
     
     
