@@ -47,7 +47,7 @@ class PlanAndLikesCollectionReusableView: UICollectionReusableView {
         coverView.addSubview(planLabel)
         coverView.addSubview(writeCommentButton)
         
-        coverView.fillSuperView(with: 15)
+        coverView.fillSuperView(with: 5)
 
         planLabel.topAnchor.constraint(equalTo: coverView.topAnchor).isActive = true
         planLabel.leadingAnchor.constraint(equalTo: coverView.leadingAnchor).isActive = true

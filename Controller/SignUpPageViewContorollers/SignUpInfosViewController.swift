@@ -309,7 +309,7 @@ class SignUpInfosViewController: UIViewController {
                         self?.present(alert, animated: false)
                         return
                     }
-                Database.database().reference().child("users").child(user.uid).setValue(["userId": user.email])
+                    Database.database().reference().child("users").child(user.uid).setValue(["userId": user.email])
                     let storageRef = self?.storage.reference()
                     let userProfileImageRef = storageRef?.child("userProfileImage/\(user.uid).jpg")
                   
