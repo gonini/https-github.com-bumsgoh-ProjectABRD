@@ -129,7 +129,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
                 
             } else if section == 1 {
                 planHeaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: detailPlanAndLikesHeaderId, for: indexPath) as? PlanAndLikesCollectionReusableView
-                
+                //
                 
                 guard let headerView = planHeaderView else {
                     return UICollectionReusableView.init()
