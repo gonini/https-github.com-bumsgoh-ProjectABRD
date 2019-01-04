@@ -154,12 +154,13 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     }
     @objc func moveToWriteCommentController(_: UIButton) {
         print("button clicked")
-       // self.present(WriteCommentViewController(), animated: true, completion: nil)
+       self.present(WriteCommentViewController(), animated: true, completion: nil)
     }
     
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: detailInfoCellId, for: indexPath)
+        cell.contentView.isUserInteractionEnabled = false
         return cell
     }
 
@@ -211,6 +212,8 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
                 
 //                headerView.planLabel.text = userInfos.planContents
                 headerView.planLabel.text = string
+                
+                //headerView.isUserInteractionEnabled = true
                 return headerView
             }
         case UICollectionView.elementKindSectionFooter:
