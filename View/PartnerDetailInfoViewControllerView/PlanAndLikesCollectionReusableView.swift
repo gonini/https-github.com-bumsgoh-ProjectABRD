@@ -19,6 +19,20 @@ class PlanAndLikesCollectionReusableView: UICollectionReusableView {
         return label
     }()
     
+    let writeCommentButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(#imageLiteral(resourceName: "plus"), for: .normal)
+        button.isUserInteractionEnabled = true
+        return button
+    }()
+    
+    let coverView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         UISetUp()
@@ -29,10 +43,22 @@ class PlanAndLikesCollectionReusableView: UICollectionReusableView {
     }
     
     private func UISetUp() {
-        addSubview(planLabel)
+        addSubview(coverView)
+        coverView.addSubview(planLabel)
+        coverView.addSubview(writeCommentButton)
         
+        coverView.fillSuperView(with: 15)
+
+        planLabel.topAnchor.constraint(equalTo: coverView.topAnchor).isActive = true
+        planLabel.leadingAnchor.constraint(equalTo: coverView.leadingAnchor).isActive = true
+        planLabel.trailingAnchor.constraint(equalTo: coverView.trailingAnchor).isActive = true
+        planLabel.bottomAnchor.constraint(equalTo: writeCommentButton.topAnchor, constant: -30).isActive = true
         
-        planLabel.fillSuperView(with: 10)
-       
+        writeCommentButton.topAnchor.constraint(equalTo: planLabel.bottomAnchor, constant: 30).isActive = true
+        writeCommentButton.trailingAnchor.constraint(equalTo: coverView.trailingAnchor, constant: -10).isActive = true
+        writeCommentButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        writeCommentButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+
     }
+    
 }

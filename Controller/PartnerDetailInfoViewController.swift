@@ -152,6 +152,11 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
             }
         }
     }
+    @objc func moveToWriteCommentController(_: UIButton) {
+        print("button clicked")
+        self.present(WriteCommentViewController(), animated: true, completion: nil)
+    }
+    
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: detailInfoCellId, for: indexPath)
@@ -165,7 +170,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         switch kind {
         case UICollectionView.elementKindSectionHeader:
             if section == 0 {
-            profileHeaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: detailInfoHeaderId, for: indexPath) as? PartnerDetailHeaderReusableView
+                profileHeaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: detailInfoHeaderId, for: indexPath) as? PartnerDetailHeaderReusableView
                 
                 guard let headerView = profileHeaderView else {
                     return UICollectionReusableView.init()
@@ -191,16 +196,20 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
                 downArrowImageView.centerYAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -10).isActive = true
                 downArrowImageView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -32).isActive = true
   
-            return headerView
+                return headerView
                 
             } else if section == 1 {
                 planHeaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: detailPlanAndLikesHeaderId, for: indexPath) as? PlanAndLikesCollectionReusableView
-                
+                //
                 
                 guard let headerView = planHeaderView else {
                     return UICollectionReusableView.init()
                     
                 }
+        
+                headerView.writeCommentButton.addTarget(self, action: #selector(moveToWriteCommentController(_:)), for: .touchUpInside)
+                
+//                headerView.planLabel.text = userInfos.planContents
                 headerView.planLabel.text = string
                 return headerView
             }
@@ -227,11 +236,22 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         case 0:
             return .init(width: view.frame.width, height: 350)
         case 1:
+//            if userInfos.planContents == "" {
+//                return .init(width: view.frame.width, height: 0)
+//            } else {
+//                let size: CGSize = CGSize(width: view.frame.width, height: 250)
+//                let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+//                let estimatedForm = NSString(string: string).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20)], context: nil)
+//
+//                return .init(width: view.frame.width, height: estimatedForm.height+10)
+//            }
+            
+            
             let size: CGSize = CGSize(width: view.frame.width, height: 250)
             let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
             let estimatedForm = NSString(string: string).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20)], context: nil)
             
-            return .init(width: view.frame.width, height: estimatedForm.height+10)
+            return .init(width: view.frame.width, height: estimatedForm.height + 50)
         default:
             return .init(width: view.frame.width, height: 350)
         }
@@ -291,9 +311,6 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     }
     
 }
-
-
-
 
     /*func UISetUp() {
         self.tableView.addGestureRecognizer(panGesture)

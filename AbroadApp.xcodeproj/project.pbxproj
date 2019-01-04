@@ -54,6 +54,8 @@
 		D12A3C592182E476009FE06B /* MyPageSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12A3C582182E476009FE06B /* MyPageSettingViewController.swift */; };
 		D1D93C0E2195F3B2005E6F1E /* NoCursurTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D93C0D2195F3B2005E6F1E /* NoCursurTextField.swift */; };
 		D1DF6D5F21901B6200F65B5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1DF6D5E21901B6200F65B5C /* Assets.xcassets */; };
+		D1E641CB21DF6B9300AFEBD6 /* WriteCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E641CA21DF6B9300AFEBD6 /* WriteCommentViewController.swift */; };
+		D1E641CF21DF711500AFEBD6 /* WriteCommentDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E641CE21DF711500AFEBD6 /* WriteCommentDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -132,6 +134,8 @@
 		D12A3C582182E476009FE06B /* MyPageSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSettingViewController.swift; sourceTree = "<group>"; };
 		D1D93C0D2195F3B2005E6F1E /* NoCursurTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoCursurTextField.swift; sourceTree = "<group>"; };
 		D1DF6D5E21901B6200F65B5C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D1E641CA21DF6B9300AFEBD6 /* WriteCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteCommentViewController.swift; sourceTree = "<group>"; };
+		D1E641CE21DF711500AFEBD6 /* WriteCommentDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteCommentDelegate.swift; sourceTree = "<group>"; };
 		F600A5969BCCFA08797A9DD2 /* Pods-AbroadAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AbroadAppUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AbroadAppUITests/Pods-AbroadAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		FAF99E3927C625A873DEFA0B /* Pods_AbroadAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AbroadAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -296,6 +300,7 @@
 				B3B2E1E52167CC8500320F42 /* MyPageViewController.swift */,
 				D12A3C582182E476009FE06B /* MyPageSettingViewController.swift */,
 				B33D928E218C5168003DED43 /* WelcomingViewController.swift */,
+				D1E641CA21DF6B9300AFEBD6 /* WriteCommentViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -335,6 +340,7 @@
 				B3CB845E21C52CDC00689353 /* UserInfo.swift */,
 				B3180BCC21D9DFD10064477A /* ChatUserModel.swift */,
 				B3180BCE21D9E0F30064477A /* ChatModel.swift */,
+				D1E641CE21DF711500AFEBD6 /* WriteCommentDelegate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -590,6 +596,7 @@
 				B36AEA5B21513D80009BDEC3 /* ChatViewController.swift in Sources */,
 				B3CD8CBB2166968B004F4FC6 /* ChatListTableViewCell.swift in Sources */,
 				B3180BCF21D9E0F30064477A /* ChatModel.swift in Sources */,
+				D1E641CF21DF711500AFEBD6 /* WriteCommentDelegate.swift in Sources */,
 				B3CD8CB321668811004F4FC6 /* SignUpSexAndAgeViewController.swift in Sources */,
 				B3CB845F21C52CDC00689353 /* UserInfo.swift in Sources */,
 				B31B735021D920120074F86F /* PartnerDetailViewCommentCellCollectionViewCell.swift in Sources */,
@@ -598,6 +605,7 @@
 				B3A559832167B7A2006DCBD3 /* PartnersTableViewCell.swift in Sources */,
 				B36AEA55214FDD19009BDEC3 /* CountrySelectingCollectionViewController.swift in Sources */,
 				B3A559852167BB58006DCBD3 /* PartnerDetailInfoViewController.swift in Sources */,
+				D1E641CB21DF6B9300AFEBD6 /* WriteCommentViewController.swift in Sources */,
 				D103C8D4218B3A7F0029784A /* myPageTravelView.swift in Sources */,
 				B31B734921D8FD700074F86F /* PlanAndLikesCollectionReusableView.swift in Sources */,
 				B31B734321D8991E0074F86F /* PartnerDetailInfoCollectionViewCell.swift in Sources */,
