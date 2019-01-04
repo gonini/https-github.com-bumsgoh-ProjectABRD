@@ -19,7 +19,7 @@ class PartnerDetailBottomView: UICollectionReusableView {
         return view
     }()
     
-    private let createChatRoomButton: UIButton = {
+    lazy var createChatRoomButton: UIButton = {
         let button = UIButton(type: UIButton.ButtonType.custom)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("MESSAGE", for: .normal)
@@ -53,7 +53,7 @@ class PartnerDetailBottomView: UICollectionReusableView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+   
     private func UISetUp() {
         addSubview(buttonStackView)
         buttonStackView.addArrangedSubview(createChatRoomButton)

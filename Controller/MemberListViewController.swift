@@ -96,6 +96,7 @@ class MemberListViewController: UIViewController {
                         
                     } else {
                         var userInfo = UserInformation()
+                        userInfo.userUid = uid
                         userInfo.userName = name
                         userInfo.userSex = sex
                         userInfo.userConuntry = country

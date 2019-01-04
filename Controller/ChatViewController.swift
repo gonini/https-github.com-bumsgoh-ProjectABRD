@@ -7,10 +7,11 @@
 //
 
 import UIKit
-
+import Firebase
 
 class ChatViewController: UIViewController {
     
+    var destinationUid: String = ""
     let reuseIdentifier: String = "chatBubbleCell"
     var roomId: String = ""
     
@@ -88,11 +89,8 @@ class ChatViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         UISetUp()
         self.chatSendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
-        
-        
-        
-        
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
     
@@ -133,7 +131,15 @@ class ChatViewController: UIViewController {
     }
     
     @objc func sendButtonClicked() {
-   
+        guard let user = Auth.auth().currentUser else {
+            return
+        }
+        
+        let data: [String: [String: String]] =  [ "comments": ["uid": user.uid,
+                                                             "message": chatTextView.text!,
+            ]
+            ]
+        Database.database().reference().child("chatRooms").child(roomId).child("comments").childByAutoId().setValue(data)
        
     }
     
