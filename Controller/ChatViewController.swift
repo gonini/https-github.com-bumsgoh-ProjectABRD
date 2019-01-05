@@ -64,7 +64,7 @@ class ChatViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        fetchMessages()
         chatTextView.text = "Type your message"
         chatTextView.textColor = UIColor.lightGray
         chatTextView.delegate = self
@@ -137,9 +137,9 @@ class ChatViewController: UIViewController {
         
         let data: [String: [String: String]] =  [ "comments": ["uid": user.uid,
                                                              "message": chatTextView.text!,
+                ]
             ]
-            ]
-        Database.database().reference().child("chatRooms").child(roomId).child("comments").childByAutoId().setValue(data)
+        Database.database().reference().child("chatRooms").child(roomId).updateChildValues(data)
        
     }
     
@@ -163,6 +163,22 @@ class ChatViewController: UIViewController {
     @objc func keyboardWillHide(notification: NSNotification) {
         adjustingHeight(false, notification: notification)
         isKeyboardShowOnce = false
+    }
+    
+    func fetchMessages() {
+        Database.database().reference().child("chatRomms").child(roomId).child("comments").observe(DataEventType.value) { [weak self] (dataSnapshot) in
+            self?.message.removeAll()
+            for message in dataSnapshot.children.allObjects as! [DataSnapshot] {
+                print(message)
+                let comment = message as! [String: String]
+                self?.message.append(comment)
+            }
+            DispatchQueue.main.async {
+                self?.chatCollectionView.reloadData()
+            }
+            
+            
+        }
     }
 }
 

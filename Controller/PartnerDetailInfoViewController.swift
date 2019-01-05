@@ -83,75 +83,76 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         
     }
     
-    /*"uid": Auth.auth().currentUser?.uid,
-     "destinationUid": userInfos.userUid,*/
+    func checkChatRoom(_ completionHandler: @escaping (()->())) {
+        guard let user = Auth.auth().currentUser else {
+            return
+        }
+        Database.database().reference().child("chatRooms").queryOrdered(byChild: "users/\(user.uid)").queryEqual(toValue: true).observeSingleEvent(of: DataEventType.value) { [weak self] (dataSnapshot) in
+            print(dataSnapshot)
+            guard let objects = dataSnapshot.children.allObjects as? [DataSnapshot] else {
+                return
+            }
+            for item in objects {
+                if let targetUserDict = item.value as? [String: Bool] {
+                    if targetUserDict[self?.userInfos.userUid ?? ""]! == true {
+                        self?.roomId = item.key
+                    }
+                }
+                self?.roomId = item.key
+            }
+            
+            completionHandler()
+        }
+    }
     
     @objc func createChatRoom(sender: UIButton) {
         sender.isEnabled = false
-        checkChatRoom()
+        checkChatRoom() { [weak self] in
+            guard let self = self else {
+                return
+                
+            }
         let chattingVC: ChatViewController = ChatViewController()
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
         
-        let dstUid = userInfos.userUid
+        let dstUid = self.userInfos.userUid
         let roomInfo : Dictionary<String,Any> = [ "users" : [
             uid: true,
             dstUid :true
             ]
         ]
         
-        if roomId == nil {
+        if self.roomId == nil {
             Database.database().reference().child("chatRooms").childByAutoId().setValue(roomInfo) { (error, reference) in
                 if let error = error {
                     return
                 }
                 
-                reference.child("chatRooms").queryOrdered(byChild: "user/\(uid)").queryEqual(toValue: true).observeSingleEvent(of: DataEventType.value) { [weak self] (dataSnapshot) in
-                    guard let objects = dataSnapshot.children.allObjects as? [DataSnapshot] else {
-                        return
-                    }
-                    for item in objects {
-                        if let targetUserDict = item.value as? [String: Bool] {
-                            if targetUserDict[dstUid] == true {
-                                self?.roomId = item.key
-                            }
-                        }
-                        self?.roomId = item.key
-                    }
-                    chattingVC.roomId = self?.roomId ?? ""
-                    DispatchQueue.main.async {
-                        chattingVC.destinationUid = dstUid
-                        let chatListVC: ChatListTableViewController = ChatListTableViewController()
-                        let listBasedNavigationController = UINavigationController(rootViewController: chatListVC)
-                        listBasedNavigationController.pushViewController(chattingVC, animated: false)
-                        self?.present(listBasedNavigationController, animated: true)
-                    }
-                    
+            self.checkChatRoom() {
+                
+                chattingVC.roomId = self.roomId ?? ""
+                DispatchQueue.main.async {
+                    chattingVC.destinationUid = self.userInfos.userUid
+                    let chatListVC: ChatListTableViewController = ChatListTableViewController()
+                    let listBasedNavigationController = UINavigationController(rootViewController: chatListVC)
+                    listBasedNavigationController.pushViewController(chattingVC, animated: false)
+                    self.present(listBasedNavigationController, animated: true)
                 }
+                
+            }
             }
             
-        } else {
+                } else {
             
            // connect to room which is already created..
+    
         }
-       
     }
     
-    func checkChatRoom() {
-        guard let user = Auth.auth().currentUser else {
-            return
-        }
-        Database.database().reference().child("chatRooms").queryOrdered(byChild: "user/\(user.uid)").queryEqual(toValue: true).observeSingleEvent(of: DataEventType.value) { [weak self] (dataSnapshot) in
-            guard let objects = dataSnapshot.children.allObjects as? [DataSnapshot] else {
-                return
-            }
-            for item in objects {
-                
-                self?.roomId = item.key
-            }
-        }
     }
+        
     @objc func moveToWriteCommentController(_: UIButton) {
         print("button clicked")
        self.present(WriteCommentViewController(), animated: true, completion: nil)
