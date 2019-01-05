@@ -83,11 +83,12 @@ class MemberListViewController: UIViewController {
                         fatalError()
                     }
                     
-                    guard let name = dict["userName"] as? String, let sex = dict["sex"] as? String, let country = dict["country"] as? String , let age = dict["age"] as? String, let url = dict["userImageUrl"] as? String else {
+                    guard let uid = dict["uid"] as? String, let name = dict["userName"] as? String, let sex = dict["sex"] as? String, let country = dict["country"] as? String , let age = dict["age"] as? String, let url = dict["userImageUrl"] as? String else {
                         
                         return
                     }
                     var userInfo = UserInformation()
+                    userInfo.userUid = uid
                     userInfo.userName = name
                     userInfo.userSex = sex
                     userInfo.userConuntry = country
@@ -138,6 +139,7 @@ extension MemberListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let VC: PartnerDetailInfoViewController = PartnerDetailInfoViewController(collectionViewLayout: StretchableHeaderFlowLayout())
         VC.userInfos = userInformationArray[indexPath.row]
+        print(userInformationArray[indexPath.row].userUid)
         self.navigationController?.present(VC, animated: true, completion: nil)
     }
     
