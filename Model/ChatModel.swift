@@ -9,6 +9,12 @@
 import Foundation
 
 struct ChatModel {
-    var uid: String
-    var targetUid: String
+    
+    var users: [String: Bool]
+    var comments: [String: Comment]
+    
+    struct Comment {
+        var uid: String?
+        var message: String?
+    }
 }

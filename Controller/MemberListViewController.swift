@@ -12,13 +12,11 @@ import FirebaseAuth
 
 class MemberListViewController: UIViewController {
     
-    lazy var indicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView()
-//        activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-//        activityIndicator.center = CGPoint(x: self.bulletBoardTableView.bounds.width / 2, y: self.bulletBoardTableView.bounds.height / 2 - 50)
-//        activityIndicator.color = .black
-        activityIndicator.style = .gray
-        return activityIndicator
+    lazy var indicatorView: LoadingIndicatorView = {
+        let view = LoadingIndicatorView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.noticeLabel.text = "Loading List"
+        return view
     }()
     
     var userInformationArray: [UserInformation] = [] {
@@ -26,13 +24,11 @@ class MemberListViewController: UIViewController {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.bulletBoardTableView.reloadData()
+                self?.indicatorView.deactivateIndicatorView()
             }
-            
         }
     }
     
-    let imageArr: [UIImage] = [#imageLiteral(resourceName: "hairstyle-2"),#imageLiteral(resourceName: "hairstyle-3")]
-    let introArr: [String] = ["안녕하세요, 이번에 뮌헨에서 10월 7일부터 9일까지 여행하게되었습니다. 같이 동행하실분 연락주세요!", "프랑크푸르트 ~ 함부르크까지 같이 여행하실분 찾습니다. 나이스한 분들만", "여자3명 파리 여행합니다. 같이 여행하면서 사진찍으실분 서로 찍어주면 개꿀쓰", "이번에 독일에 교환학생왔는데 여행 같이하면 좋을거같아요 하이델베르크 같이가실 2분 구합니다! 저랑 저 친구 같이있어요~ 연락주세요"]
     let onoffArr: [UIImage] = [#imageLiteral(resourceName: "onbutton"),#imageLiteral(resourceName: "offbutton")]
     let cellIdentifier: String = "countryCell"
     /*let regionRadius: CLLocationDistance = 10000
@@ -52,14 +48,23 @@ class MemberListViewController: UIViewController {
         self.bulletBoardTableView.register(PartnersTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         self.bulletBoardTableView.dataSource = self
         self.bulletBoardTableView.delegate = self
- 
         UISetUp()
+        setTableView()
+    }
+    
+    fileprivate func setTableView() {
+        self.bulletBoardTableView.tableFooterView = UIView()
     }
     
     func UISetUp() {
+        
         self.view.addSubview(bulletBoardTableView)
-//        self.bulletBoardTableView.addSubview(indicator)
-//        indicator.startAnimating()
+        self.bulletBoardTableView.addSubview(indicatorView)
+        indicatorView.widthAnchor.constraint(greaterThanOrEqualToConstant: 180).isActive = true
+        indicatorView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50).isActive = true
+        indicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        indicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        indicatorView.activateIndicatorView()
         
         self.bulletBoardTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         self.bulletBoardTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
@@ -77,11 +82,31 @@ class MemberListViewController: UIViewController {
         }
         
         Database.database().reference().child("users").observeSingleEvent(of: DataEventType.value) { [weak self] (snapshot) in
+            
             if let data = snapshot.children.allObjects as? [DataSnapshot] {
                 data.compactMap {
                     guard let dict = $0.value as? NSDictionary else {
                         fatalError()
                     }
+
+                    guard let name = dict["userName"] as? String, let uid = dict["uid"] as? String, let sex = dict["sex"] as? String, let country = dict["country"] as? String , let age = dict["age"] as? String, let url = dict["userImageUrl"] as? String else {
+                        
+                        return
+                    }
+                    if uid == user.uid {
+                        
+                    } else {
+                        var userInfo = UserInformation()
+                        userInfo.userUid = uid
+                        userInfo.userName = name
+                        userInfo.userSex = sex
+                        userInfo.userConuntry = country
+                        userInfo.userAge = age
+                        userInfo.profileImageUrl = url
+                        result.append(userInfo)
+                    }
+                   
+
                     
                     guard let uid = dict["uid"] as? String, let name = dict["userName"] as? String, let sex = dict["sex"] as? String, let country = dict["country"] as? String , let age = dict["age"] as? String, let url = dict["userImageUrl"] as? String else {
                         
@@ -95,6 +120,7 @@ class MemberListViewController: UIViewController {
                     userInfo.userAge = age
                     userInfo.profileImageUrl = url
                     result.append(userInfo)
+
                 }
             }
         self?.userInformationArray = result
@@ -114,7 +140,7 @@ extension MemberListViewController: UITableViewDelegate, UITableViewDataSource {
             
             return .init()
         }
-        NetworkManager.shared.getImageWithCaching(url: imageUrl, completion: { (img, error) in
+        NetworkManager.shared.getImageWithCaching(url: imageUrl, completion: {[weak self] (img, error) in
             if let error = error {
                 return
             }

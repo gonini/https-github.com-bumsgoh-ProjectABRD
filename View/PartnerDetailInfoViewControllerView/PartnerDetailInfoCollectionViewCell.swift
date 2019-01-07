@@ -61,7 +61,6 @@ class PartnerDetailInfoCollectionViewCell: UICollectionViewCell {
     func UISetUp() {
         titleStackView.addArrangedSubview(memberNameLabel)
         titleStackView.addArrangedSubview(ageLabel)
-        //        titleStackView.addArrangedSubview(countryLabel)
         
         self.contentView.addSubview(titleStackView)
         self.contentView.addSubview(tripPlanLabel)

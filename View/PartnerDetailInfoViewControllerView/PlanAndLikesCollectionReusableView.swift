@@ -19,11 +19,10 @@ class PlanAndLikesCollectionReusableView: UICollectionReusableView {
         return label
     }()
     
-    let writeCommentButton: UIButton = {
+    lazy var writeCommentButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(#imageLiteral(resourceName: "plus"), for: .normal)
-        button.isUserInteractionEnabled = true
         return button
     }()
     
@@ -43,6 +42,7 @@ class PlanAndLikesCollectionReusableView: UICollectionReusableView {
     }
     
     private func UISetUp() {
+        self.isUserInteractionEnabled = true
         addSubview(coverView)
         coverView.addSubview(planLabel)
         coverView.addSubview(writeCommentButton)
@@ -54,7 +54,7 @@ class PlanAndLikesCollectionReusableView: UICollectionReusableView {
         planLabel.trailingAnchor.constraint(equalTo: coverView.trailingAnchor).isActive = true
         planLabel.bottomAnchor.constraint(equalTo: writeCommentButton.topAnchor, constant: -30).isActive = true
         
-        writeCommentButton.topAnchor.constraint(equalTo: planLabel.bottomAnchor, constant: 30).isActive = true
+        writeCommentButton.topAnchor.constraint(equalTo: planLabel.bottomAnchor, constant: 25).isActive = true
         writeCommentButton.trailingAnchor.constraint(equalTo: coverView.trailingAnchor, constant: -10).isActive = true
         writeCommentButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
         writeCommentButton.heightAnchor.constraint(equalToConstant: 25).isActive = true

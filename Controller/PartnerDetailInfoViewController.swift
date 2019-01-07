@@ -19,6 +19,7 @@
 
 
 import UIKit
+import Firebase
 
 class PartnerDetailInfoViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
@@ -29,6 +30,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     fileprivate let tempId = "tmpId"
     fileprivate let padding: CGFloat = 16
     
+    var roomId: String?
     var userInfos: UserInformation = UserInformation()
     
     let downArrowImageView: UIImageView = {
@@ -56,8 +58,10 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         setUpCollectionViewLayout()
         collectionView.isPrefetchingEnabled = false
         
+        
     }
     
+   
     
     fileprivate func setUpCollectionViewLayout() {
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
@@ -70,26 +74,100 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     fileprivate func setUpCollectionView() {
         collectionView.backgroundColor = UIColor.white
         collectionView.contentInsetAdjustmentBehavior = .never
-        
-        collectionView.register(PartnerDetailViewCommentCellCollectionViewCell.self, forCellWithReuseIdentifier: detailInfoCellId)
+    collectionView.register(PartnerDetailViewCommentCellCollectionViewCell.self, forCellWithReuseIdentifier: detailInfoCellId)
         
         collectionView.register(PartnerDetailHeaderReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: detailInfoHeaderId)
         collectionView.register(PlanAndLikesCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: detailPlanAndLikesHeaderId)
-        
         collectionView.register(PartnerDetailBottomView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: detailInfoFooterId)
         collectionView.register(TempCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: tempId)
         
     }
     
+    func checkChatRoom(_ completionHandler: @escaping (()->())) {
+        guard let user = Auth.auth().currentUser else {
+            return
+        }
+        Database.database().reference().child("chatRooms").queryOrdered(byChild: "users/\(user.uid)").queryEqual(toValue: true).observeSingleEvent(of: DataEventType.value) { [weak self] (dataSnapshot) in
+            print(dataSnapshot)
+            guard let objects = dataSnapshot.children.allObjects as? [DataSnapshot] else {
+                return
+            }
+            for item in objects {
+                if let targetUserDict = item.value as? [String: Bool] {
+                    if targetUserDict[self?.userInfos.userUid ?? ""]! == true {
+                        self?.roomId = item.key
+                    }
+                }
+                self?.roomId = item.key
+            }
+            
+            completionHandler()
+        }
+    }
+    
+    @objc func createChatRoom(sender: UIButton) {
+        sender.isEnabled = false
+        checkChatRoom() { [weak self] in
+            guard let self = self else {
+                return
+                
+            }
+        let chattingVC: ChatViewController = ChatViewController()
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        let dstUid = self.userInfos.userUid
+        let roomInfo : Dictionary<String,Any> = [ "users" : [
+            uid: true,
+            dstUid :true
+            ]
+        ]
+        
+        if self.roomId == nil {
+            Database.database().reference().child("chatRooms").childByAutoId().setValue(roomInfo) { (error, reference) in
+                if let error = error {
+                    return
+                }
+                
+            self.checkChatRoom() {
+                
+                chattingVC.roomId = self.roomId ?? ""
+                DispatchQueue.main.async {
+                    chattingVC.destinationUid = self.userInfos.userUid
+                    let chatListVC: ChatListTableViewController = ChatListTableViewController()
+                    let listBasedNavigationController = UINavigationController(rootViewController: chatListVC)
+                    listBasedNavigationController.pushViewController(chattingVC, animated: false)
+                    self.present(listBasedNavigationController, animated: true)
+                }
+                
+            }
+            }
+            
+                } else {
+            
+           // connect to room which is already created..
+    
+        }
+    }
+    
+    }
+        
     @objc func moveToWriteCommentController(_: UIButton) {
+
+        print("button clicked")
+       self.present(WriteCommentViewController(), animated: true, completion: nil)
+
         let nextViewController = WriteCommentViewController()
         nextViewController.userInfo = self.userInfos
         self.present(nextViewController, animated: true, completion: nil)
+
     }
     
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: detailInfoCellId, for: indexPath)
+        cell.contentView.isUserInteractionEnabled = false
         return cell
     }
 
@@ -119,7 +197,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
                     }
                 }
                 headerView.userAgeLabel.text = userInfos.userAge
-                headerView.userNameLabel.text = userInfos.userName
+                headerView.userNameLabel.text = userInfos.userName.uppercased()
            
                 downArrowImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
                 downArrowImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -141,6 +219,8 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
                 
 //                headerView.planLabel.text = userInfos.planContents
                 headerView.planLabel.text = string
+                
+                //headerView.isUserInteractionEnabled = true
                 return headerView
             }
         case UICollectionView.elementKindSectionFooter:
@@ -149,6 +229,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
                     return UICollectionReusableView.init()
                 }
                 footerView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                footerView.createChatRoomButton.addTarget(self, action: #selector(createChatRoom), for: .touchUpInside)
                 return footerView
             } else {
                 return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: tempId, for: indexPath)
@@ -211,8 +292,6 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
             profileHeaderView?.animator.fractionComplete = 0
             return
         }
-        print(contentOffSetY)
-        
         collectionViewLayout.invalidateLayout()
         profileHeaderView?.animator.fractionComplete = abs(contentOffSetY) / 100
         

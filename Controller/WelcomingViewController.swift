@@ -113,7 +113,6 @@ class WelcomingViewController: UIViewController {
     }
     func UISetUp() {
         self.view.addSubview(backgroundImageView)
-        
         self.backgroundImageView.addSubview(blackview)
         blackview.addSubview(titleLabel)
         blackview.addSubview(contentLabel)

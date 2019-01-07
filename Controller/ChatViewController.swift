@@ -7,10 +7,11 @@
 //
 
 import UIKit
-
+import Firebase
 
 class ChatViewController: UIViewController {
     
+    var destinationUid: String = ""
     let reuseIdentifier: String = "chatBubbleCell"
     var roomId: String = ""
     
@@ -63,7 +64,7 @@ class ChatViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        fetchMessages()
         chatTextView.text = "Type your message"
         chatTextView.textColor = UIColor.lightGray
         chatTextView.delegate = self
@@ -88,11 +89,8 @@ class ChatViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         UISetUp()
         self.chatSendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
-        
-        
-        
-        
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
     
@@ -133,7 +131,15 @@ class ChatViewController: UIViewController {
     }
     
     @objc func sendButtonClicked() {
-   
+        guard let user = Auth.auth().currentUser else {
+            return
+        }
+        
+        let data: [String: [String: String]] =  [ "comments": ["uid": user.uid,
+                                                             "message": chatTextView.text!,
+                ]
+            ]
+        Database.database().reference().child("chatRooms").child(roomId).updateChildValues(data)
        
     }
     
@@ -157,6 +163,22 @@ class ChatViewController: UIViewController {
     @objc func keyboardWillHide(notification: NSNotification) {
         adjustingHeight(false, notification: notification)
         isKeyboardShowOnce = false
+    }
+    
+    func fetchMessages() {
+        Database.database().reference().child("chatRomms").child(roomId).child("comments").observe(DataEventType.value) { [weak self] (dataSnapshot) in
+            self?.message.removeAll()
+            for message in dataSnapshot.children.allObjects as! [DataSnapshot] {
+                print(message)
+                let comment = message as! [String: String]
+                self?.message.append(comment)
+            }
+            DispatchQueue.main.async {
+                self?.chatCollectionView.reloadData()
+            }
+            
+            
+        }
     }
 }
 
