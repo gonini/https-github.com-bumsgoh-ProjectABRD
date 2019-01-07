@@ -104,22 +104,8 @@ class MemberListViewController: UIViewController {
                         userInfo.userAge = age
                         userInfo.profileImageUrl = url
                         result.append(userInfo)
-                    }
-                   
-
-                    
-                    guard let uid = dict["uid"] as? String, let name = dict["userName"] as? String, let sex = dict["sex"] as? String, let country = dict["country"] as? String , let age = dict["age"] as? String, let url = dict["userImageUrl"] as? String else {
                         
-                        return
                     }
-                    var userInfo = UserInformation()
-                    userInfo.userUid = uid
-                    userInfo.userName = name
-                    userInfo.userSex = sex
-                    userInfo.userConuntry = country
-                    userInfo.userAge = age
-                    userInfo.profileImageUrl = url
-                    result.append(userInfo)
 
                 }
             }
