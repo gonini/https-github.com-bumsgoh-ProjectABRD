@@ -25,6 +25,7 @@ class ChatBubbleCollectionViewCell: UICollectionViewCell {
         textView.backgroundColor = UIColor.clear
         textView.isScrollEnabled = false
         textView.isEditable = false
+        textView.textAlignment = .center
         return textView
     }()
     

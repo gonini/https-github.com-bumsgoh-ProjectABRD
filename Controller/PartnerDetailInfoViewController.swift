@@ -145,7 +145,14 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
             }
             
                 } else {
+            chattingVC.roomId = self.roomId ?? ""
             
+                chattingVC.destinationUid = self.userInfos.userUid
+                let chatListVC: ChatListTableViewController = ChatListTableViewController()
+                let listBasedNavigationController = UINavigationController(rootViewController: chatListVC)
+                listBasedNavigationController.pushViewController(chattingVC, animated: false)
+                self.present(listBasedNavigationController, animated: true)
+            print("chat room exists!")
            // connect to room which is already created..
     
         }
