@@ -1,6 +1,6 @@
-# Project Title
+# Project Abroad 
 
-One Paragraph of project description goes here
+해외 여행자들을 위치기반으로 매칭해주는 서비스
 
 ## Getting Started
 
