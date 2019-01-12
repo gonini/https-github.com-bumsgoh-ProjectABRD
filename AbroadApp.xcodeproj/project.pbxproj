@@ -10,7 +10,7 @@
 		43681B06B36291EDDDD509F1 /* Pods_AbroadAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF99E3927C625A873DEFA0B /* Pods_AbroadAppUITests.framework */; };
 		481E16ED417A3B041DA57C73 /* Pods_AbroadAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DAD6C4CA7838B3F71DB9C4D /* Pods_AbroadAppTests.framework */; };
 		B3180BCD21D9DFD10064477A /* ChatUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3180BCC21D9DFD10064477A /* ChatUserModel.swift */; };
-		B3180BCF21D9E0F30064477A /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3180BCE21D9E0F30064477A /* ChatModel.swift */; };
+		B3180BCF21D9E0F30064477A /* UserChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3180BCE21D9E0F30064477A /* UserChatModel.swift */; };
 		B31B734121D897130074F86F /* PartnerDetailHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31B734021D897130074F86F /* PartnerDetailHeaderReusableView.swift */; };
 		B31B734321D8991E0074F86F /* PartnerDetailInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31B734221D8991E0074F86F /* PartnerDetailInfoCollectionViewCell.swift */; };
 		B31B734521D8B7FC0074F86F /* StretchableHeaderFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31B734421D8B7FC0074F86F /* StretchableHeaderFlowLayout.swift */; };
@@ -82,7 +82,7 @@
 		9DAD6C4CA7838B3F71DB9C4D /* Pods_AbroadAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AbroadAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF202B6703BDBD2E6E3D256C /* Pods-AbroadApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AbroadApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-AbroadApp/Pods-AbroadApp.release.xcconfig"; sourceTree = "<group>"; };
 		B3180BCC21D9DFD10064477A /* ChatUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUserModel.swift; sourceTree = "<group>"; };
-		B3180BCE21D9E0F30064477A /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
+		B3180BCE21D9E0F30064477A /* UserChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserChatModel.swift; sourceTree = "<group>"; };
 		B31B734021D897130074F86F /* PartnerDetailHeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerDetailHeaderReusableView.swift; sourceTree = "<group>"; };
 		B31B734221D8991E0074F86F /* PartnerDetailInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerDetailInfoCollectionViewCell.swift; sourceTree = "<group>"; };
 		B31B734421D8B7FC0074F86F /* StretchableHeaderFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchableHeaderFlowLayout.swift; sourceTree = "<group>"; };
@@ -337,7 +337,7 @@
 				B36AEA5C2151548C009BDEC3 /* MessageForm.swift */,
 				B3CB845E21C52CDC00689353 /* UserInfo.swift */,
 				B3180BCC21D9DFD10064477A /* ChatUserModel.swift */,
-				B3180BCE21D9E0F30064477A /* ChatModel.swift */,
+				B3180BCE21D9E0F30064477A /* UserChatModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -592,7 +592,7 @@
 				B36AEA4F214FDAB3009BDEC3 /* CountrySelectingCollectionViewCell.swift in Sources */,
 				B36AEA5B21513D80009BDEC3 /* ChatViewController.swift in Sources */,
 				B3CD8CBB2166968B004F4FC6 /* ChatListTableViewCell.swift in Sources */,
-				B3180BCF21D9E0F30064477A /* ChatModel.swift in Sources */,
+				B3180BCF21D9E0F30064477A /* UserChatModel.swift in Sources */,
 				B3CD8CB321668811004F4FC6 /* SignUpSexAndAgeViewController.swift in Sources */,
 				B3CB845F21C52CDC00689353 /* UserInfo.swift in Sources */,
 				B31B735021D920120074F86F /* PartnerDetailViewCommentCellCollectionViewCell.swift in Sources */,

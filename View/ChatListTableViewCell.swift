@@ -23,7 +23,7 @@ class ChatListTableViewCell: UITableViewCell {
     let chatMemberLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.font = UIFont.boldSystemFont(ofSize: 18)
         return label
     }()
     
@@ -57,7 +57,7 @@ class ChatListTableViewCell: UITableViewCell {
         self.profileImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         self.profileImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8).isActive = true
         
-        self.chatMemberLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 4).isActive = true
+        self.chatMemberLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 12).isActive = true
         self.chatMemberLabel.leadingAnchor.constraint(equalTo: self.profileImageView.trailingAnchor, constant: 16).isActive = true
         
         self.chatLabel.topAnchor.constraint(equalTo: self.chatMemberLabel.bottomAnchor, constant: 8).isActive = true

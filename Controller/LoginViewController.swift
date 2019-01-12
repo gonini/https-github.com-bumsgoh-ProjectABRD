@@ -117,19 +117,22 @@ class LoginViewController: UIViewController {
         guard let email = loginIdTextField.text, let password = loginPasswordTextField.text else {
             return
         }
-        Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] (user, error) in
+            self?.loginButton.isEnabled = false
             if let error = error {
                 let alertController = UIAlertController(title: "알림", message: "아이디 혹은 비밀번호를 확인해주세요", preferredStyle: .alert)
                 let okButton = UIAlertAction(title: "확인", style: .cancel, handler: nil)
                 alertController.addAction(okButton)
-                self.present(alertController, animated: true, completion: nil)
+                self?.present(alertController, animated: true, completion: nil)
                 
                 print(error.localizedDescription)
                 return
             }
             if let user = user?.user {
                 let MainPageVC: MainTabBarController = MainTabBarController()
-                self.navigationController?.pushViewController(MainPageVC, animated: true)
+                self?.loginButton.isEnabled = true
+                self?.navigationController?.pushViewController(MainPageVC, animated: true)
+                
             }
         }
     }
