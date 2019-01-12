@@ -85,7 +85,7 @@ class WriteCommentViewController: UIViewController {
                 self?.userNameLabel.text = name
             }
         }
-        
+        //
         self.view.backgroundColor = .white
         self.view.addSubview(userNameLabel)
         self.view.addSubview(commentTextView)
