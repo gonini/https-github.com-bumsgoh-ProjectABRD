@@ -105,9 +105,6 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     }
     
     func checkChatRoom(_ completionHandler: @escaping (()->())) {
-       /* guard let user = Auth.auth().currentUser else {
-            return
-        }*/
         Database.database().reference().child("chatRooms").queryOrdered(byChild: "users/\(userInfos.userUid)").queryEqual(toValue: true).observeSingleEvent(of: .value) { [weak self] (dataSnapshot) in
             print(dataSnapshot)
             guard let objects = dataSnapshot.children.allObjects as? [DataSnapshot] else {
@@ -122,6 +119,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
                 self?.roomId = item.key
             }
             completionHandler()
+            print("commit")
         }
     }
     
