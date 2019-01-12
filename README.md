@@ -1,4 +1,39 @@
-# 여행자들을 매칭해주는 ABROAD !
+# Project Abroad 
+
+해외 여행자들을 위치기반으로 매칭해주는 서비스
+
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+
+### Prerequisites
+
+Firebase Database
+Firebase Auth
+Firebase Stroge
+
+
+## Deployment
+
+Add additional notes about how to deploy this on a live system
+
+## Built With
+
+* [Firebase](https://firebase.google.com/?hl=ko) 
+
+## Versioning
+
+version 1.0
+
+## Contributor
+
+ *Initial work* - [SangbumGoh](https://github.com/bumsgoh)
+
+ *[contributor HyejuLee](https://github.com/hyejuuu)
+
+## License
+
+MIT License
 
 <div align="middle">
   <img width="300" src ="https://user-images.githubusercontent.com/34180216/50044433-b9120000-00c6-11e9-9374-f13729a3edee.png" >
