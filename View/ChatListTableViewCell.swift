@@ -16,27 +16,25 @@ class ChatListTableViewCell: UITableViewCell {
         view.layer.cornerRadius = 25
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
-        view.image = #imageLiteral(resourceName: "IMG_0596")
+        view.image = #imageLiteral(resourceName: "hairstyle-4")
         return view
     }()
     
     let chatMemberLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.font = UIFont.boldSystemFont(ofSize: 18)
         return label
     }()
     
     let chatLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "BBQ Fried Chicken is amazing!"
         return label
     }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         UISetUp()
     }
     
@@ -58,7 +56,7 @@ class ChatListTableViewCell: UITableViewCell {
         self.profileImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         self.profileImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8).isActive = true
         
-        self.chatMemberLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 4).isActive = true
+        self.chatMemberLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 12).isActive = true
         self.chatMemberLabel.leadingAnchor.constraint(equalTo: self.profileImageView.trailingAnchor, constant: 16).isActive = true
         
         self.chatLabel.topAnchor.constraint(equalTo: self.chatMemberLabel.bottomAnchor, constant: 8).isActive = true
