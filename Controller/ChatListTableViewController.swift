@@ -11,7 +11,7 @@ import FirebaseAuth
 import FirebaseDatabase
 
 class ChatListTableViewController: UITableViewController {
-    
+    var destinationUsers: [String] = []
     var uid: String = ""
     let cellIdentifier: String = "chatCell"
     var chatRooms: [ChatModel] = [] {
@@ -46,7 +46,7 @@ class ChatListTableViewController: UITableViewController {
         Database.database().reference().child("chatRooms").queryOrdered(byChild: "users/"+uid).queryEqual(toValue: true).observeSingleEvent(of: .value) { [weak self] (dataSnapshot) in
             //print("value: \(dataSnapshot.children.allObjects)")
             for item in dataSnapshot.children.allObjects as! [DataSnapshot] {
-                
+                print("value: \(item.key)")
                 if let chatRoomDict = item.value as? NSDictionary {
                     print("chatuser\(chatRoomDict["users"])")
                     print("chatuser\(chatRoomDict["comments"])")
@@ -55,7 +55,7 @@ class ChatListTableViewController: UITableViewController {
                         return
                     }
                     //let comment = comments["]
-                    let chatRoom = ChatModel(users: users, comments: comments, url: "", name: "", uid: "")
+                    let chatRoom = ChatModel(roomId: item.key, users: users, comments: comments, url: "", name: "", uid: "")
                     print("is..\(chatRoom)")
                     self?.chatRooms.append(chatRoom)
                     
@@ -86,6 +86,7 @@ class ChatListTableViewController: UITableViewController {
         for item in chatRooms[indexPath.row].users {
             if item.key != self.uid {
                 destinationUid = item.key
+                destinationUsers.append(destinationUid)
             }
         }
         
@@ -137,10 +138,15 @@ class ChatListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let VC: ChatViewController = ChatViewController()
-        //VC.roomId = chatRooms[indexPath.row].
+        let chattingVC: ChatViewController = ChatViewController()
+        chattingVC.roomId = chatRooms[indexPath.row].roomId
+        chattingVC.destinationUid = destinationUsers[indexPath.row]
+        let listBasedNavigationController = UINavigationController(rootViewController: chattingVC)
+       // listBasedNavigationController.pushViewController(chattingVC, animated: false)
+        self.present(listBasedNavigationController, animated: true)
       
-        self.navigationController?.pushViewController(VC, animated: true)
+      
+        self.navigationController?.pushViewController(chattingVC, animated: true)
     }
     
     
