@@ -11,8 +11,10 @@ import FirebaseAuth
 import FirebaseDatabase
 
 class ChatListTableViewController: UITableViewController {
+
     var destinationUsers: [String] = []
     var uid: String = ""
+
     let cellIdentifier: String = "chatCell"
     var chatRooms: [ChatModel] = [] {
         didSet {
@@ -21,19 +23,19 @@ class ChatListTableViewController: UITableViewController {
             }
         }
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        getChatRooms()
-    }
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.register(ChatListTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         setTableView()
+        getChatRooms()
         
         }
+
     
     func getChatRooms() {
         guard let uid  = Auth.auth().currentUser?.uid else {
@@ -48,8 +50,6 @@ class ChatListTableViewController: UITableViewController {
             for item in dataSnapshot.children.allObjects as! [DataSnapshot] {
                 print("value: \(item.key)")
                 if let chatRoomDict = item.value as? NSDictionary {
-                    print("chatuser\(chatRoomDict["users"])")
-                    print("chatuser\(chatRoomDict["comments"])")
                     guard let users = chatRoomDict["users"] as? [String: Bool], let comments = chatRoomDict["comments"] as? [String: [String: String]] else {
                         print("casting failure")
                         return
@@ -81,7 +81,8 @@ class ChatListTableViewController: UITableViewController {
         guard let cell: ChatListTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ChatListTableViewCell else {
             return UITableViewCell.init()
         }
-        
+        cell.chatMemberLabel.text = chatRooms[indexPath.row].userName
+    
         var destinationUid: String = ""
         for item in chatRooms[indexPath.row].users {
             if item.key != self.uid {
@@ -98,13 +99,13 @@ class ChatListTableViewController: UITableViewController {
                         
                         return
                     }
-                        var userInfo = UserInformation()
-                        userInfo.userUid = uid
-                        userInfo.userName = name
-                        userInfo.userSex = sex
-                        userInfo.userConuntry = country
-                        userInfo.userAge = age
-                        userInfo.profileImageUrl = url
+                var userInfo = UserInformation()
+                userInfo.userUid = uid
+                userInfo.userName = name
+                userInfo.userSex = sex
+                userInfo.userConuntry = country
+                userInfo.userAge = age
+                userInfo.profileImageUrl = url
                 cell.chatMemberLabel.text = userInfo.userName
                 cell.chatLabel.text = ""
                 
@@ -137,15 +138,15 @@ class ChatListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+
         let chattingVC: ChatViewController = ChatViewController()
         chattingVC.roomId = chatRooms[indexPath.row].roomId
         chattingVC.destinationUid = destinationUsers[indexPath.row]
         let listBasedNavigationController = UINavigationController(rootViewController: chattingVC)
        // listBasedNavigationController.pushViewController(chattingVC, animated: false)
         self.present(listBasedNavigationController, animated: true)
-      
-      
+        let VC: ChatViewController = ChatViewController()
+        VC.roomId = chatRooms[indexPath.row].roomId
         self.navigationController?.pushViewController(chattingVC, animated: true)
     }
     

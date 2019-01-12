@@ -89,7 +89,7 @@ class MemberListViewController: UIViewController {
                         fatalError()
                     }
 
-                    guard let name = dict["userName"] as? String, let uid = dict["uid"] as? String, let sex = dict["sex"] as? String, let country = dict["country"] as? String , let age = dict["age"] as? String, let url = dict["userImageUrl"] as? String else {
+                    guard let name = dict["userName"] as? String, let uid = dict["uid"] as? String, let sex = dict["sex"] as? String, let country = dict["country"] as? String , let age = dict["age"] as? String, let url = dict["userImageUrl"] as? String, let contents = dict["planContents"] as? String else {
                         
                         return
                     }
@@ -103,6 +103,7 @@ class MemberListViewController: UIViewController {
                         userInfo.userConuntry = country
                         userInfo.userAge = age
                         userInfo.profileImageUrl = url
+                        userInfo.planContents = contents
                         result.append(userInfo)
                         
                     }

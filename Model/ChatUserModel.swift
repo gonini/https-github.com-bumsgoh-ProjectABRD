@@ -15,7 +15,7 @@ struct ChatModel {
     var profileImageUrl: String
     var userName: String
     var uid: String
-    
+
      struct Comment {
         public var uid : String?
         public var message : String?

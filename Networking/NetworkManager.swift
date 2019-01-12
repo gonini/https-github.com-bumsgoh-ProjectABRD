@@ -69,5 +69,4 @@ class NetworkManager: APIService {
         }
     }
     
-    
 }

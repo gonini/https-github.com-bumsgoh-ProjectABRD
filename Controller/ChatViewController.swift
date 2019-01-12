@@ -18,7 +18,7 @@ class ChatViewController: UIViewController {
     var messages: [[String: String]] = [] {
         didSet {
             DispatchQueue.main.async {[weak self] in
-                self?.chatCollectionView.reloadData()
+           //  self?.chatCollectionView.reloadData()
                
             }
         }
@@ -65,7 +65,7 @@ class ChatViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+  
         chatTextView.text = "Type your message"
         chatTextView.textColor = UIColor.lightGray
         chatTextView.delegate = self
@@ -95,9 +95,7 @@ class ChatViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
     
-        fetchMessages() {[weak self] in
-            self?.getAddedMessage()
-        }
+        fetchMessages()
     }
     
     func UISetUp() {
@@ -137,14 +135,14 @@ class ChatViewController: UIViewController {
         guard let user = Auth.auth().currentUser else {
             return
         }
-        //let timeStamp = String(ServerValue.timestamp())
-        let data: [String: String] =  ["uid": user.uid, "message": chatTextView.text!, "timestamp" : ""]
+        
+        let data: [String: String] =  ["uid": user.uid, "message": chatTextView.text!]
         
         Database.database().reference().child("chatRooms").child(roomId).child("comments").childByAutoId().setValue(data) { [weak self] (error, DatabaseReference) in
             if let error = error {
                 return
             }
-            //self?.fetchMessages()
+           // self?.fetchMessages()
         }
        
     }
@@ -171,14 +169,10 @@ class ChatViewController: UIViewController {
         isKeyboardShowOnce = false
     }
     
-    func fetchMessages(_ completionHandler: @escaping (()->())) {
-        var messageArray: [[String: String]] = []
-        Database.database().reference().child("chatRooms").child(roomId).child("comments").observeSingleEvent(of: .value) { [weak self] (dataSnapshot) in
-            guard let self = self else {
-                return
-            }
+    func fetchMessages() {
+        Database.database().reference().child("chatRooms").child(roomId).child("comments").observe(.value) { [weak self] (dataSnapshot) in
+            //self?.messages.removeAll()
             for message in dataSnapshot.children.allObjects as! [DataSnapshot] {
-                print("called")
                guard let commentDict = message.value as? NSDictionary else {
                     return
                 }
@@ -186,48 +180,18 @@ class ChatViewController: UIViewController {
                     return
                 }
                 let messageDict = ["message": message, "uid": uid]
+                guard let self = self else {
+                    return
+                }
                 
-                messageArray.append(messageDict)
-                /*let item = self.messages.count - 1
-                let insertedIndex = IndexPath(item: item, section: 0)
                 self.messages.append(messageDict)
+                let item = self.messages.count - 1
+                let insertedIndex = IndexPath(item: item, section: 0)
                 self.chatCollectionView.insertItems(at: [insertedIndex])
-                self.chatCollectionView.scrollToItem(at: insertedIndex, at: .bottom, animated: true)*/
+                self.chatCollectionView.scrollToItem(at: insertedIndex, at: .bottom, animated: true)
+              
             }
-            self.messages = messageArray
-            
         }
-        completionHandler()
-    }
-    
-    func getAddedMessage() {
-        Database.database().reference().child("chatRooms").child(roomId).child("comments").observe(.childAdded) { [weak self] (dataSnapshot) in
-            guard let self = self else {
-                return
-            }
-            let data = dataSnapshot
-                print(dataSnapshot)
-                guard let commentDict = data.value as? NSDictionary else {
-                    return
-                }
-                guard let message = commentDict["message"] as? String, let uid = commentDict["uid"] as? String else {
-                    return
-                }
-                let messageDict = ["message": message, "uid": uid]
-            
-            
-                DispatchQueue.main.async {
-                    
-                  //  let item = self.messages.count - 1
-                    //let insertedIndex = IndexPath(item: item, section: 0)
-                    self.messages.append(messageDict)
-                    //self.chatCollectionView.reloadData()
-                    //self.chatCollectionView.insertItems(at: [insertedIndex])
-                    //self.chatCollectionView.scrollToItem(at: insertedIndex, at: .bottom, animated: true)
-                }
-               
-            }
-        
     }
 }
 
