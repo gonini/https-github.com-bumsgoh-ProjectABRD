@@ -63,7 +63,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         Database.database().reference().child("users").child(userInfos.userUid).child("comments").observeSingleEvent(of: DataEventType.value) { [weak self] (snapshot) in
             if let data = snapshot.children.allObjects as? [DataSnapshot] {
                 
-                data.compactMap {
+                data.forEach {
                     guard let dict = $0.value as? NSDictionary else {
                         return
                     }
@@ -78,7 +78,10 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
                 }
             }
             self?.comments = result
-            self?.collectionView.reloadData()
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+            
         }
     }
     
@@ -102,10 +105,10 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     }
     
     func checkChatRoom(_ completionHandler: @escaping (()->())) {
-        guard let user = Auth.auth().currentUser else {
+       /* guard let user = Auth.auth().currentUser else {
             return
-        }
-        Database.database().reference().child("chatRooms").queryOrdered(byChild: "users/\(user.uid)").queryEqual(toValue: true).observeSingleEvent(of: DataEventType.value) { [weak self] (dataSnapshot) in
+        }*/
+        Database.database().reference().child("chatRooms").queryOrdered(byChild: "users/\(userInfos.userUid)").queryEqual(toValue: true).observeSingleEvent(of: .value) { [weak self] (dataSnapshot) in
             print(dataSnapshot)
             guard let objects = dataSnapshot.children.allObjects as? [DataSnapshot] else {
                 return
@@ -118,7 +121,6 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
                 }
                 self?.roomId = item.key
             }
-            
             completionHandler()
         }
     }

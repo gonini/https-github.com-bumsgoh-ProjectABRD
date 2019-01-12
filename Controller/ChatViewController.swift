@@ -14,6 +14,7 @@ class ChatViewController: UIViewController {
     var destinationUid: String = ""
     let reuseIdentifier: String = "chatBubbleCell"
     var roomId: String = ""
+    var isFirstAddedChild: Bool = true
     
     var messages: [[String: String]] = [] {
         didSet {
@@ -72,7 +73,7 @@ class ChatViewController: UIViewController {
         
         chatCollectionView.delegate = self
         chatCollectionView.dataSource = self
-    chatCollectionView.register(ChatBubbleCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        chatCollectionView.register(ChatBubbleCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
         self.view.backgroundColor = UIColor.white
         
@@ -171,7 +172,10 @@ class ChatViewController: UIViewController {
     
     func fetchMessages() {
         Database.database().reference().child("chatRooms").child(roomId).child("comments").observe(.value) { [weak self] (dataSnapshot) in
-            //self?.messages.removeAll()
+            guard let self = self else {
+                return
+            }
+            self.messages.removeAll()
             for message in dataSnapshot.children.allObjects as! [DataSnapshot] {
                guard let commentDict = message.value as? NSDictionary else {
                     return
@@ -180,16 +184,18 @@ class ChatViewController: UIViewController {
                     return
                 }
                 let messageDict = ["message": message, "uid": uid]
-                guard let self = self else {
-                    return
-                }
-                
                 self.messages.append(messageDict)
-                let item = self.messages.count - 1
-                let insertedIndex = IndexPath(item: item, section: 0)
-                self.chatCollectionView.insertItems(at: [insertedIndex])
-                self.chatCollectionView.scrollToItem(at: insertedIndex, at: .bottom, animated: true)
+                
+     
+                
               
+            }
+            self.chatCollectionView.reloadData()
+            let item = self.messages.count - 1
+            let insertedIndex = IndexPath(item: item, section: 0)
+            if self.messages.count > 0{
+                self.chatCollectionView.scrollToItem(at: insertedIndex, at: .bottom, animated: true)
+                
             }
         }
     }
@@ -198,7 +204,7 @@ class ChatViewController: UIViewController {
 extension ChatViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let messageText: [String: String] = self.messages[indexPath.row]
-        let size: CGSize = CGSize(width: 250, height: 1000)
+        let size: CGSize = CGSize(width: 250, height: 100)
         let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         let estimatedForm = NSString(string: messageText["message"]!).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)], context: nil)
             return CGSize(width: self.view.frame.width, height: estimatedForm.height + 20)
@@ -206,9 +212,9 @@ extension ChatViewController: UICollectionViewDelegateFlowLayout {
        // return CGSize(width: self.view.frame.width, height: 100)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+   /* func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-    }
+    }*/
 }
 
 extension ChatViewController: UICollectionViewDelegate, UICollectionViewDataSource {
