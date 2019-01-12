@@ -23,6 +23,7 @@ class PartnerDetailHeaderReusableView: UICollectionReusableView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = ""
+        label.adjustsFontSizeToFitWidth = true
         label.font = UIFont.boldSystemFont(ofSize: 38)
         label.textColor = UIColor.white
         return label
@@ -55,8 +56,10 @@ class PartnerDetailHeaderReusableView: UICollectionReusableView {
         addSubview(userAgeLabel)
         
         profileImageView.fillSuperView(with: 0)
+        
         userNameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16).isActive = true
         userNameLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
+        userNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -50).isActive = true
         
         userAgeLabel.leadingAnchor.constraint(equalTo: userNameLabel.trailingAnchor, constant: 8).isActive = true
         userAgeLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true

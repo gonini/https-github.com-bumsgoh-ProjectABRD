@@ -87,9 +87,12 @@ class PartnersTableViewCell: UITableViewCell {
         self.memberNameLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 16).isActive = true
         self.memberNameLabel.leadingAnchor.constraint(equalTo: self.onOffImageView.trailingAnchor, constant: 10).isActive = true
         self.memberNameLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10).isActive = true
+        self.memberNameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         self.countryLabel.topAnchor.constraint(equalTo: self.memberNameLabel.bottomAnchor, constant: 5).isActive = true
         self.countryLabel.leadingAnchor.constraint(equalTo: self.onOffImageView.trailingAnchor, constant: 10).isActive = true
+        self.countryLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10).isActive = true
+        self.countryLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         self.chatLabel.topAnchor.constraint(equalTo: self.countryLabel.bottomAnchor, constant: 5).isActive = true
         self.chatLabel.leadingAnchor.constraint(equalTo: self.onOffImageView.trailingAnchor, constant: 10).isActive = true

@@ -264,10 +264,15 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
                 }
         
                 headerView.writeCommentButton.addTarget(self, action: #selector(moveToWriteCommentController(_:)), for: .touchUpInside)
+                headerView.writeCommentTextButton.addTarget(self, action: #selector(moveToWriteCommentController(_:)), for: .touchUpInside)
                 
-                headerView.planLabel.text = userInfos.planContents
+                if userInfos.planContents == "" {
+                    headerView.planLabel.text = "아직 여행 계획이 작성되지 않았습니다."
+                    headerView.planLabel.textColor = .lightGray
+                } else {
+                    headerView.planLabel.text = userInfos.planContents
+                }
                 
-                //headerView.isUserInteractionEnabled = true
                 return headerView
             }
         case UICollectionView.elementKindSectionFooter:
@@ -294,7 +299,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
             return .init(width: view.frame.width, height: 350)
         case 1:
             if userInfos.planContents == "" {
-                return .init(width: view.frame.width, height: 70)
+                return .init(width: view.frame.width, height: 100)
             } else {
                 let size: CGSize = CGSize(width: view.frame.width, height: 250)
                 let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
@@ -318,12 +323,16 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let commentString = self.comments[indexPath.item].comment else {
+            return CGSize()
+        }
+        
         let size: CGSize = CGSize(width: view.frame.width, height: 250)
         let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-        let estimatedForm = NSString(string: "[MC] System group container for systemgroup.com.apple.configurationprofiles path is /Users/bum/Library/Developer/CoreSimulator/Devices/A8D1299C-F22A-4416-B4EF-19144E22EB48/data/Containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles").boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)], context: nil)
+        let estimatedForm = NSString(string: commentString).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)], context: nil)
         
         
-        return .init(width: view.frame.width - 2 * padding, height: estimatedForm.height)
+        return .init(width: view.frame.width - 2 * padding, height: estimatedForm.height + 90)
     }
 
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
