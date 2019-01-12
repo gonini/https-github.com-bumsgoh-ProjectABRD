@@ -13,6 +13,8 @@ import FirebaseDatabase
 class WriteCommentViewController: UIViewController {
 
     var userInfo: UserInformation = UserInformation()
+    var writerImageUrl: String = ""
+    var writerName: String = ""
     
     let userNameLabel: UILabel = {
         let label = UILabel()
@@ -63,6 +65,8 @@ class WriteCommentViewController: UIViewController {
 //        self.navigationItem.backBarButtonItem = backButton
 //        self.navigationItem.rightBarButtonItem = okButton
 //
+        
+        self.view.backgroundColor = .white
         self.view.addSubview(userNameLabel)
         self.view.addSubview(commentTextView)
         self.view.addSubview(backButton)
@@ -103,26 +107,25 @@ class WriteCommentViewController: UIViewController {
             
             self.present(alertController, animated: false)
         } else {
-            print(self.userInfo.userUid)
             let userId = self.userInfo.userUid
             guard let writer = Auth.auth().currentUser?.uid else { return }
-            var writerImageUrl = ""
-//            Database.database().reference().child("users").child(writer).observeSingleEvent(of: DataEventType.value) { [weak self] (snapshot) in
-//                if let data = snapshot.children.allObjects as? [DataSnapshot] {
-//                    data.compactMap {
-//                        guard let dict = $0.value as? NSDictionary else {
-//                            fatalError()
-//                        }
-//
-//                        guard let url = dict["userImageUrl"] as? String else {
-//                            return
-//                        }
-//                        writerImageUrl = url
-//                    }
-//                }
-//            }
+            
+            Database.database().reference().child("users").child(writer).observeSingleEvent(of: DataEventType.value) { [weak self] (snapshot) in
+                
+                guard let value = snapshot.value as? NSDictionary else {
+                    return
+                }
+                
+                guard let imageUrl = value["userImageUrl"] as? String, let name = value["userName"] as? String else {
+                    return
+                }
+                
+                self?.writerName = name
+                self?.writerImageUrl = imageUrl
+                 Database.database().reference().child("users").child(userId).child("comments").child(writer).updateChildValues(["writerName": self?.writerName])
+                Database.database().reference().child("users").child(userId).child("comments").child(writer).updateChildValues(["writerImageUrl": self?.writerImageUrl])
+            }
             Database.database().reference().child("users").child(userId).child("comments").child(writer).updateChildValues(["comment": commentTextView.text])
-//            Database.database().reference().child("users").child(userId).child("comments").child(writer).updateChildValues(["writerImageUrl": writerImageUrl])
             self.dismiss(animated: true, completion: nil)
         }
     }

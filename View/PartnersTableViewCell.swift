@@ -35,6 +35,7 @@ class PartnersTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 19)
         label.textColor = .black
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -85,14 +86,15 @@ class PartnersTableViewCell: UITableViewCell {
         
         self.memberNameLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 16).isActive = true
         self.memberNameLabel.leadingAnchor.constraint(equalTo: self.onOffImageView.trailingAnchor, constant: 10).isActive = true
+        self.memberNameLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10).isActive = true
         
         self.countryLabel.topAnchor.constraint(equalTo: self.memberNameLabel.bottomAnchor, constant: 5).isActive = true
         self.countryLabel.leadingAnchor.constraint(equalTo: self.onOffImageView.trailingAnchor, constant: 10).isActive = true
         
-        self.chatLabel.topAnchor.constraint(equalTo: self.onOffImageView.bottomAnchor, constant: 8).isActive = true
-        self.chatLabel.leadingAnchor.constraint(equalTo: self.profileImageView.trailingAnchor, constant: 20).isActive = true
-        self.chatLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -12).isActive = true
-        self.chatLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -15).isActive = true
+        self.chatLabel.topAnchor.constraint(equalTo: self.countryLabel.bottomAnchor, constant: 5).isActive = true
+        self.chatLabel.leadingAnchor.constraint(equalTo: self.onOffImageView.trailingAnchor, constant: 10).isActive = true
+        self.chatLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10).isActive = true
+        self.chatLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10).isActive = true
         
     }
 }

@@ -55,6 +55,8 @@ class PartnerDetailViewCommentCellCollectionViewCell: UICollectionViewCell {
     }
     
     func UISetUp() {
+        contentView.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 0.3267069777)
+        contentView.layer.cornerRadius = 20
         addSubview(profileImageView)
         addSubview(memberNameLabel)
         addSubview(commentTextView)

@@ -32,6 +32,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     
     var roomId: String?
     var userInfos: UserInformation = UserInformation()
+    var comments: [Comment] = []
     
     let downArrowImageView: UIImageView = {
         let imageView = UIImageView()
@@ -43,32 +44,48 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         return imageView
     }()
     
-    let string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     
     var profileHeaderView: PartnerDetailHeaderReusableView?
     var planHeaderView: PlanAndLikesCollectionReusableView?
-    /*
-    lazy var panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
     
-    */
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.addSubview(downArrowImageView)
+        setCommentsData()
         setUpCollectionView()
         setUpCollectionViewLayout()
         collectionView.isPrefetchingEnabled = false
-        
-        
     }
     
-   
+    func setCommentsData() {
+        var result: [Comment] = []
+        Database.database().reference().child("users").child(userInfos.userUid).child("comments").observeSingleEvent(of: DataEventType.value) { [weak self] (snapshot) in
+            if let data = snapshot.children.allObjects as? [DataSnapshot] {
+                
+                data.compactMap {
+                    guard let dict = $0.value as? NSDictionary else {
+                        return
+                    }
+                    
+                    guard let name = dict["writerName"] as? String, let imageUrl = dict["writerImageUrl"] as? String, let text = dict["comment"] as? String else {
+                        return
+                    }
+                    
+                    let comment = Comment(writerImageUrl: imageUrl, writerName: name, comment: text)
+                    result.append(comment)
+                    
+                }
+            }
+            self?.comments = result
+            self?.collectionView.reloadData()
+        }
+    }
     
     fileprivate func setUpCollectionViewLayout() {
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
             layout.sectionInset = .init(top: padding, left: padding, bottom: padding, right: padding)
             layout.sectionFootersPinToVisibleBounds = true
         }
-        
     }
     
     fileprivate func setUpCollectionView() {
@@ -161,19 +178,43 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     }
         
     @objc func moveToWriteCommentController(_: UIButton) {
-
-        print("button clicked")
-       self.present(WriteCommentViewController(), animated: true, completion: nil)
-
         let nextViewController = WriteCommentViewController()
         nextViewController.userInfo = self.userInfos
         self.present(nextViewController, animated: true, completion: nil)
-
     }
     
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: detailInfoCellId, for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: detailInfoCellId, for: indexPath) as? PartnerDetailViewCommentCellCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        
+        guard let urlString = comments[indexPath.item].writerImageUrl else {
+            return UICollectionViewCell()
+        }
+        
+        guard let imageUrl: URL = URL(string: urlString) else {
+            return UICollectionViewCell()
+        }
+        
+        NetworkManager.shared.getImageWithCaching(url: imageUrl) { [weak self] (image, err) in
+            if let err = err {
+                return
+            }
+            
+            guard let image = image else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                cell.profileImageView.image = image
+            }
+            
+        }
+        
+        cell.memberNameLabel.text = comments[indexPath.item].writerName
+        cell.commentTextView.text = comments[indexPath.item].comment
+        
         cell.contentView.isUserInteractionEnabled = false
         return cell
     }
@@ -224,8 +265,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         
                 headerView.writeCommentButton.addTarget(self, action: #selector(moveToWriteCommentController(_:)), for: .touchUpInside)
                 
-//                headerView.planLabel.text = userInfos.planContents
-                headerView.planLabel.text = string
+                headerView.planLabel.text = userInfos.planContents
                 
                 //headerView.isUserInteractionEnabled = true
                 return headerView
@@ -253,22 +293,15 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         case 0:
             return .init(width: view.frame.width, height: 350)
         case 1:
-//            if userInfos.planContents == "" {
-//                return .init(width: view.frame.width, height: 0)
-//            } else {
-//                let size: CGSize = CGSize(width: view.frame.width, height: 250)
-//                let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-//                let estimatedForm = NSString(string: string).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20)], context: nil)
-//
-//                return .init(width: view.frame.width, height: estimatedForm.height+10)
-//            }
-            
-            
-            let size: CGSize = CGSize(width: view.frame.width, height: 250)
-            let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-            let estimatedForm = NSString(string: string).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20)], context: nil)
-            
-            return .init(width: view.frame.width, height: estimatedForm.height + 50)
+            if userInfos.planContents == "" {
+                return .init(width: view.frame.width, height: 70)
+            } else {
+                let size: CGSize = CGSize(width: view.frame.width, height: 250)
+                let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+                let estimatedForm = NSString(string: userInfos.planContents).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20)], context: nil)
+
+                return .init(width: view.frame.width, height: estimatedForm.height+70)
+            }
         default:
             return .init(width: view.frame.width, height: 350)
         }
@@ -320,7 +353,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         case 0:
             return 0
         case 1:
-            return 7
+            return self.comments.count
         default:
             return 1
         }
