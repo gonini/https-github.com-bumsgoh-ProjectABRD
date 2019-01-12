@@ -340,6 +340,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if self.comments.count > 0 {
         guard let commentString = self.comments[indexPath.item].comment else {
             return CGSize()
         }
@@ -350,6 +351,9 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         
         
         return .init(width: view.frame.width - 2 * padding, height: estimatedForm.height + 90)
+        } else {
+            return .init(width: view.frame.width - 2 * padding, height: 100)
+        }
     }
 
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
