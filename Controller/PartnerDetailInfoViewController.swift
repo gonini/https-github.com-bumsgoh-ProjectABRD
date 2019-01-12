@@ -55,6 +55,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         setUpCollectionView()
         setUpCollectionViewLayout()
         collectionView.isPrefetchingEnabled = false
+        collectionView.alwaysBounceVertical = true
     }
     
     func setCommentsData() {
@@ -185,6 +186,8 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if self.comments.count > 0 {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: detailInfoCellId, for: indexPath) as? PartnerDetailViewCommentCellCollectionViewCell else {
             return UICollectionViewCell()
         }
@@ -217,6 +220,17 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         
         cell.contentView.isUserInteractionEnabled = false
         return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: detailInfoCellId, for: indexPath) as? PartnerDetailViewCommentCellCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.contentView.backgroundColor = UIColor.white
+            cell.commentTextView.text = ""
+            cell.memberNameLabel.text = "this member has no comment yet"
+            
+            return cell
+        }
+        
     }
 
     
@@ -293,6 +307,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         case 0:
             return .init(width: view.frame.width, height: 350)
         case 1:
+       
             if userInfos.planContents == "" {
                 return .init(width: view.frame.width, height: 70)
             } else {
@@ -302,9 +317,11 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
 
                 return .init(width: view.frame.width, height: estimatedForm.height+70)
             }
+        
         default:
             return .init(width: view.frame.width, height: 350)
         }
+        
         
     }
     
@@ -353,7 +370,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         case 0:
             return 0
         case 1:
-            return self.comments.count
+            return self.comments.count > 0 ? self.comments.count : 1
         default:
             return 1
         }
@@ -361,111 +378,3 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     }
     
 }
-
-    /*func UISetUp() {
-        self.tableView.addGestureRecognizer(panGesture)
-        
-        tableView.estimatedRowHeight = tableView.rowHeight
-        tableView.rowHeight = UITableViewAutomaticDimension
-        
-        headerView = setHeaderView()
-        tableView.tableHeaderView = nil
-        tableView.addSubview(headerView)
-        
-        tableView.contentInset = UIEdgeInsets(top: tableHeaderViewHeight, left: 0, bottom: 0, right: 0)
-        tableView.contentOffset = CGPoint(x: 0, y: -tableHeaderViewHeight + 64)
-        
-        let effectiveHeight = tableHeaderViewHeight - tableHeaderViewCutaway/2
-        tableView.contentInset = UIEdgeInsets(top: effectiveHeight, left: 0, bottom: 0, right: 0)
-        tableView.contentOffset = CGPoint(x: 0, y: -effectiveHeight)
-        
-        updateHeaderView()
-*/
-    /*
-    func setHeaderView() -> UIView {
-        let headerView = UIView()
-        
-        headerView.addSubview(self.profileImageView)
-        
-        NSLayoutConstraint.activate([
-            self.profileImageView.topAnchor.constraint(equalTo: headerView.topAnchor),
-            self.profileImageView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
-            self.profileImageView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
-            self.profileImageView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor)
-            ])
-        
-        return headerView
-    }
-    */
-    
-    /*
-    func updateHeaderView() {
-        let effectiveHeight = tableHeaderViewHeight - tableHeaderViewCutaway/2
-        
-        var headerRect = CGRect(x: 0, y: -effectiveHeight, width: tableView.bounds.width, height: tableHeaderViewHeight)
-        
-        if tableView.contentOffset.y < effectiveHeight {
-            headerRect.origin.y = tableView.contentOffset.y
-            headerRect.size.height = -tableView.contentOffset.y + tableHeaderViewCutaway/2
-        }
-        
-        headerView.frame = headerRect
-    }
-    
-    @objc func handlePanGesture(_ sender: UIPanGestureRecognizer) {
-        var startLocation = 0
-        var endLocation = 0
-        
-        switch sender.state {
-        case .began:
-            startLocation = Int(sender.location(in: self.tableView).y)
-        case .ended:
-            endLocation = Int(sender.location(in: self.tableView).y)
-            let totalMovement = endLocation - startLocation
-            print("start: \(startLocation), end: \(endLocation), total: \(totalMovement)")
-            if totalMovement > 50 {
-                dismiss(animated: true, completion: nil)
-            }
-        default:
-            break
-        }
-    }
-    */
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        guard let touch = touches.first else { return }
-//        print(startLocation)
-//        self.startLocation = Int(touch.location(in: self.view).y)
-//    }
-//
-//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        guard let touch = touches.first else { return }
-//        print(endLocation)
-//        self.endLocation = Int(touch.location(in: self.view).y)
-//    }
-
-/*
-extension PartnerDetailInfoViewController {
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: PartnerDetailTableViewCell = PartnerDetailTableViewCell()
-        
-        return cell
-    }
-}
-
-extension PartnerDetailInfoViewController {
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        updateHeaderView()
-    }
-}
-
-extension PartnerDetailInfoViewController: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-}
-
-*/

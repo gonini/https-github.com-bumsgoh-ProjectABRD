@@ -25,14 +25,17 @@ class ChatListTableViewController: UITableViewController {
     }
     
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getChatRooms()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.register(ChatListTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         setTableView()
-        getChatRooms()
+        
         
         }
 
@@ -43,8 +46,7 @@ class ChatListTableViewController: UITableViewController {
             return
         }
         self.uid = uid
-        print("uid is.. \(uid)")
-        
+        self.chatRooms.removeAll()
         Database.database().reference().child("chatRooms").queryOrdered(byChild: "users/"+uid).queryEqual(toValue: true).observeSingleEvent(of: .value) { [weak self] (dataSnapshot) in
             //print("value: \(dataSnapshot.children.allObjects)")
             for item in dataSnapshot.children.allObjects as! [DataSnapshot] {

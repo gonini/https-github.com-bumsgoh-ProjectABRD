@@ -84,7 +84,7 @@ class MemberListViewController: UIViewController {
         Database.database().reference().child("users").observeSingleEvent(of: DataEventType.value) { [weak self] (snapshot) in
             
             if let data = snapshot.children.allObjects as? [DataSnapshot] {
-                data.compactMap {
+                data.forEach {
                     guard let dict = $0.value as? NSDictionary else {
                         fatalError()
                     }
