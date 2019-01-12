@@ -19,7 +19,8 @@ class WriteCommentViewController: UIViewController {
     let userNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "username"
+        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -65,7 +66,26 @@ class WriteCommentViewController: UIViewController {
 //        self.navigationItem.backBarButtonItem = backButton
 //        self.navigationItem.rightBarButtonItem = okButton
 //
+        guard let writer = Auth.auth().currentUser?.uid else {
+            return
+        }
         
+        Database.database().reference().child("users").child(writer).observeSingleEvent(of: .value) { [weak self] (snapshot) in
+            guard let value = snapshot.value as? NSDictionary else {
+                return
+            }
+
+            guard let name = value["userName"] as? String else {
+                return
+            }
+
+            self?.writerName = name
+
+            DispatchQueue.main.async {
+                self?.userNameLabel.text = name
+            }
+        }
+        //
         self.view.backgroundColor = .white
         self.view.addSubview(userNameLabel)
         self.view.addSubview(commentTextView)
@@ -76,10 +96,10 @@ class WriteCommentViewController: UIViewController {
         okButton.addTarget(self, action: #selector(touchUpOkButton(_:)), for: .touchUpInside)
         
         userNameLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
-        userNameLabel.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
-        userNameLabel.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10).isActive = true
+        userNameLabel.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 15).isActive = true
+        userNameLabel.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -15).isActive = true
         
-        commentTextView.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 10).isActive = true
+        commentTextView.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 15).isActive = true
         commentTextView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
         commentTextView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10).isActive = true
         commentTextView.heightAnchor.constraint(equalToConstant: 200).isActive = true
@@ -108,7 +128,9 @@ class WriteCommentViewController: UIViewController {
             self.present(alertController, animated: false)
         } else {
             let userId = self.userInfo.userUid
-            guard let writer = Auth.auth().currentUser?.uid else { return }
+            guard let writer = Auth.auth().currentUser?.uid else {
+                return
+            }
             
             Database.database().reference().child("users").child(writer).observeSingleEvent(of: DataEventType.value) { [weak self] (snapshot) in
                 
@@ -116,11 +138,10 @@ class WriteCommentViewController: UIViewController {
                     return
                 }
                 
-                guard let imageUrl = value["userImageUrl"] as? String, let name = value["userName"] as? String else {
+                guard let imageUrl = value["userImageUrl"] as? String else {
                     return
                 }
                 
-                self?.writerName = name
                 self?.writerImageUrl = imageUrl
                  Database.database().reference().child("users").child(userId).child("comments").child(writer).updateChildValues(["writerName": self?.writerName])
                 Database.database().reference().child("users").child(userId).child("comments").child(writer).updateChildValues(["writerImageUrl": self?.writerImageUrl])

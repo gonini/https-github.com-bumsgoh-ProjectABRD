@@ -19,13 +19,13 @@ class PlanAndLikesCollectionReusableView: UICollectionReusableView {
         return label
     }()
     
-    let writeCommentLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Write Comment"
-        label.textColor = .gray
-        label.font = .systemFont(ofSize: 19)
-        return label
+    let writeCommentTextButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Write Comment", for: .normal)
+        button.setTitleColor(.gray, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 19)
+        return button
     }()
     
     lazy var writeCommentButton: UIButton = {
@@ -55,23 +55,23 @@ class PlanAndLikesCollectionReusableView: UICollectionReusableView {
         addSubview(coverView)
         coverView.addSubview(planLabel)
         coverView.addSubview(writeCommentButton)
-        coverView.addSubview(writeCommentLabel)
+        coverView.addSubview(writeCommentTextButton)
         
         coverView.fillSuperView(with: 10)
 
         planLabel.topAnchor.constraint(equalTo: coverView.topAnchor).isActive = true
-        planLabel.leadingAnchor.constraint(equalTo: coverView.leadingAnchor).isActive = true
-        planLabel.trailingAnchor.constraint(equalTo: coverView.trailingAnchor).isActive = true
+        planLabel.leadingAnchor.constraint(equalTo: coverView.leadingAnchor, constant: 5).isActive = true
+        planLabel.trailingAnchor.constraint(equalTo: coverView.trailingAnchor, constant: -5).isActive = true
         planLabel.bottomAnchor.constraint(equalTo: writeCommentButton.topAnchor, constant: -30).isActive = true
         
         writeCommentButton.topAnchor.constraint(equalTo: planLabel.bottomAnchor, constant: 25).isActive = true
-        writeCommentButton.trailingAnchor.constraint(equalTo: coverView.trailingAnchor, constant: -10).isActive = true
+        writeCommentButton.trailingAnchor.constraint(equalTo: coverView.trailingAnchor, constant: -12).isActive = true
         writeCommentButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
         writeCommentButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         
-        writeCommentLabel.centerYAnchor.constraint(equalTo: writeCommentButton.centerYAnchor).isActive = true
-        writeCommentLabel.topAnchor.constraint(equalTo: planLabel.bottomAnchor, constant: 25).isActive = true
-        writeCommentLabel.trailingAnchor.constraint(equalTo: writeCommentButton.leadingAnchor, constant: -10).isActive = true
+        writeCommentTextButton.centerYAnchor.constraint(equalTo: writeCommentButton.centerYAnchor).isActive = true
+        writeCommentTextButton.topAnchor.constraint(equalTo: planLabel.bottomAnchor, constant: 25).isActive = true
+        writeCommentTextButton.trailingAnchor.constraint(equalTo: writeCommentButton.leadingAnchor, constant: -10).isActive = true
 
     }
     
