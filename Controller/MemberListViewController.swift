@@ -39,7 +39,19 @@ class MemberListViewController: UIViewController {
         tableview.translatesAutoresizingMaskIntoConstraints = false
         return tableview
     }()
+    
+    lazy var filterButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "filter"), style: .plain, target: self, action: nil)
+//        button.image = #imageLiteral(resourceName: "filter")
+        return button
+    }()
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = false
+//        self.navigationItem.setHidesBackButton(true, animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -57,6 +69,8 @@ class MemberListViewController: UIViewController {
     }
     
     func UISetUp() {
+        self.navigationItem.rightBarButtonItem = filterButton
+        self.navigationItem.leftBarButtonItem = nil
         
         self.view.addSubview(bulletBoardTableView)
         self.bulletBoardTableView.addSubview(indicatorView)

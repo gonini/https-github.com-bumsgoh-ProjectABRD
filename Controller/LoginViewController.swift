@@ -88,9 +88,11 @@ class LoginViewController: UIViewController {
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(signUpButtonClicked(sender:)))
         return recognizer
     }()
+    
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.isNavigationBarHidden = true
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -99,11 +101,6 @@ class LoginViewController: UIViewController {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.startUpdatingLocation()
-        
-        
-        
-        
-//self.navigationController?.pushViewController(MainTabBarController(), animated: true)
         
         self.view.backgroundColor = UIColor.white
         self.loginIdTextField.delegate = self

@@ -15,7 +15,7 @@
  */
 
 
-
+// 버튼 이미지 안들어감
 
 
 import UIKit
@@ -34,14 +34,22 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     var userInfos: UserInformation = UserInformation()
     var comments: [Comment] = []
     
-    let downArrowImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.layer.zPosition = .greatestFiniteMagnitude
-        imageView.contentMode = .scaleAspectFit
-        imageView.clipsToBounds = true
-        imageView.image = #imageLiteral(resourceName: "swipe-down")
-        return imageView
+//    let downArrowImageView: UIImageView = {
+//        let imageView = UIImageView()
+//        imageView.translatesAutoresizingMaskIntoConstraints = false
+//        imageView.layer.zPosition = .greatestFiniteMagnitude
+//        imageView.contentMode = .scaleAspectFit
+//        imageView.clipsToBounds = true
+//        imageView.image = #imageLiteral(resourceName: "downSign")
+//        return imageView
+//    }()
+    
+    let backButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.imageView?.image = #imageLiteral(resourceName: "cancel")
+//        button.imageView?.tintColor = .white
+        return button
     }()
     
     
@@ -50,11 +58,13 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.addSubview(downArrowImageView)
+//        collectionView.addSubview(downArrowImageView)
+        collectionView.addSubview(backButton)
         setCommentsData()
         setUpCollectionView()
         setUpCollectionViewLayout()
         collectionView.isPrefetchingEnabled = false
+        //alwaysBounceVertical을 true로 하면 셀이 없어도 스크롤이 가능하다.
         collectionView.alwaysBounceVertical = true
     }
     
@@ -188,38 +198,39 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if self.comments.count > 0 {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: detailInfoCellId, for: indexPath) as? PartnerDetailViewCommentCellCollectionViewCell else {
-            return UICollectionViewCell()
-        }
-        
-        guard let urlString = comments[indexPath.item].writerImageUrl else {
-            return UICollectionViewCell()
-        }
-        
-        guard let imageUrl: URL = URL(string: urlString) else {
-            return UICollectionViewCell()
-        }
-        
-        NetworkManager.shared.getImageWithCaching(url: imageUrl) { [weak self] (image, err) in
-            if let err = err {
-                return
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: detailInfoCellId, for: indexPath) as? PartnerDetailViewCommentCellCollectionViewCell else {
+                return UICollectionViewCell()
             }
             
-            guard let image = image else {
-                return
+            guard let urlString = comments[indexPath.item].writerImageUrl else {
+                return UICollectionViewCell()
             }
             
-            DispatchQueue.main.async {
-                cell.profileImageView.image = image
+            guard let imageUrl: URL = URL(string: urlString) else {
+                return UICollectionViewCell()
             }
             
-        }
-        
-        cell.memberNameLabel.text = comments[indexPath.item].writerName
-        cell.commentTextView.text = comments[indexPath.item].comment
-        
-        cell.contentView.isUserInteractionEnabled = false
-        return cell
+            NetworkManager.shared.getImageWithCaching(url: imageUrl) { [weak self] (image, err) in
+                if let err = err {
+                    return
+                }
+                
+                guard let image = image else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    cell.profileImageView.image = image
+                }
+                
+            }
+            
+            cell.contentView.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 0.3267069777)
+            cell.memberNameLabel.text = comments[indexPath.item].writerName
+            cell.commentTextView.text = comments[indexPath.item].comment
+            
+            cell.contentView.isUserInteractionEnabled = false
+            return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: detailInfoCellId, for: indexPath) as? PartnerDetailViewCommentCellCollectionViewCell else {
                 return UICollectionViewCell()
@@ -261,11 +272,16 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
                 headerView.userAgeLabel.text = userInfos.userAge
                 headerView.userNameLabel.text = userInfos.userName.uppercased()
            
-                downArrowImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-                downArrowImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-                downArrowImageView.centerYAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -10).isActive = true
-                downArrowImageView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -32).isActive = true
+//                downArrowImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+//                downArrowImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+//                downArrowImageView.centerYAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -10).isActive = true
+//                downArrowImageView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -32).isActive = true
   
+                backButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+                backButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+                backButton.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 10).isActive = true
+                backButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -10).isActive = true
+                
                 return headerView
                 
             } else if section == 1 {
@@ -340,18 +356,22 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard let commentString = self.comments[indexPath.item].comment else {
-            return CGSize()
+        if self.comments.count > 0 {
+            guard let commentString = self.comments[indexPath.item].comment else {
+                return CGSize()
+            }
+            
+            let size: CGSize = CGSize(width: view.frame.width, height: 250)
+            let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+            let estimatedForm = NSString(string: commentString).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)], context: nil)
+            
+            
+            return .init(width: view.frame.width - 2 * padding, height: estimatedForm.height + 90)
+        } else {
+            return .init(width: view.frame.width - 2 * padding, height: 100)
         }
-        
-        let size: CGSize = CGSize(width: view.frame.width, height: 250)
-        let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-        let estimatedForm = NSString(string: commentString).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)], context: nil)
-        
-        
-        return .init(width: view.frame.width - 2 * padding, height: estimatedForm.height + 90)
     }
-
+    
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let contentOffSetY = scrollView.contentOffset.y
         if contentOffSetY > 0 {
@@ -386,4 +406,10 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         
     }
     
+}
+
+extension PartnerDetailInfoViewController: WritedCommentDelegate {
+    func writedComment() {
+        setCommentsData()
+    }
 }
