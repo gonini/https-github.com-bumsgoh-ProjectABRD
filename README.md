@@ -49,7 +49,7 @@ MIT License
  <br><br><br><br><br><br>
 <div align="middle">
 <img width="300" src ="https://user-images.githubusercontent.com/34180216/50044438-c0390e00-00c6-11e9-8751-53f83641b64f.png">
-  <img width="300" src ="https://user-images.githubusercontent.com/34180216/51082391-5eada300-1749-11e9-85c0-2eeeb9b88f5b.png">
+  <img width="300" src ="https://user-images.githubusercontent.com/34180216/50044441-c333fe80-00c6-11e9-82fd-21dc54e65f3a.png">
  
 </div>
  
@@ -57,7 +57,8 @@ MIT License
 <div align="middle">
   
   <img width="300" src ="https://user-images.githubusercontent.com/34180216/51082392-610ffd00-1749-11e9-829a-f7a6ee4c50bb.png">
-  <img width="300" src ="https://user-images.githubusercontent.com/34180216/50044441-c333fe80-00c6-11e9-82fd-21dc54e65f3a.png">
+ 
+  <img width="300" src =" https://user-images.githubusercontent.com/34180216/51082391-5eada300-1749-11e9-85c0-2eeeb9b88f5b.png">
   <img width="300" src ="https://user-images.githubusercontent.com/34180216/50044440-c202d180-00c6-11e9-8ab0-47a9fe2b9705.png">
   
  
