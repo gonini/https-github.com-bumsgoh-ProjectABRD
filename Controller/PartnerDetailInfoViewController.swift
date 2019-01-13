@@ -357,16 +357,16 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if self.comments.count > 0 {
-            guard let commentString = self.comments[indexPath.item].comment else {
-                return CGSize()
-            }
-            
-            let size: CGSize = CGSize(width: view.frame.width, height: 250)
-            let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-            let estimatedForm = NSString(string: commentString).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)], context: nil)
-            
-            
-            return .init(width: view.frame.width - 2 * padding, height: estimatedForm.height + 90)
+        guard let commentString = self.comments[indexPath.item].comment else {
+            return CGSize()
+        }
+        
+        let size: CGSize = CGSize(width: view.frame.width, height: 250)
+        let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+        let estimatedForm = NSString(string: commentString).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)], context: nil)
+        
+        
+        return .init(width: view.frame.width - 2 * padding, height: estimatedForm.height + 90)
         } else {
             return .init(width: view.frame.width - 2 * padding, height: 100)
         }
