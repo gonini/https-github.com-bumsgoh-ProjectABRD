@@ -129,7 +129,9 @@ class LoginViewController: UIViewController {
             }
             if let user = user?.user {
                 let MainPageVC: MainTabBarController = MainTabBarController()
-                self.navigationController?.pushViewController(MainPageVC, animated: true)
+                let newRootViewController = UINavigationController(rootViewController: MainPageVC)
+                UIApplication.shared.keyWindow?.rootViewController = newRootViewController
+                
             }
         }
     }
