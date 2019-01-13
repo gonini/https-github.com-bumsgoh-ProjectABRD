@@ -57,7 +57,7 @@ MIT License
 <div align="middle">
   
   <img width="300" src ="https://user-images.githubusercontent.com/34180216/51082392-610ffd00-1749-11e9-829a-f7a6ee4c50bb.png">
-  <img width="300" src =" https://user-images.githubusercontent.com/34180216/51082391-5eada300-1749-11e9-85c0-2eeeb9b88f5b.png">
+  <img width="300" src ="https://user-images.githubusercontent.com/34180216/51082391-5eada300-1749-11e9-85c0-2eeeb9b88f5b.png">
  
   
  
