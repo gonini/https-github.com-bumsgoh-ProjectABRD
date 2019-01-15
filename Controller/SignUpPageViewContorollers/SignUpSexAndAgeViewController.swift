@@ -328,8 +328,11 @@ class SignUpSexAndAgeViewController: UIViewController {
             if let error = Error {
                 return
             }
-            let MainVC: MainTabBarController = MainTabBarController()
-            self?.navigationController?.pushViewController(MainVC, animated: false)
+            DispatchQueue.main.async {
+                let MainVC: MainTabBarController = MainTabBarController()
+                self?.navigationController?.pushViewController(MainVC, animated: false)
+            }
+            
         }
         
     }

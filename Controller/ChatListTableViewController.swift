@@ -14,8 +14,6 @@ class ChatListTableViewController: UITableViewController {
 
     var destinationUsers: [String] = []
     var uid: String = ""
-
-    let cellIdentifier: String = "chatCell"
     var chatRooms: [ChatModel] = [] {
         didSet {
             OperationQueue.main.addOperation {[weak self] in
@@ -23,23 +21,26 @@ class ChatListTableViewController: UITableViewController {
             }
         }
     }
-    
+    let cellIdentifier: String = "chatCell"
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         getChatRooms()
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.register(ChatListTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-        setTableView()
-        
-        
-        }
 
-    
+        setTableView()
+        }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        Database.database().reference().removeAllObservers()
+    }
+
     func getChatRooms() {
         guard let uid  = Auth.auth().currentUser?.uid else {
             
@@ -47,19 +48,22 @@ class ChatListTableViewController: UITableViewController {
         }
         self.uid = uid
         self.chatRooms.removeAll()
+       
         Database.database().reference().child("chatRooms").queryOrdered(byChild: "users/"+uid).queryEqual(toValue: true).observeSingleEvent(of: .value) { [weak self] (dataSnapshot) in
             //print("value: \(dataSnapshot.children.allObjects)")
             for item in dataSnapshot.children.allObjects as! [DataSnapshot] {
-                print("value: \(item.key)")
+                var chatRoom = ChatModel(roomId: item.key, users: Dictionary<String, Bool>(), comments: Dictionary<String, Dictionary<String,String>>(), url: "", name: "", uid: "")
                 if let chatRoomDict = item.value as? NSDictionary {
-                    guard let users = chatRoomDict["users"] as? [String: Bool], let comments = chatRoomDict["comments"] as? [String: [String: String]] else {
-                        print("casting failure")
+                    guard let users = chatRoomDict["users"] as? [String: Bool] else {
                         return
                     }
-                    //let comment = comments["]
-                    let chatRoom = ChatModel(roomId: item.key, users: users, comments: comments, url: "", name: "", uid: "")
-                    print("is..\(chatRoom)")
-                    self?.chatRooms.append(chatRoom)
+                    if let comments = chatRoomDict["comments"] as? [String: [String: String]] {
+                        chatRoom = ChatModel(roomId: item.key, users: users, comments: comments, url: "", name: "", uid: "")
+                        
+                    } else {
+                        chatRoom = ChatModel(roomId: item.key, users: users, comments: nil, url: "", name: "", uid: "")
+                    }
+                   self?.chatRooms.append(chatRoom)
                     
                 }
             }
@@ -80,59 +84,63 @@ class ChatListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell: ChatListTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ChatListTableViewCell else {
-            return UITableViewCell.init()
-        }
-        cell.chatMemberLabel.text = chatRooms[indexPath.row].userName
-    
-        var destinationUid: String = ""
-        for item in chatRooms[indexPath.row].users {
-            if item.key != self.uid {
-                destinationUid = item.key
-                destinationUsers.append(destinationUid)
+       
+        if chatRooms.count > 0 {
+            var destinationUid: String = ""
+            guard let cell: ChatListTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ChatListTableViewCell else {
+                return UITableViewCell.init()
             }
-        }
-        
-        Database.database().reference().child("users").child(destinationUid).observeSingleEvent(of: .value) { [weak self] (dataSnapshot) in
+            cell.chatMemberLabel.text = chatRooms[indexPath.row].userName
+    
+            for item in chatRooms[indexPath.row].users {
+                if item.key != self.uid {
+                    destinationUid = item.key
+                    destinationUsers.append(destinationUid)
+                }
+            }
             
-            if let dict = dataSnapshot.value as? NSDictionary {
-                
-                    guard let name = dict["userName"] as? String, let uid = dict["uid"] as? String, let sex = dict["sex"] as? String, let country = dict["country"] as? String , let age = dict["age"] as? String, let url = dict["userImageUrl"] as? String else {
+            Database.database().reference().child("users").child(destinationUid).observeSingleEvent(of: .value) { [weak self] (dataSnapshot) in
+                if let dict = dataSnapshot.value as? NSDictionary {
+                        guard let name = dict["userName"] as? String, let uid = dict["uid"] as? String, let sex = dict["sex"] as? String, let country = dict["country"] as? String , let age = dict["age"] as? String, let url = dict["userImageUrl"] as? String else {
+                            
+                            return
+                        }
+                    var userInfo = UserInformation()
+                    userInfo.userUid = uid
+                    userInfo.userName = name
+                    userInfo.userSex = sex
+                    userInfo.userConuntry = country
+                    userInfo.userAge = age
+                    userInfo.profileImageUrl = url
+                    
+                    cell.chatMemberLabel.text = userInfo.userName
+                    cell.chatLabel.text = ""
+                    
+                    guard let imageUrl = URL(string: userInfo.profileImageUrl) else {
                         
                         return
                     }
-                var userInfo = UserInformation()
-                userInfo.userUid = uid
-                userInfo.userName = name
-                userInfo.userSex = sex
-                userInfo.userConuntry = country
-                userInfo.userAge = age
-                userInfo.profileImageUrl = url
-                cell.chatMemberLabel.text = userInfo.userName
-                cell.chatLabel.text = ""
+                    NetworkManager.shared.getImageWithCaching(url: imageUrl, completion: { (image, error) in
+                        if let error = error {
+                            self?.present(ErrorHandler.shared.buildErrorAlertController(error: .requestFailed), animated: false)
+                            return
+                        }
+                        
+                        DispatchQueue.main.async {
+                             cell.profileImageView.image = image
+                        }
+                    })
+                    }
                 
-                guard let imageUrl = URL(string: userInfo.profileImageUrl) else {
-                    
-                    return
+                if let lastMessagekey = self?.chatRooms[indexPath.row].comments?.keys.sorted() {
+                    cell.chatLabel.text = self?.chatRooms[indexPath.row].comments?[lastMessagekey[0]]?["message"]
                 }
-                NetworkManager.shared.getImageWithCaching(url: imageUrl, completion: { (image, error) in
-                    if let error = error {
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                         cell.profileImageView.image = image
-                    }
-                })
-                }
-            guard let lastMessagekey = self?.chatRooms[indexPath.row].comments.keys.sorted() else {
-           
-                return
             }
-            cell.chatLabel.text = self?.chatRooms[indexPath.row].comments[lastMessagekey[0]]?["message"]
-            }
-
-        return cell
+            return cell
+            
+        } else {
+            return UITableViewCell.init()
+    }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -144,14 +152,10 @@ class ChatListTableViewController: UITableViewController {
         let chattingVC: ChatViewController = ChatViewController()
         chattingVC.roomId = chatRooms[indexPath.row].roomId
         chattingVC.destinationUid = destinationUsers[indexPath.row]
-        let listBasedNavigationController = UINavigationController(rootViewController: chattingVC)
-       // listBasedNavigationController.pushViewController(chattingVC, animated: false)
-        self.present(listBasedNavigationController, animated: true)
         let VC: ChatViewController = ChatViewController()
         VC.roomId = chatRooms[indexPath.row].roomId
         self.navigationController?.pushViewController(chattingVC, animated: true)
     }
-    
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         

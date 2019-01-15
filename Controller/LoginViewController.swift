@@ -85,10 +85,7 @@ class LoginViewController: UIViewController {
     lazy var signUpGestureRecognizer: UITapGestureRecognizer = {[weak self] in
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(signUpButtonClicked(sender:)))
         return recognizer
-    }()
-    
-    override func viewWillAppear(_ animated: Bool) {
-    }
+    }()  
     
     override func viewDidLoad() {
         super.viewDidLoad()

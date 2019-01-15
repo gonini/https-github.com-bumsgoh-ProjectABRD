@@ -37,6 +37,7 @@ class MainTabBarController: UITabBarController {
         setLocationInfo()
         makeViewControllers()
         
+
     }
     
     func setLocationInfo() {
