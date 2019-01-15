@@ -14,8 +14,6 @@ class ChatListTableViewController: UITableViewController {
 
     var destinationUsers: [String] = []
     var uid: String = ""
-
-    let cellIdentifier: String = "chatCell"
     var chatRooms: [ChatModel] = [] {
         didSet {
             OperationQueue.main.addOperation {[weak self] in
@@ -23,7 +21,7 @@ class ChatListTableViewController: UITableViewController {
             }
         }
     }
-    
+    let cellIdentifier: String = "chatCell"
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -55,11 +53,8 @@ class ChatListTableViewController: UITableViewController {
             //print("value: \(dataSnapshot.children.allObjects)")
             for item in dataSnapshot.children.allObjects as! [DataSnapshot] {
                 var chatRoom = ChatModel(roomId: item.key, users: Dictionary<String, Bool>(), comments: Dictionary<String, Dictionary<String,String>>(), url: "", name: "", uid: "")
-                print("value: \(item.key)")
                 if let chatRoomDict = item.value as? NSDictionary {
-                    print("commnet is.. \(chatRoomDict["comments"])")
                     guard let users = chatRoomDict["users"] as? [String: Bool] else {
-                        print("casting failure")
                         return
                     }
                     if let comments = chatRoomDict["comments"] as? [String: [String: String]] {
@@ -67,14 +62,12 @@ class ChatListTableViewController: UITableViewController {
                         
                     } else {
                         chatRoom = ChatModel(roomId: item.key, users: users, comments: nil, url: "", name: "", uid: "")
-                       // Database.database().reference().child("chatRooms").child(item.key).re()
                     }
                    self?.chatRooms.append(chatRoom)
                     
                 }
             }
             DispatchQueue.main.async {
-                print("chatroom count: \(self?.chatRooms.count)")
                 self?.tableView.reloadData()
             }
         }
@@ -93,12 +86,12 @@ class ChatListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        
         if chatRooms.count > 0 {
+            var destinationUid: String = ""
             guard let cell: ChatListTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ChatListTableViewCell else {
                 return UITableViewCell.init()
             }
-            print("count is...\(chatRooms.count)")
             cell.chatMemberLabel.text = chatRooms[indexPath.row].userName
-            var destinationUid: String = ""
+    
             for item in chatRooms[indexPath.row].users {
                 if item.key != self.uid {
                     destinationUid = item.key
@@ -107,9 +100,7 @@ class ChatListTableViewController: UITableViewController {
             }
             
             Database.database().reference().child("users").child(destinationUid).observeSingleEvent(of: .value) { [weak self] (dataSnapshot) in
-                
                 if let dict = dataSnapshot.value as? NSDictionary {
-                    
                         guard let name = dict["userName"] as? String, let uid = dict["uid"] as? String, let sex = dict["sex"] as? String, let country = dict["country"] as? String , let age = dict["age"] as? String, let url = dict["userImageUrl"] as? String else {
                             
                             return
@@ -121,6 +112,7 @@ class ChatListTableViewController: UITableViewController {
                     userInfo.userConuntry = country
                     userInfo.userAge = age
                     userInfo.profileImageUrl = url
+                    
                     cell.chatMemberLabel.text = userInfo.userName
                     cell.chatLabel.text = ""
                     
@@ -130,6 +122,7 @@ class ChatListTableViewController: UITableViewController {
                     }
                     NetworkManager.shared.getImageWithCaching(url: imageUrl, completion: { (image, error) in
                         if let error = error {
+                            self?.present(ErrorHandler.shared.buildErrorAlertController(error: .requestFailed), animated: false)
                             return
                         }
                         
@@ -138,11 +131,11 @@ class ChatListTableViewController: UITableViewController {
                         }
                     })
                     }
+                
                 if let lastMessagekey = self?.chatRooms[indexPath.row].comments?.keys.sorted() {
                     cell.chatLabel.text = self?.chatRooms[indexPath.row].comments?[lastMessagekey[0]]?["message"]
                 }
             }
-
             return cell
             
         } else {
@@ -159,14 +152,10 @@ class ChatListTableViewController: UITableViewController {
         let chattingVC: ChatViewController = ChatViewController()
         chattingVC.roomId = chatRooms[indexPath.row].roomId
         chattingVC.destinationUid = destinationUsers[indexPath.row]
-        let listBasedNavigationController = UINavigationController(rootViewController: chattingVC)
-       // listBasedNavigationController.pushViewController(chattingVC, animated: false)
-        self.present(listBasedNavigationController, animated: true)
         let VC: ChatViewController = ChatViewController()
         VC.roomId = chatRooms[indexPath.row].roomId
         self.navigationController?.pushViewController(chattingVC, animated: true)
     }
-    
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
