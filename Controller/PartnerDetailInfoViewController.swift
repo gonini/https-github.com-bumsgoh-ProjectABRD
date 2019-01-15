@@ -169,12 +169,13 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
                             return
                         }
                         if let rootViewController = appDelegateWindow.rootViewController as? UINavigationController {
+                            rootViewController.pushViewController(chattingVC, animated: false)
                             if let tabBarController = rootViewController.viewControllers.first as? MainTabBarController {
                                 // print(tabBarController)
-                                tabBarController.selectedIndex = 1
-                               tabBarController.navigationController?.pushViewController(chattingVC, animated: false)
+                               tabBarController.selectedIndex = 1
+                               //tabBarController.navigationController?.pushViewController(chattingVC, animated: false)
                             }
-                            //rootViewController.present(chattingVC, animated: true, completion: nil)
+                       //     rootViewController.present(chattingVC, animated: true, completion: nil)
                         }
                     })
                 }
@@ -186,15 +187,17 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
             chattingVC.destinationUid = self.userInfos.userUid
             self.dismiss(animated: false, completion: {
                 //self.navigationController?.popToRootViewController(animated: true)
+                
                 guard let appDelegateWindow = UIApplication.shared.keyWindow else {
                     return
                 }
                 if let rootViewController = appDelegateWindow.rootViewController as? UINavigationController {
+                   rootViewController.pushViewController(chattingVC, animated: false)
                     if let tabBarController = rootViewController.viewControllers.first as? MainTabBarController {
                        tabBarController.selectedIndex = 1
                        // print(tabBarController)
-                         //tabBarController.present(chattingVC, animated: false)
-                        tabBarController.navigationController?.pushViewController(chattingVC, animated: false)
+                        // tabBarController.present(chattingVC, animated: false)
+                        //tabBarController.navigationController?.pushViewController(chattingVC, animated: false)
 
                     }
                     //rootViewController.present(chattingVC, animated: true, completion: nil)
