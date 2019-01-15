@@ -15,8 +15,6 @@ import CoreLocation
 class LoginViewController: UIViewController {
 
     let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
-    let locationManager = CLLocationManager()
-    var locValue:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0, longitude: 0)
     
     let loginIdTextField: UITextField = {
         let textField = UITextField()
@@ -87,17 +85,10 @@ class LoginViewController: UIViewController {
     lazy var signUpGestureRecognizer: UITapGestureRecognizer = {[weak self] in
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(signUpButtonClicked(sender:)))
         return recognizer
-    }()
-    
+    }()  
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.locationManager.requestAlwaysAuthorization()
-        self.locationManager.requestWhenInUseAuthorization()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-        locationManager.startUpdatingLocation()
         
         self.view.backgroundColor = UIColor.white
         self.loginIdTextField.delegate = self
@@ -227,18 +218,6 @@ extension LoginViewController: UITextFieldDelegate {
         self.fullScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
     }*/
 }
-
-
-extension LoginViewController: CLLocationManagerDelegate  {
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        locValue = manager.location!.coordinate
-        print("locations = \(locValue.latitude) \(locValue.longitude)")
-        
-        
-    }
-}
-
 
 extension LoginViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {

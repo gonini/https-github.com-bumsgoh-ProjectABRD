@@ -97,7 +97,7 @@ class PartnersTableViewCell: UITableViewCell {
         self.chatLabel.topAnchor.constraint(equalTo: self.countryLabel.bottomAnchor, constant: 5).isActive = true
         self.chatLabel.leadingAnchor.constraint(equalTo: self.onOffImageView.trailingAnchor, constant: 10).isActive = true
         self.chatLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10).isActive = true
-       // self.chatLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10).isActive = true
+        self.chatLabel.bottomAnchor.constraint(lessThanOrEqualTo: self.contentView.bottomAnchor, constant: -10).isActive = true
         
     }
 }
