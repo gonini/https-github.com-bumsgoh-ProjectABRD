@@ -89,9 +89,6 @@ class LoginViewController: UIViewController {
         return recognizer
     }()
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = true
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

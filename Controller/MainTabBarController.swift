@@ -17,6 +17,7 @@ class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = false
         makeViewControllers()
+        
     }
     
     func makeViewControllers() {

@@ -143,6 +143,9 @@ class ChatViewController: UIViewController {
             if let error = error {
                 return
             }
+            DispatchQueue.main.async {
+                self?.chatTextView.text = ""
+            }
            // self?.fetchMessages()
         }
        

@@ -29,17 +29,15 @@ class ChatListTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         getChatRooms()
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.register(ChatListTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         setTableView()
-        
-        
         }
 
-    
     func getChatRooms() {
         guard let uid  = Auth.auth().currentUser?.uid else {
             
@@ -52,6 +50,7 @@ class ChatListTableViewController: UITableViewController {
             for item in dataSnapshot.children.allObjects as! [DataSnapshot] {
                 print("value: \(item.key)")
                 if let chatRoomDict = item.value as? NSDictionary {
+                    print("commnet is.. \(chatRoomDict["comments"])")
                     guard let users = chatRoomDict["users"] as? [String: Bool], let comments = chatRoomDict["comments"] as? [String: [String: String]] else {
                         print("casting failure")
                         return
@@ -83,8 +82,8 @@ class ChatListTableViewController: UITableViewController {
         guard let cell: ChatListTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ChatListTableViewCell else {
             return UITableViewCell.init()
         }
+        
         cell.chatMemberLabel.text = chatRooms[indexPath.row].userName
-    
         var destinationUid: String = ""
         for item in chatRooms[indexPath.row].users {
             if item.key != self.uid {
