@@ -11,7 +11,7 @@ import Foundation
 struct ChatModel {
     var roomId: String = ""
     var users: [String: Bool]
-    var comments: [String: [String: String]]?
+    var comments: [String: [String: Any]]?
     var profileImageUrl: String
     var userName: String
     var uid: String
@@ -23,7 +23,7 @@ struct ChatModel {
        // public var readUsers : [String: Bool] = [:]
     }
     
-    init(roomId: String, users: [String: Bool], comments: [String: [String: String]]?, url: String, name: String, uid: String) {
+    init(roomId: String, users: [String: Bool], comments: [String: [String: Any]]?, url: String, name: String, uid: String) {
         self.roomId = roomId
         self.users = users
         self.comments = comments

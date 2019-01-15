@@ -47,6 +47,7 @@
 		B3CD8CBB2166968B004F4FC6 /* ChatListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CD8CBA2166968B004F4FC6 /* ChatListTableViewCell.swift */; };
 		C92BC8ED164BD76CBF576903 /* Pods_AbroadApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05ABDBE7EA4D659668746FCB /* Pods_AbroadApp.framework */; };
 		C982408121EDBBBB00FCCFBE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C982408021EDBBBB00FCCFBE /* GoogleService-Info.plist */; };
+		C98240BD21EE3DD300FCCFBE /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98240BC21EE3DD300FCCFBE /* Int+.swift */; };
 		D103C8D4218B3A7F0029784A /* myPageTravelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D103C8D3218B3A7E0029784A /* myPageTravelView.swift */; };
 		D103C8F6218B43940029784A /* myPageCurrentTravelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D103C8F5218B43940029784A /* myPageCurrentTravelView.swift */; };
 		D12A3C592182E476009FE06B /* MyPageSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12A3C582182E476009FE06B /* MyPageSettingViewController.swift */; };
@@ -125,6 +126,7 @@
 		B3CD8CB821669672004F4FC6 /* ChatListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListTableViewController.swift; sourceTree = "<group>"; };
 		B3CD8CBA2166968B004F4FC6 /* ChatListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListTableViewCell.swift; sourceTree = "<group>"; };
 		C982408021EDBBBB00FCCFBE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C98240BC21EE3DD300FCCFBE /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		CF5B842EC6A9EE5333849445 /* Pods-AbroadAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AbroadAppUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AbroadAppUITests/Pods-AbroadAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		D103C8D3218B3A7E0029784A /* myPageTravelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myPageTravelView.swift; sourceTree = "<group>"; };
 		D103C8F5218B43940029784A /* myPageCurrentTravelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myPageCurrentTravelView.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				B31B734B21D900D00074F86F /* UIView+Constraint.swift */,
+				C98240BC21EE3DD300FCCFBE /* Int+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -607,6 +610,7 @@
 				B31B734321D8991E0074F86F /* PartnerDetailInfoCollectionViewCell.swift in Sources */,
 				D190C57121EA30F900A733C1 /* EmptyCommentCollectionViewCell.swift in Sources */,
 				B31B734C21D900D00074F86F /* UIView+Constraint.swift in Sources */,
+				C98240BD21EE3DD300FCCFBE /* Int+.swift in Sources */,
 				B31B734721D8E52D0074F86F /* PartnerDetailBottomView.swift in Sources */,
 				B36AEA21214FD9D9009BDEC3 /* AppDelegate.swift in Sources */,
 				B36AEA57215120D9009BDEC3 /* SignUpPageViewController.swift in Sources */,

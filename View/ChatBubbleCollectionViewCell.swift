@@ -37,6 +37,12 @@ class ChatBubbleCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
+    let timeStampLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14)
+        return label
+    }()
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -56,6 +62,7 @@ class ChatBubbleCollectionViewCell: UICollectionViewCell {
         self.contentView.addSubview(textBubbleView)
         self.contentView.addSubview(thumbNailImageView)
         self.contentView.addSubview(chatTextView)
+        self.contentView.addSubview(timeStampLabel)
         
 
         //imageView Setting
