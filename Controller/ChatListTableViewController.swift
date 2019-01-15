@@ -21,6 +21,7 @@ class ChatListTableViewController: UITableViewController {
             }
         }
     }
+    var userInfos: [UserInformation] = []
     let cellIdentifier: String = "chatCell"
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,12 +53,12 @@ class ChatListTableViewController: UITableViewController {
         Database.database().reference().child("chatRooms").queryOrdered(byChild: "users/"+uid).queryEqual(toValue: true).observeSingleEvent(of: .value) { [weak self] (dataSnapshot) in
             //print("value: \(dataSnapshot.children.allObjects)")
             for item in dataSnapshot.children.allObjects as! [DataSnapshot] {
-                var chatRoom = ChatModel(roomId: item.key, users: Dictionary<String, Bool>(), comments: Dictionary<String, Dictionary<String,String>>(), url: "", name: "", uid: "")
+                var chatRoom = ChatModel(roomId: item.key, users: Dictionary<String, Bool>(), comments: Dictionary<String, Dictionary<String,Any>>(), url: "", name: "", uid: "")
                 if let chatRoomDict = item.value as? NSDictionary {
                     guard let users = chatRoomDict["users"] as? [String: Bool] else {
                         return
                     }
-                    if let comments = chatRoomDict["comments"] as? [String: [String: String]] {
+                    if let comments = chatRoomDict["comments"] as? [String: [String: Any]] {
                         chatRoom = ChatModel(roomId: item.key, users: users, comments: comments, url: "", name: "", uid: "")
                         
                     } else {
@@ -86,11 +87,12 @@ class ChatListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        
         if chatRooms.count > 0 {
+            var userInfo = UserInformation()
             var destinationUid: String = ""
             guard let cell: ChatListTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ChatListTableViewCell else {
                 return UITableViewCell.init()
             }
-            cell.chatMemberLabel.text = chatRooms[indexPath.row].userName
+           // cell.chatMemberLabel.text = chatRooms[indexPath.row].userName
     
             for item in chatRooms[indexPath.row].users {
                 if item.key != self.uid {
@@ -98,43 +100,48 @@ class ChatListTableViewController: UITableViewController {
                     destinationUsers.append(destinationUid)
                 }
             }
-            
             Database.database().reference().child("users").child(destinationUid).observeSingleEvent(of: .value) { [weak self] (dataSnapshot) in
+                print("async call")
                 if let dict = dataSnapshot.value as? NSDictionary {
                         guard let name = dict["userName"] as? String, let uid = dict["uid"] as? String, let sex = dict["sex"] as? String, let country = dict["country"] as? String , let age = dict["age"] as? String, let url = dict["userImageUrl"] as? String else {
                             
                             return
                         }
-                    var userInfo = UserInformation()
+                    
                     userInfo.userUid = uid
                     userInfo.userName = name
                     userInfo.userSex = sex
                     userInfo.userConuntry = country
                     userInfo.userAge = age
                     userInfo.profileImageUrl = url
-                    
-                    cell.chatMemberLabel.text = userInfo.userName
-                    cell.chatLabel.text = ""
-                    
+                    self?.userInfos.append(userInfo)
+                    DispatchQueue.main.async {
+                        cell.chatMemberLabel.text = userInfo.userName
+                        
+                    }
                     guard let imageUrl = URL(string: userInfo.profileImageUrl) else {
                         
                         return
                     }
-                    NetworkManager.shared.getImageWithCaching(url: imageUrl, completion: { (image, error) in
-                        if let error = error {
+                    NetworkManager.shared.getImageWithCaching(url: imageUrl) { [weak self] (image, error) in
+                        if error != nil {
                             self?.present(ErrorHandler.shared.buildErrorAlertController(error: .requestFailed), animated: false)
                             return
                         }
                         
                         DispatchQueue.main.async {
                              cell.profileImageView.image = image
+                            
+                            }
                         }
-                    })
-                    }
-                
-                if let lastMessagekey = self?.chatRooms[indexPath.row].comments?.keys.sorted() {
-                    cell.chatLabel.text = self?.chatRooms[indexPath.row].comments?[lastMessagekey[0]]?["message"]
                 }
+                DispatchQueue.main.async {
+                    if let lastMessagekey = self?.chatRooms[indexPath.row].comments?.keys.sorted() {
+                        cell.chatLabel.text = self?.chatRooms[indexPath.row].comments?[lastMessagekey.last!]?["message"] as? String
+                    }
+                    
+                }
+                
             }
             return cell
             
@@ -152,8 +159,7 @@ class ChatListTableViewController: UITableViewController {
         let chattingVC: ChatViewController = ChatViewController()
         chattingVC.roomId = chatRooms[indexPath.row].roomId
         chattingVC.destinationUid = destinationUsers[indexPath.row]
-        let VC: ChatViewController = ChatViewController()
-        VC.roomId = chatRooms[indexPath.row].roomId
+        chattingVC.userImageUrl = userInfos[indexPath.row].profileImageUrl
         self.navigationController?.pushViewController(chattingVC, animated: true)
     }
     
