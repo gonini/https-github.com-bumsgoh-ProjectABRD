@@ -124,6 +124,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     }
     
     @objc func touchUpCloseButton(_: UIButton) {
+        profileHeaderView?.animator.stopAnimation(true)
         self.dismiss(animated: true, completion: nil)
     }
     
