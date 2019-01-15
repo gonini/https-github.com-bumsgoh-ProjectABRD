@@ -78,8 +78,6 @@ class WriteCommentViewController: UIViewController {
         commentTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
     }
     
-    
-    
     @objc func touchUpBackButton(_: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -106,14 +104,28 @@ class WriteCommentViewController: UIViewController {
                 guard let imageUrl = value["userImageUrl"] as? String, let writerName = value["userName"] as? String else {
                     return
                 }
-                 Database.database().reference().child("users").child(userId).child("comments").child(writer).updateChildValues(["writerName": writerName])
-                Database.database().reference().child("users").child(userId).child("comments").child(writer).updateChildValues(["writerImageUrl": imageUrl])
-                Database.database().reference().child("users").child(userId).child("comments").child(writer).updateChildValues(["comment": self?.commentTextView.text])
                 
-                DispatchQueue.main.async {
-                    self?.commentDelegate?.writedComment()
-                    self?.dismiss(animated: true, completion: nil)
+                guard let commentString = self?.commentTextView.text else {
+                    return
                 }
+                
+                let data = ["writerName": writerName,
+                            "writerImageUrl": imageUrl,
+                "comment": commentString] as [String : String]
+                
+                Database.database().reference().child("users").child(userId).child("comments").child(writer).updateChildValues(data) { (err, reference) in
+                    if let err = err {
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self?.commentDelegate?.writedComment()
+                        self?.dismiss(animated: true, completion: nil)
+                    }
+                    
+                }
+               
+                
             }
            
         }

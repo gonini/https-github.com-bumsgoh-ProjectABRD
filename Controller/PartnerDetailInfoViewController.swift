@@ -15,8 +15,6 @@
  */
 
 
-// 버튼 이미지 안들어감
-
 
 import UIKit
 import Firebase
@@ -34,21 +32,12 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     var userInfos: UserInformation = UserInformation()
     var comments: [Comment] = []
     
-//    let downArrowImageView: UIImageView = {
-//        let imageView = UIImageView()
-//        imageView.translatesAutoresizingMaskIntoConstraints = false
-//        imageView.layer.zPosition = .greatestFiniteMagnitude
-//        imageView.contentMode = .scaleAspectFit
-//        imageView.clipsToBounds = true
-//        imageView.image = #imageLiteral(resourceName: "downSign")
-//        return imageView
-//    }()
-    
     let backButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.imageView?.image = #imageLiteral(resourceName: "cancel")
-//        button.imageView?.tintColor = .white
+        button.contentMode = .scaleAspectFit
+        button.layer.zPosition = .greatestFiniteMagnitude
+        button.setImage(#imageLiteral(resourceName: "cancel"), for: .normal)
         return button
     }()
     
@@ -58,8 +47,8 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        collectionView.addSubview(downArrowImageView)
         collectionView.addSubview(backButton)
+        backButton.addTarget(self, action: #selector(touchUpCloseButton(_:)), for: .touchUpInside)
         setCommentsData()
         setUpCollectionView()
         setUpCollectionViewLayout()
@@ -88,6 +77,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
                 }
             }
             self?.comments = result
+            
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
             }
@@ -131,6 +121,10 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
             completionHandler()
             print("commit")
         }
+    }
+    
+    @objc func touchUpCloseButton(_: UIButton) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func createChatRoom(sender: UIButton) {
@@ -191,6 +185,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     @objc func moveToWriteCommentController(_: UIButton) {
         let nextViewController = WriteCommentViewController()
         nextViewController.userInfo = self.userInfos
+        nextViewController.commentDelegate = self
         self.present(nextViewController, animated: true, completion: nil)
     }
     
@@ -271,15 +266,10 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
                 }
                 headerView.userAgeLabel.text = userInfos.userAge
                 headerView.userNameLabel.text = userInfos.userName.uppercased()
-           
-//                downArrowImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//                downArrowImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-//                downArrowImageView.centerYAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -10).isActive = true
-//                downArrowImageView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -32).isActive = true
   
-                backButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-                backButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-                backButton.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 10).isActive = true
+                backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+                backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+                backButton.topAnchor.constraint(equalTo: collectionView.safeAreaLayoutGuide.topAnchor, constant: 5).isActive = true
                 backButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -10).isActive = true
                 
                 return headerView

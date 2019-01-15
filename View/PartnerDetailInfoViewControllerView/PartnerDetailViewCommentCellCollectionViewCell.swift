@@ -16,7 +16,7 @@ class PartnerDetailViewCommentCellCollectionViewCell: UICollectionViewCell {
         imageView.layer.cornerRadius = 15
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.image = #imageLiteral(resourceName: "hairstyle-4")
+        imageView.backgroundColor = .white
         return imageView
     }()
     
@@ -66,8 +66,8 @@ class PartnerDetailViewCommentCellCollectionViewCell: UICollectionViewCell {
         profileImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-        memberNameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 24).isActive = true
-        memberNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16).isActive = true
+        memberNameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 13).isActive = true
+        memberNameLabel.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true
         
         commentTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
         commentTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true

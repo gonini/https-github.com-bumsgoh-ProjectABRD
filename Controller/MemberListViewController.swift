@@ -39,17 +39,10 @@ class MemberListViewController: UIViewController {
         tableview.translatesAutoresizingMaskIntoConstraints = false
         return tableview
     }()
-    
-    lazy var filterButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "filter"), style: .plain, target: self, action: nil)
-//        button.image = #imageLiteral(resourceName: "filter")
-        return button
-    }()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = false
-//        self.navigationItem.setHidesBackButton(true, animated: true)
     }
     
     override func viewDidLoad() {
@@ -69,9 +62,6 @@ class MemberListViewController: UIViewController {
     }
     
     func UISetUp() {
-        self.navigationItem.rightBarButtonItem = filterButton
-        self.navigationItem.leftBarButtonItem = nil
-        
         self.view.addSubview(bulletBoardTableView)
         self.bulletBoardTableView.addSubview(indicatorView)
         indicatorView.widthAnchor.constraint(greaterThanOrEqualToConstant: 180).isActive = true
@@ -166,7 +156,6 @@ extension MemberListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let VC: PartnerDetailInfoViewController = PartnerDetailInfoViewController(collectionViewLayout: StretchableHeaderFlowLayout())
         VC.userInfos = userInformationArray[indexPath.row]
-        print(userInformationArray[indexPath.row].userUid)
         self.navigationController?.present(VC, animated: true, completion: nil)
     }
     

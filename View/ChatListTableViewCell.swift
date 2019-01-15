@@ -16,7 +16,7 @@ class ChatListTableViewCell: UITableViewCell {
         view.layer.cornerRadius = 25
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
-        view.image = #imageLiteral(resourceName: "hairstyle-4")
+        view.backgroundColor = .white
         return view
     }()
     
