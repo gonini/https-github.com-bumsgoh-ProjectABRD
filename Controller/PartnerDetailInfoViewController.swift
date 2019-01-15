@@ -35,9 +35,14 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     let backButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
+
+        button.imageView?.image = #imageLiteral(resourceName: "cancel")
+      
+
         button.contentMode = .scaleAspectFit
         button.layer.zPosition = .greatestFiniteMagnitude
         button.setImage(#imageLiteral(resourceName: "cancel"), for: .normal)
+
         return button
     }()
     
@@ -56,7 +61,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         //alwaysBounceVertical을 true로 하면 셀이 없어도 스크롤이 가능하다.
         collectionView.alwaysBounceVertical = true
     }
-    
+   
     func setCommentsData() {
         var result: [Comment] = []
         Database.database().reference().child("users").child(userInfos.userUid).child("comments").observeSingleEvent(of: DataEventType.value) { [weak self] (snapshot) in
@@ -106,7 +111,6 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     
     func checkChatRoom(_ completionHandler: @escaping (()->())) {
         Database.database().reference().child("chatRooms").queryOrdered(byChild: "users/\(userInfos.userUid)").queryEqual(toValue: true).observeSingleEvent(of: .value) { [weak self] (dataSnapshot) in
-            print(dataSnapshot)
             guard let objects = dataSnapshot.children.allObjects as? [DataSnapshot] else {
                 return
             }
@@ -118,8 +122,10 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
                 }
                 self?.roomId = item.key
             }
-            completionHandler()
-            print("commit")
+            DispatchQueue.main.async {
+                completionHandler()
+            }
+            
         }
     }
     
@@ -132,55 +138,74 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
         sender.isEnabled = false
         checkChatRoom() { [weak self] in
             guard let self = self else {
-                return
+                    return
                 
+                }
+            guard let uid = Auth.auth().currentUser?.uid else {
+                return
             }
-        let chattingVC: ChatViewController = ChatViewController()
-        guard let uid = Auth.auth().currentUser?.uid else {
-            return
-        }
         
-        let dstUid = self.userInfos.userUid
-        let roomInfo : Dictionary<String,Any> = [ "users" : [
-            uid: true,
-            dstUid :true
+            let dstUid = self.userInfos.userUid
+            let roomInfo : [String: [String: Bool]] = [ "users" : [
+                uid: true,
+                dstUid :true
+                ]
             ]
-        ]
-        
+            print("uid is..\(uid)")
         if self.roomId == nil {
+            
             Database.database().reference().child("chatRooms").childByAutoId().setValue(roomInfo) { (error, reference) in
-                if let error = error {
+                if error != nil {
+                    self.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.requestFailed),animated: false)
                     return
                 }
-                
-            self.checkChatRoom() {
-                
-                chattingVC.roomId = self.roomId ?? ""
-                DispatchQueue.main.async {
+                self.checkChatRoom(){
+                    let chattingVC: ChatViewController = ChatViewController()
+                    chattingVC.roomId = self.roomId ?? ""
                     chattingVC.destinationUid = self.userInfos.userUid
-                    let chatListVC: ChatListTableViewController = ChatListTableViewController()
-                    let listBasedNavigationController = UINavigationController(rootViewController: chatListVC)
-                    listBasedNavigationController.pushViewController(chattingVC, animated: false)
-                    self.present(listBasedNavigationController, animated: true)
+                    self.dismiss(animated: false, completion: {
+                        //self.navigationController?.popToRootViewController(animated: true)
+                        guard let appDelegateWindow = UIApplication.shared.keyWindow else {
+                            return
+                        }
+                        if let rootViewController = appDelegateWindow.rootViewController as? UINavigationController {
+                            rootViewController.pushViewController(chattingVC, animated: false)
+                            if let tabBarController = rootViewController.viewControllers.first as? MainTabBarController {
+                                // print(tabBarController)
+                               tabBarController.selectedIndex = 1
+                               //tabBarController.navigationController?.pushViewController(chattingVC, animated: false)
+                            }
+                       //     rootViewController.present(chattingVC, animated: true, completion: nil)
+                        }
+                    })
                 }
-                
-            }
             }
             
-                } else {
+        } else {
+            let chattingVC: ChatViewController = ChatViewController()
             chattingVC.roomId = self.roomId ?? ""
-            
-                chattingVC.destinationUid = self.userInfos.userUid
-                let chatListVC: ChatListTableViewController = ChatListTableViewController()
-                let listBasedNavigationController = UINavigationController(rootViewController: chatListVC)
-                listBasedNavigationController.pushViewController(chattingVC, animated: false)
-                self.present(listBasedNavigationController, animated: true)
-            print("chat room exists!")
-           // connect to room which is already created..
-    
-        }
+            chattingVC.destinationUid = self.userInfos.userUid
+            self.dismiss(animated: false, completion: {
+                //self.navigationController?.popToRootViewController(animated: true)
+                
+                guard let appDelegateWindow = UIApplication.shared.keyWindow else {
+                    return
+                }
+                if let rootViewController = appDelegateWindow.rootViewController as? UINavigationController {
+                   rootViewController.pushViewController(chattingVC, animated: false)
+                    if let tabBarController = rootViewController.viewControllers.first as? MainTabBarController {
+                       tabBarController.selectedIndex = 1
+                       // print(tabBarController)
+                        // tabBarController.present(chattingVC, animated: false)
+                        //tabBarController.navigationController?.pushViewController(chattingVC, animated: false)
+
+                    }
+                    //rootViewController.present(chattingVC, animated: true, completion: nil)
+                }
+            })
+            }
+        
     }
-    
     }
         
     @objc func moveToWriteCommentController(_: UIButton) {
@@ -206,8 +231,9 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
                 return UICollectionViewCell()
             }
             
-            NetworkManager.shared.getImageWithCaching(url: imageUrl) { [weak self] (image, err) in
-                if let err = err {
+            NetworkManager.shared.getImageWithCaching(url: imageUrl) { [weak self] (image, error) in
+                if error != nil {
+                    self?.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.requestFailed),animated: false)
                     return
                 }
                 
@@ -257,8 +283,9 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
                 guard let url: URL = URL(string: userInfos.profileImageUrl) else {
                     return UICollectionReusableView.init()
                 }
-                NetworkManager.shared.getImageWithCaching(url: url) { (image, error) in
-                    if let error = error {
+                NetworkManager.shared.getImageWithCaching(url: url) { [weak self] (image, error) in
+                    if error != nil {
+                        self?.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.requestFailed), animated: false, completion: nil)
                         return
                     }
                     DispatchQueue.main.async {
@@ -267,7 +294,7 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
                 }
                 headerView.userAgeLabel.text = userInfos.userAge
                 headerView.userNameLabel.text = userInfos.userName.uppercased()
-  
+
                 backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
                 backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
                 backButton.topAnchor.constraint(equalTo: collectionView.safeAreaLayoutGuide.topAnchor, constant: 5).isActive = true
