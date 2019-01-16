@@ -26,6 +26,7 @@ class ChatListTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        chatRooms.removeAll()
         getChatRooms()
         self.navigationController?.navigationBar.isHidden = true
     }
@@ -103,7 +104,7 @@ class ChatListTableViewController: UITableViewController {
                     destinationUsers.append(destinationUid)
                 }
             }
-            Database.database().reference().child("users").child(destinationUid).observeSingleEvent(of: .value) { [weak self] (dataSnapshot) in
+            Database.database().reference().child("users").child(destinationUsers[indexPath.row]).observeSingleEvent(of: .value) { [weak self] (dataSnapshot) in
                 print("async call")
                 if let dict = dataSnapshot.value as? NSDictionary {
                         guard let name = dict["userName"] as? String, let uid = dict["uid"] as? String, let sex = dict["sex"] as? String, let country = dict["country"] as? String , let age = dict["age"] as? String, let url = dict["userImageUrl"] as? String else {
