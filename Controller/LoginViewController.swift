@@ -85,7 +85,14 @@ class LoginViewController: UIViewController {
     lazy var signUpGestureRecognizer: UITapGestureRecognizer = {[weak self] in
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(signUpButtonClicked(sender:)))
         return recognizer
-    }()  
+    }()
+    
+    lazy var indicatorView: LoadingIndicatorView = {
+        let view = LoadingIndicatorView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.noticeLabel.text = ""
+        return view
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,24 +106,34 @@ class LoginViewController: UIViewController {
     }
 
     @objc func loginButtonClicked(sender: UIButton) {
+        indicatorView.activateIndicatorView()
+        sender.isEnabled = false
         guard let email = loginIdTextField.text, let password = loginPasswordTextField.text else {
             return
         }
-        Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+        Auth.auth().signIn(withEmail: email, password: password) {[weak self] (user, error) in
             if let error = error {
                 let alertController = UIAlertController(title: "알림", message: "아이디 혹은 비밀번호를 확인해주세요", preferredStyle: .alert)
                 let okButton = UIAlertAction(title: "확인", style: .cancel, handler: nil)
                 alertController.addAction(okButton)
-                self.present(alertController, animated: true, completion: nil)
                 
-                print(error.localizedDescription)
+                DispatchQueue.main.async {
+                    self?.present(alertController, animated: true, completion: nil)
+                    self?.indicatorView.deactivateIndicatorView()
+                    print(error.localizedDescription)
+                    sender.isEnabled = true
+                }
+                
                 return
             }
             if let user = user?.user {
+                DispatchQueue.main.async {
+                sender.isEnabled = true
+                self?.indicatorView.deactivateIndicatorView()
                 let MainPageVC: MainTabBarController = MainTabBarController()
                 let newRootViewController = UINavigationController(rootViewController: MainPageVC)
                 UIApplication.shared.keyWindow?.rootViewController = newRootViewController
-                
+                }
             }
         }
     }
@@ -132,7 +149,7 @@ class LoginViewController: UIViewController {
     }
 
     func UISetUp () {
-       
+        self.view.addSubview(indicatorView)
         self.view.addSubview(appTitleLabel)
         self.view.addSubview(idTextFieldDivider)
         self.view.addSubview(loginButton)
@@ -142,6 +159,11 @@ class LoginViewController: UIViewController {
         self.view.addSubview(signUpTextLabel)
         self.view.addGestureRecognizer(tapGesture)
         
+        indicatorView.deactivateIndicatorView()
+        indicatorView.widthAnchor.constraint(greaterThanOrEqualToConstant: 180).isActive = true
+        indicatorView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50).isActive = true
+        indicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        indicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         self.appTitleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 100).isActive = true
         //self.appTitleLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true

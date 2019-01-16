@@ -30,6 +30,16 @@ class MainTabBarController: UITabBarController {
         makeViewControllers()
     }
     
+    func setLocationInfo() {
+        self.locationManager.requestWhenInUseAuthorization()
+
+        //위치 데이터 정확도 설정
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        // 몇미터 이상 움직였을때 위치 갱신시킬것인지
+//        locationManager.distanceFilter = 1500.0
+        locationManager.startUpdatingLocation()
+    }
+    
     func makeViewControllers() {
         let countyDetailViewController = MemberListViewController()
         countyDetailViewController.tabBarItem = UITabBarItem(title: "friends", image: #imageLiteral(resourceName: "friends"), tag: 0)

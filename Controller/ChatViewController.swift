@@ -15,8 +15,9 @@ class ChatViewController: UIViewController {
     let reuseIdentifier: String = "chatBubbleCell"
     var roomId: String = ""
     var isFirstAddedChild: Bool = true
+    var userImageUrl: String = ""
     
-    var messages: [[String: String]] = [] {
+    var messages: [[String: Any]] = [] {
         didSet {
             DispatchQueue.main.async {[weak self] in
            //  self?.chatCollectionView.reloadData()
@@ -93,9 +94,14 @@ class ChatViewController: UIViewController {
         self.chatSendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        Database.database().reference().removeAllObservers()
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
-    
+        self.navigationController?.navigationBar.isHidden = false
         fetchMessages()
     }
     
@@ -136,11 +142,11 @@ class ChatViewController: UIViewController {
         guard let user = Auth.auth().currentUser else {
             return
         }
-        
-        let data: [String: String] =  ["uid": user.uid, "message": chatTextView.text!]
+        let data: [String: Any] =  ["uid": user.uid, "message": chatTextView.text!, "timeStamp": ServerValue.timestamp()]
         
         Database.database().reference().child("chatRooms").child(roomId).child("comments").childByAutoId().setValue(data) { [weak self] (error, DatabaseReference) in
-            if let error = error {
+            if error != nil {
+                self?.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.responseUnsuccessful), animated: false)
                 return
             }
             DispatchQueue.main.async {
@@ -183,16 +189,13 @@ class ChatViewController: UIViewController {
                guard let commentDict = message.value as? NSDictionary else {
                     return
                 }
-                guard let message = commentDict["message"] as? String, let uid = commentDict["uid"] as? String else {
+                guard let message = commentDict["message"] as? String, let uid = commentDict["uid"] as? String , let time = commentDict["timeStamp"] as? Int else {
                     return
                 }
-                let messageDict = ["message": message, "uid": uid]
+                let messageDict = ["message": message, "uid": uid, "timeStamp": time] as [String : Any]
                 self.messages.append(messageDict)
-                
-     
-                
-              
             }
+            
             self.chatCollectionView.reloadData()
             let item = self.messages.count - 1
             let insertedIndex = IndexPath(item: item, section: 0)
@@ -206,18 +209,29 @@ class ChatViewController: UIViewController {
 
 extension ChatViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let messageText: [String: String] = self.messages[indexPath.row]
+        guard let user = Auth.auth().currentUser else {
+            return CGSize.init()
+        }
+        guard let uid = messages[indexPath.row]["uid"] as? String else {
+            return CGSize.init()
+        }
+        //let messageText: [String: Any] = self.messages[indexPath.row]
+        guard let text = messages[indexPath.row]["message"] as? String else {
+            print("message error")
+            return CGSize.init()
+        }
+        if uid != user.uid {
+            let size: CGSize = CGSize(width: 250, height: 100)
+            let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+            let estimatedForm = NSString(string: text).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)], context: nil)
+            return CGSize(width: self.view.frame.width, height: estimatedForm.height + 38)
+        }
         let size: CGSize = CGSize(width: 250, height: 100)
         let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-        let estimatedForm = NSString(string: messageText["message"]!).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)], context: nil)
-            return CGSize(width: self.view.frame.width, height: estimatedForm.height + 20)
+        let estimatedForm = NSString(string: text).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)], context: nil)
+        return CGSize(width: self.view.frame.width, height: estimatedForm.height + 20)
         
-       // return CGSize(width: self.view.frame.width, height: 100)
     }
-    
-   /* func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-    }*/
 }
 
 extension ChatViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -226,32 +240,51 @@ extension ChatViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: ChatBubbleCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ChatBubbleCollectionViewCell
+        guard let cell: ChatBubbleCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? ChatBubbleCollectionViewCell else {
+            
+            return UICollectionViewCell.init()
+        }
+
+        guard let text = messages[indexPath.row]["message"] as? String, let uid = messages[indexPath.row]["uid"] as? String, let time = messages[indexPath.row]["timeStamp"] as? Int else {
+            
+            print("message error")
+            return UICollectionViewCell.init()
+        }
         
-        let messageText: [String: String] = self.messages[indexPath.row]
         let size: CGSize = CGSize(width: 250, height: 1000)
         let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-        
-        let estimatedForm = NSString(string: messageText["message"]!).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20)], context: nil)
+        let estimatedForm = NSString(string: text).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20)], context: nil)
         guard let user = Auth.auth().currentUser else {
             return UICollectionViewCell()
         }
-        if messageText["uid"] != user.uid {
+        
+        if uid != user.uid {
             cell.chatTextView.frame = CGRect(x: 40 + 8, y: 0, width: estimatedForm.width + 16, height: estimatedForm.height + 16)
-             cell.textBubbleView.frame = CGRect(x: 40, y: 0, width: estimatedForm.width + 24, height: estimatedForm.height + 16)
+            cell.textBubbleView.frame = CGRect(x: 40, y: 0, width: estimatedForm.width + 24, height: estimatedForm.height + 16)
+            cell.timeStampLabel.frame = CGRect(x: 48, y: estimatedForm.height + 8, width: collectionView.frame.width / 2, height: estimatedForm.height + 16)
             cell.textBubbleView.backgroundColor = UIColor(white: 0.95, alpha: 1)
             cell.chatTextView.textColor = UIColor.black
-            cell.thumbNailImageView.image = #imageLiteral(resourceName: "IMG_0596")
+            guard let imageUrl = URL(string: userImageUrl) else {
+                print("url error")
+                return UICollectionViewCell.init()
+            }
+            NetworkManager.shared.getImageWithCaching(url: imageUrl) { [weak self] (image, error) in
+                if error != nil {
+                    self?.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.responseUnsuccessful), animated: false, completion: nil)
+                }
+                DispatchQueue.main.async {
+                    cell.thumbNailImageView.image = image
+                }
+            }
+            cell.timeStampLabel.text = time.toDate
         } else {
             cell.chatTextView.frame = CGRect(x: (self.view.frame.width - estimatedForm.width - 28), y: 0, width: estimatedForm.width + 16, height: estimatedForm.height + 16)
             cell.textBubbleView.frame = CGRect(x: self.view.frame.width - estimatedForm.width - 32, y: 0, width: estimatedForm.width + 24, height: estimatedForm.height + 16)
             cell.textBubbleView.backgroundColor = UIColor(red: 0, green: 137/245, blue: 249/255, alpha: 1)
             cell.chatTextView.textColor = UIColor.white
         }
-        
-      
-        cell.chatTextView.text = messages[indexPath.row]["message"]!
-        
+        cell.chatTextView.text = text
+       
         return cell
     }
 }

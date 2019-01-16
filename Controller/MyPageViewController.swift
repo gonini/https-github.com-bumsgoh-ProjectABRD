@@ -31,6 +31,13 @@ class MyPageViewController: UIViewController {
         setLayout()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
+    
+    
     func setLayout() {
         self.view.backgroundColor = .white
         self.myPageTableView.tableHeaderView = setHeaderView()

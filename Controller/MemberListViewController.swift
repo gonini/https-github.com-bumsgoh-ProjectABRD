@@ -46,7 +46,7 @@ class MemberListViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.isHidden = false
     }
     
     override func viewDidLoad() {
@@ -54,7 +54,6 @@ class MemberListViewController: UIViewController {
         
         self.view.backgroundColor = UIColor.white
         getUserDateFromDB()
-       // userInformationArray = getUserDateFromDB()
         self.bulletBoardTableView.register(PartnersTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         self.bulletBoardTableView.dataSource = self
         self.bulletBoardTableView.delegate = self
