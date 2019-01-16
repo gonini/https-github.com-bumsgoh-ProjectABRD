@@ -209,15 +209,28 @@ class ChatViewController: UIViewController {
 
 extension ChatViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let user = Auth.auth().currentUser else {
+            return CGSize.init()
+        }
+        guard let uid = messages[indexPath.row]["uid"] as? String else {
+            return CGSize.init()
+        }
         //let messageText: [String: Any] = self.messages[indexPath.row]
         guard let text = messages[indexPath.row]["message"] as? String else {
             print("message error")
             return CGSize.init()
         }
+        if uid != user.uid {
+            let size: CGSize = CGSize(width: 250, height: 100)
+            let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+            let estimatedForm = NSString(string: text).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)], context: nil)
+            return CGSize(width: self.view.frame.width, height: estimatedForm.height + 38)
+        }
         let size: CGSize = CGSize(width: 250, height: 100)
         let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         let estimatedForm = NSString(string: text).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)], context: nil)
-            return CGSize(width: self.view.frame.width, height: estimatedForm.height + 38)
+        return CGSize(width: self.view.frame.width, height: estimatedForm.height + 20)
+        
     }
 }
 
@@ -244,6 +257,7 @@ extension ChatViewController: UICollectionViewDelegate, UICollectionViewDataSour
         guard let user = Auth.auth().currentUser else {
             return UICollectionViewCell()
         }
+        
         if uid != user.uid {
             cell.chatTextView.frame = CGRect(x: 40 + 8, y: 0, width: estimatedForm.width + 16, height: estimatedForm.height + 16)
             cell.textBubbleView.frame = CGRect(x: 40, y: 0, width: estimatedForm.width + 24, height: estimatedForm.height + 16)
