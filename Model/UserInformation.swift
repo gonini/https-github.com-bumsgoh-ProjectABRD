@@ -16,6 +16,6 @@ struct UserInformation {
     var userSex: String = ""
     var profileImageUrl: String = ""
     var planContents: String = ""
-    var latitude: Int = 0
-    var longitude: Int = 0
+    var latitude: Double = 0.0
+    var longitude: Double = 0.0
 }
