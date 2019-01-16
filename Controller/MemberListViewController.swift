@@ -42,7 +42,8 @@ class MemberListViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.isHidden = false
+       // self.navigationController?.isNavigationBarHidden = false
     }
     
     override func viewDidLoad() {

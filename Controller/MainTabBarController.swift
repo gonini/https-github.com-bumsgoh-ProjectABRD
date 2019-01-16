@@ -30,14 +30,10 @@ class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.delegate = self
-        
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.rightBarButtonItem = filterButton
-        
         setLocationInfo()
         makeViewControllers()
-        
-
     }
     
     func setLocationInfo() {
