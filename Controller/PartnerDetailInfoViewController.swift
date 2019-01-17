@@ -6,16 +6,6 @@
 //  Copyright © 2018년 고상범. All rights reserved.
 //
 
-/*
- 변경사항 : 1. 헤더뷰를 다른 클래스 파일로 만듬 -> viewController 코드 길이 줄이는 용도 (PartnerDetailViewControllorView 폴더안에 넣어 놓음)
-        2. tableViewController -> collectionViewController 로 바꿈. 각 사람마다 여행 후기를 쓰고 별점을 줄 수 있는 기능을 만드려고함.
-        3. 화면을 내렸을 시 흐려지는 Blur 이펙트를 추가함
- 
- 
- */
-
-
-
 import UIKit
 import Firebase
 
@@ -35,17 +25,11 @@ class PartnerDetailInfoViewController: UICollectionViewController, UICollectionV
     let backButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-
-        button.imageView?.image = #imageLiteral(resourceName: "cancel")
-      
-
         button.contentMode = .scaleAspectFit
         button.layer.zPosition = .greatestFiniteMagnitude
         button.setImage(#imageLiteral(resourceName: "cancel"), for: .normal)
-
         return button
     }()
-    
     
     var profileHeaderView: PartnerDetailHeaderReusableView?
     var planHeaderView: PlanAndLikesCollectionReusableView?

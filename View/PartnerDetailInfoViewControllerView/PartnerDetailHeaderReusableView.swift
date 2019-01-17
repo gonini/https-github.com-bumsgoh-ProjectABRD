@@ -59,11 +59,10 @@ class PartnerDetailHeaderReusableView: UICollectionReusableView {
         
         userNameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16).isActive = true
         userNameLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
-        userNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -50).isActive = true
         
         userAgeLabel.leadingAnchor.constraint(equalTo: userNameLabel.trailingAnchor, constant: 8).isActive = true
-        userAgeLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
-        
+        userAgeLabel.centerYAnchor.constraint(equalTo: userNameLabel.centerYAnchor, constant: 4).isActive = true
+        userAgeLabel.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: -10).isActive = true
         
     }
     
