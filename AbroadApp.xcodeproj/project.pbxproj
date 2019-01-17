@@ -127,6 +127,7 @@
 		B3CD8CBA2166968B004F4FC6 /* ChatListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListTableViewCell.swift; sourceTree = "<group>"; };
 		C982408021EDBBBB00FCCFBE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C98240BC21EE3DD300FCCFBE /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
+		C982413C21F02B5B00FCCFBE /* AbroadApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AbroadApp.entitlements; sourceTree = "<group>"; };
 		CF5B842EC6A9EE5333849445 /* Pods-AbroadAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AbroadAppUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AbroadAppUITests/Pods-AbroadAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		D103C8D3218B3A7E0029784A /* myPageTravelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myPageTravelView.swift; sourceTree = "<group>"; };
 		D103C8F5218B43940029784A /* myPageCurrentTravelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myPageCurrentTravelView.swift; sourceTree = "<group>"; };
@@ -263,6 +264,7 @@
 		B36AEA1F214FD9D9009BDEC3 /* AbroadApp */ = {
 			isa = PBXGroup;
 			children = (
+				C982413C21F02B5B00FCCFBE /* AbroadApp.entitlements */,
 				C982408021EDBBBB00FCCFBE /* GoogleService-Info.plist */,
 				D1DF6D5E21901B6200F65B5C /* Assets.xcassets */,
 				B36AEA2C214FD9DA009BDEC3 /* Info.plist */,
@@ -436,6 +438,14 @@
 				TargetAttributes = {
 					B36AEA1C214FD9D9009BDEC3 = {
 						CreatedOnToolsVersion = 9.4.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					B36AEA30214FD9DA009BDEC3 = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -798,6 +808,7 @@
 			baseConfigurationReference = 571F49C8298F1728F32E5AA8 /* Pods-AbroadApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = AbroadApp/AbroadApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CMXKRM464P;
 				INFOPLIST_FILE = AbroadApp/Info.plist;
@@ -806,7 +817,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = bumslap.AbroadApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bumslap.AbroadApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -818,6 +829,7 @@
 			baseConfigurationReference = AF202B6703BDBD2E6E3D256C /* Pods-AbroadApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = AbroadApp/AbroadApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CMXKRM464P;
 				INFOPLIST_FILE = AbroadApp/Info.plist;
@@ -826,7 +838,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = bumslap.AbroadApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bumslap.AbroadApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
