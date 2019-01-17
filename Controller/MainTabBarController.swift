@@ -7,8 +7,13 @@
 //
 
 import UIKit
+import CoreLocation
+
+
 
 class MainTabBarController: UITabBarController {
+    
+    let locationManager = CLLocationManager()
     lazy var filterButton: UIBarButtonItem = {
         let button = UIButton(type: .custom)
         button.frame = CGRect(x: 0.0, y: 0.0, width: 20.0, height: 20.0)
