@@ -8,6 +8,8 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseDatabase
+import Firebase
 
 import CoreLocation
 
@@ -126,15 +128,28 @@ class LoginViewController: UIViewController {
                 
                 return
             }
+            
             if let user = user?.user {
-                DispatchQueue.main.async {
-                sender.isEnabled = true
-                self?.indicatorView.deactivateIndicatorView()
-                let MainPageVC: MainTabBarController = MainTabBarController()
-                let newRootViewController = UINavigationController(rootViewController: MainPageVC)
-                UIApplication.shared.keyWindow?.rootViewController = newRootViewController
+                InstanceID.instanceID().instanceID(handler: { [weak self] (result, error) in
+                    if let error = error {
+                        print("Error fetching remote instange ID: \(error)")
+                    } else if let result = result {
+                        
+                        Database.database().reference().child("users").child(user.uid).updateChildValues(["pushToken": result.token]) {_,_ in
+                            
+                            DispatchQueue.main.async {
+                                sender.isEnabled = true
+                                self?.indicatorView.deactivateIndicatorView()
+                                let MainPageVC: MainTabBarController = MainTabBarController()
+                                let newRootViewController = UINavigationController(rootViewController: MainPageVC)
+                                UIApplication.shared.keyWindow?.rootViewController = newRootViewController
+                            }
+                        }
+                    }
+                })
+ 
                 }
-            }
+            
         }
     }
     
